@@ -1,0 +1,13 @@
+# Your Ruby code here
+class Array
+  def power(value)
+	collect { |item| item ** value }
+  end
+end
+
+if ARGV.empty?
+  puts 'Please provide an input'
+else
+  a = ARGV[0].scan(/\w+/).map! {|s| s.to_i}
+  puts "#{a.power(ARGV[1].to_i)}"  
+end

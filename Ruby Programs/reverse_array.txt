@@ -1,0 +1,15 @@
+# Your Ruby code here
+class Array
+  def reverse_iterate
+    (1..length).each do |i|
+      yield self[-i]
+    end
+  end
+end
+
+if ARGV.empty?
+  puts 'Please enter a valid input'
+else
+  a = ARGV[0].scan(/\w+/).map! { |s| s.to_s }
+  a.reverse_iterate { |i| print " #{i}" }
+end

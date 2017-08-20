@@ -1,0 +1,10 @@
+# Your code here
+class String
+  def count_occurence
+    output_hash = Hash.new(0)
+    downcase.scan(/[[:alpha:]]/).each { |char| output_hash[char] += 1 }
+    output_hash
+  end
+end
+
+ARGV.empty? ? (puts 'Please provide an input') : (puts ARGV[0].count_occurence)

@@ -1,0 +1,12 @@
+# Your Ruby code here
+class String
+  def to_s
+    swapcase
+  end
+end
+
+if ARGV.empty?
+  puts 'Please enter valid input'
+else
+  puts ARGV[0].to_s
+end

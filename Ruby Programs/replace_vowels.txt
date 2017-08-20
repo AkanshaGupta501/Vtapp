@@ -1,0 +1,8 @@
+# Your Ruby code here
+class String
+  def replace_vowels
+    gsub(/[aeiou]/i, '*')
+  end
+end
+
+(ARGV.empty?) ? (puts 'Please provide an input') : (puts ARGV[0].replace_vowels)

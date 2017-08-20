@@ -1,0 +1,16 @@
+# Your Ruby code here
+class Integer
+  def find_factorial
+    if self >= 0
+      (1..self)
+    else
+      (self..-1)
+    end.inject(1, :*)
+  end
+end
+
+if ARGV.empty?
+  puts 'Please provide an input'
+else
+  puts 'Factorial of ' << ARGV[0] << " is :  #{ARGV[0].to_i.find_factorial}"
+end

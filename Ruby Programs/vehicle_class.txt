@@ -1,0 +1,39 @@
+# Your Ruby code here
+class Vehicle
+  attr_accessor :price
+  def initialize(name, price)
+    @name = name
+    @price = price.to_f
+  end
+
+  def details
+    puts "Bike Name: #{@name}"
+    puts "Bike Price: #{@price}"
+  end
+end
+
+class Bike < Vehicle
+  def initialize(name, price, dealer)
+    super(name, price)
+    @dealer = dealer
+  end
+
+  def change_price(new_price)
+    puts "\n After #{new_price.to_f} percent hike in price"
+    @price += (@price * new_price.to_f) / 100
+  end
+
+  def details
+    super
+    puts "Bike Dealer: #{@dealer}"
+  end
+end
+
+if ARGV.empty?
+  puts 'Please enter valid input'
+else
+  v1 = Bike.new(ARGV[0], ARGV[1], ARGV[2])
+  v1.details
+  v1.change_price(ARGV[3])
+  v1.details
+end

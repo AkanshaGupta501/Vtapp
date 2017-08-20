@@ -1,0 +1,12 @@
+# Your Ruby code here
+class String
+  def palindrome?
+    self == self.reverse
+  end
+end
+
+if ARGV.empty?
+  puts 'Please enter valid input'
+else
+  ARGV[0].palindrome? == true ? (puts 'Input is palindrome') : (puts 'Input is not palindrome')
+end

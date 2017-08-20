@@ -1,0 +1,19 @@
+# Your Ruby code here
+class Array
+  def to_hash
+    hash = Hash.new { |hash, key| hash[key] = [] }
+    each do |num|
+      key = num.to_s.length
+      hash[key] << num
+    end
+    hash.sort_by { |key, _value| key}.to_h
+  end
+end
+
+if ARGV[0].empty?
+  puts 'Please enter valid input'
+else
+  a = ARGV[0].scan(/\w+/).map! { |s| s.to_s }
+  puts "#{a.to_hash}"
+end
+

@@ -1,0 +1,39 @@
+# Your code here
+class InvalidNameException < StandardError
+end
+
+class Name
+  attr_reader :first_name, :last_name
+
+  def initialize(firstname, lastname)
+    if empty?(firstname, lastname)
+      raise InvalidNameException, 'First Name or Last Name cannot be blank'
+    elsif contain_digits?(firstname, lastname)
+      raise InvalidNameException, 'Name cannot contain digits'
+    elsif firstname.capitalize != firstname
+      raise InvalidNameException, 'Firstname must start with capital letter'
+    else
+      @first_name = firstname
+      @last_name = lastname
+    end
+  end
+
+  def empty?(first_name, last_name)
+    true if first_name.nil? || last_name.nil?
+  end
+
+  def contain_digits?(first_name, last_name)
+    true if first_name =~ /\d/ || last_name =~ /\d/
+  end
+end
+
+if ARGV.empty?
+  puts 'Please enter valid input'
+else
+  begin
+    name = Name.new(ARGV[0], ARGV[1])
+    puts "Your Name is: #{name.first_name}\t#{name.last_name}"
+  rescue InvalidNameException => e
+    puts e.message
+  end
+end

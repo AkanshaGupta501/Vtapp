@@ -1,0 +1,18 @@
+# Your Ruby code here
+require 'prime'
+class Integer
+  def prime_numbers_upto
+    prime_numbers = []
+    prime_numbers << 2 if self == 2
+    (3..self).step(2) do |number|
+      prime_numbers.push(number) if number.prime?
+    end
+    prime_numbers
+  end
+end
+
+if ARGV.empty?
+  puts 'Please enter valid input'
+else
+  puts "#{ARGV[0].to_i.prime_numbers_upto}"
+end

@@ -1,0 +1,27 @@
+# Your Ruby code here
+class Fibonacci
+  def initialize(input)
+    if input.empty?
+      yield 'Please provide an input'
+    else
+      input = input.to_i
+      f0 = 1
+      f1 = 1
+      sum = 0
+      yield(f0)
+      yield(f1)
+      while sum < input
+        sum = f0 + f1
+        f0 = f1
+        f1 = sum
+        yield(sum) if sum < input
+      end
+    end	
+  end
+end
+
+if ARGV.empty?
+  puts 'Please provide an input'
+else
+  Fibonacci.new(ARGV[0]) { |num| print "#{num}  " }
+end 

@@ -1,0 +1,25 @@
+# Your Ruby code here
+class Array
+  def to_hash_group_by_length
+    group_by { |arguments| arguments.to_s.length }
+  end
+end
+
+
+class Hash
+  def group_by_odd_even
+    hash_grouped_by_type = inject('odd' => [], 'even' => []) do |injected_hash, (key, value)|
+      key_type = (key.odd?) ? 'odd' : 'even'
+      injected_hash[key_type] << value
+      injected_hash
+    end
+    hash_grouped_by_type
+  end
+end
+
+if ARGV.empty?
+  puts 'Please enter valid input'
+else
+  mapped_array = ARGV[0].scan(/\w+/).map! { |element| element.to_s }
+  puts mapped_array.to_hash_group_by_length.group_by_odd_even
+end

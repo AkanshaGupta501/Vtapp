@@ -1,0 +1,21 @@
+# Your Ruby code here
+class NegativeNumberException < StandardError
+end
+
+# Your Ruby code here
+class Integer
+  def calculate_factorial
+    raise NegativeNumberException, 'Negative Number Entered' if self < 0
+    (2..self).inject(1, :*)
+  end
+end
+
+if ARGV.empty?
+  puts 'Please provide an input'
+else
+  begin
+    puts 'Factorial of ' << ARGV[0] << ":\t#{ARGV[0].to_i.calculate_factorial}"
+  rescue NegativeNumberException => error
+    puts error.message
+  end
+end

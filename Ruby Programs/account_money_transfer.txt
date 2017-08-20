@@ -1,0 +1,51 @@
+# Your Ruby code here
+class Account
+  @@account_no = 0
+  def initialize(name, balance)
+    @@account_no += 1
+    @account_no = @@account_no
+    @name = name
+    @balance = balance.to_i
+  end
+
+  def can_withdraw?(amount)
+    true if @balance - amount > 0
+  end
+
+  def deposit(amount)
+    @balance += amount
+  end
+
+  def withdraw(amount)
+    @balance -= amount
+  end
+
+  def transfer_to(account2, transfer_amount)
+    if can_withdraw? transfer_amount
+      withdraw transfer_amount
+      account2.deposit transfer_amount
+      "Rs. #{transfer_amount} transferred successfully!!"
+    else
+      'Insufficient Balance!! Cannot transfer requested money'
+    end
+  end
+
+  def to_s
+    "\nAccount Number: #{@account_no}
+    Account Holder: #{@name}
+    Balance: Rs.#{@balance}"
+  end
+end
+
+if ARGV.empty?
+  puts 'Please enter valid input'
+else
+  user_details1 = ARGV[0].split(/:/)
+  user_details2 = ARGV[1].split(/:/)
+  transfer_amount = ARGV[2].split(/:/)
+  account1 = Account.new user_details1[0], user_details1[1]
+  account2 = Account.new user_details2[0], user_details2[1]
+  puts account1.transfer_to account2, transfer_amount[1].to_i
+  puts account1
+  puts account2
+end

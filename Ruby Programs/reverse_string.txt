@@ -1,0 +1,8 @@
+# Your Ruby code here
+class String
+  def reverse_sentence
+    split.reverse.join(' ')
+  end
+end
+
+ARGV.empty? ? (puts 'Please provide an input') : (puts ARGV[0].reverse_sentence)

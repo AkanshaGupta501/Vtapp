@@ -1,0 +1,24 @@
+# Your Ruby code here
+class String
+  def count_character_type
+    character_hash = Hash.new(0)
+    each_char do |character|
+      case character
+      when 'a'..'z' then character_hash['lowercase'] += 1
+      when 'A'..'Z' then character_hash['uppercase'] += 1
+      when '0'..'9' then character_hash['numerical'] += 1
+      else character_hash['special'] += 1
+      end
+    end
+    character_hash
+  end
+end
+
+if ARGV.empty?
+  puts 'Please provide an input'
+else
+  count = ARGV[0].to_s.count_character_type
+  count.each do |key, value|
+    puts "#{key.capitalize} characters =\t #{value}"
+  end
+end

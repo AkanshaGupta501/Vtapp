@@ -1,0 +1,15 @@
+# Your Ruby code here
+class String
+  def find_and_replace(pattern)
+    modified_string = gsub(/#{pattern}/i, "(#{pattern})")
+    [modified_string, modified_string.scan(/#{pattern}/).size]
+  end
+end
+
+if ARGV.empty?
+  puts 'Please provide an input'
+else
+  replaced_string, number_of_occurences = ARGV[0].to_s.find_and_replace(ARGV[1].to_s)
+  puts replaced_string
+  puts "Total No. of Occurences: #{number_of_occurences}"
+end

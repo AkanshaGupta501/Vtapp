@@ -1,0 +1,30 @@
+# Your Ruby code here
+class Interest
+  RATE = 0.10
+  attr_accessor :principal, :time
+  def initialize
+    yield self
+  end
+  
+  def difference_interest
+    "%.2f" % (compound_interest - simple_interest)
+  end
+
+  def simple_interest
+    @principal * @time * RATE
+  end
+
+  def compound_interest
+    @principal * (1 + RATE) ** @time
+  end
+end
+
+if ARGV.empty?
+  puts 'Please enter valid input'
+else
+  interest = Interest.new do |obj|
+    obj.principal = ARGV[0].to_f
+    obj.time = ARGV[1].to_f
+  end
+  puts "Interest Difference (Compound Interest -  Simple Interest) = #{interest.difference_interest}"
+end
