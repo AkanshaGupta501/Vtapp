@@ -1,0 +1,38 @@
+# Error Class
+class InvalidInputError < StandardError
+end
+# Print Pascal Triangle
+class Pascal
+  def self.pascal_triangle(number_of_rows)
+    if number_of_rows >= 1
+      number_of_rows.times do |row_number|
+        yield row(row_number)
+      end
+    else
+      raise InvalidInputError, 'Please enter number greater than 1'
+    end
+  end
+
+  def self.row(row_number)
+    num_of_columns = 0.upto row_number
+    num_of_columns.map { index_value(row_number, num_of_columns.next) }
+  end
+
+  def self.index_value(row_index, index)
+    factorial(row_index) / (factorial(index) * factorial(row_index - index))
+  end
+
+  def self.factorial(value)
+    (1..value).inject(1, :*)
+  end
+end
+
+if ARGV.empty?
+  puts 'Please provide an input'
+else
+  begin
+    Pascal.pascal_triangle(ARGV[0].to_i) { |row_data| puts row_data.join(' ') }
+  rescue InvalidInputError => error
+    puts error.message
+  end
+end

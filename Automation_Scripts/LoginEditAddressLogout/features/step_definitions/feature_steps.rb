@@ -29,16 +29,17 @@ Then(/^I should Go to "(.*)" Section$/) do |section|
 	click_link(section)
 end
 
-Then(/^I should enter new address "(.*)" as "(.*)" and "(.*)" as "(.*)"$/) do |addr_field, addr_value, post_field, post_value|
+Then(/^I should enter new address "(.*)" as "(.*)" and "(.*)" as "(.*)"$/) do |addr_field, addr_value, post_field, post_value|   
     within(:css, "li#address") do
-        click('Edit')
-        window_opened_by do    
+          click_link('Edit')
+          within(:xpath, "//form[@id='userEditForm']") do
             fill_in(addr_field, :with => addr_value)
-            fill_in(post_field, :with => post_value)
-            click_button('Submit')
-            puts "Address Updated!!"
-        end
-    end
+            fill_in(post_field, :with => post_value).native.send_key(:enter)
+            #click_on('submit').native.send_key(:enter)
+          end
+          #click_button('Submit')
+    end      
+    puts "Address Updated!!"
 end
 
 #Then(/^I should click on "(.*)" button$/) do |button|
@@ -48,5 +49,6 @@ end
 
 Then(/^I should logout from the website$/) do 
    click_link(@@user_name)
-   click_link('Logout')
+   visit('/')
+   visit('/logout')
 end
