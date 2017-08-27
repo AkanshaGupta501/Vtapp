@@ -9,7 +9,7 @@ class Invoice
   end
 
   def total_price
-    calculate_total_price.round(2)
+    calculate_total_price.round(2).to_i
   end
 
   def calculate_total_price

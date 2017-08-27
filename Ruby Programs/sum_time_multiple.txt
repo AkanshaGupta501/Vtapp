@@ -1,0 +1,43 @@
+# Sum Time Program with multiple arguments
+require 'time'
+class InvalidTimeError < StandardError
+end
+
+class Time
+  TIME_PATTERN = /(^([0-1]?\d|2[0-3]?)\:([0-5]?\d)\:([0-5]?\d)$)/
+  SECONDS_IN_DAY = 3600 * 24
+
+  def self.calculate_sum(times)
+    total_seconds = 0
+    times.each do |input_time|
+      raise InvalidTimeError unless valid?(input_time)
+      total_seconds += Time.parse(input_time).convert_to_seconds
+    end
+    total_seconds
+  end
+
+  def self.valid?(input_time)
+    TIME_PATTERN.match(input_time)
+  end
+
+  def convert_to_seconds
+    time = self
+    time.hour * 3600 + time.min * 60 + time.sec
+  end
+
+  def self.day_time_format(total_seconds)
+    "#{total_seconds / SECONDS_IN_DAY} days & " +
+      Time.at(total_seconds % SECONDS_IN_DAY).utc.strftime('%H:%M:%S')
+  end
+end
+
+if ARGV.empty?
+  puts 'Please enter valid input'
+else
+  begin
+    total_seconds = Time.calculate_sum(ARGV)
+    puts Time.day_time_format(total_seconds)
+  rescue InvalidTimeError
+    puts 'Please enter valid time'
+  end
+end

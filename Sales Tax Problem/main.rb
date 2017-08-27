@@ -19,7 +19,7 @@ begin
   product_array.push(Product.new(product_name, price, imported, exempted_sales_tax))
   print 'Do you want to add more products ? (yes/no):'
   choice = gets.chomp
-end while(/^(y|yes)$/i == choice)
+end while(/^(y|yes)$/i === choice)
 
 invoice = Invoice.new(product_array)
 puts invoice.generate

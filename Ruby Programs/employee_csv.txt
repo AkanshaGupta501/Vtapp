@@ -1,0 +1,42 @@
+require 'csv'
+
+class Employee
+  attr_reader :name, :emp_id, :designation
+
+  def initialize(name, emp_id, designation)
+    @name = name
+    @emp_id = emp_id
+    @designation = designation
+  end
+
+  def to_s
+    "#{ @name } (Employee Id: #{ @emp_id })"
+  end 
+end
+
+class CSVReader < Employee
+  def initialize
+    @employees = Hash.new { |hash, key| hash[key] = [] }
+  end
+
+  def read_csv
+    CSV.foreach('employee.csv', headers: true) do |row|
+      @employees[row['Designation'].to_sym] << Employee.new(row['Name'], row['EmpId'], row['Designation'])
+    end	
+  end
+  
+  def write_into_file     
+    File.open('employee.txt', 'w') do |file|
+      @employees.each do |designation, value|	  
+        @employees[designation].length > 1 ? (file.puts "#{designation}s") : (file.puts "#{designation}")
+        file.puts value
+        file.puts
+      end
+    end
+  end
+end
+
+csv_reader = CSVReader.new
+csv_reader.read_csv
+csv_reader.write_into_file
+ 
