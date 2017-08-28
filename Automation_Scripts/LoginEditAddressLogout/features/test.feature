@@ -6,5 +6,5 @@ Feature: User Logins & Change Address & Then Logout
     Then I click "LOG IN" button
     Then I should see User Name
     Then I should Go to "My Profile" Section
-    Then I should enter new address "address" as "NU BlockPitampura-NSP, New Delhi-110034" and "postcode" as "1234"
+    Then I should enter new address "address" as "NUC Block, Near Gopal Mandir Pitampura-NSP, New Delhi-110034" and "postcode" as "1234"
     Then I should logout from the website
