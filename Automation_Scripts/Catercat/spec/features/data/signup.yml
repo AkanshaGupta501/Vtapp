@@ -1,0 +1,23 @@
+invalid_passwords:
+  firstname: Akansha
+  lastname: Gupta
+  email: akansha+08@vinsol.com
+  phone: 12345678
+  new_password: 123
+  confirm_password: 123
+
+existing_email:
+  firstname: Akansha
+  lastname: Gupta
+  email: akansha+71@vinsol.com
+  phone: 12345678
+  new_password: 123456
+  confirm_password: 123456
+
+valid_signup_data:
+  firstname: Akansha
+  lastname: Gupta
+  email: akansha+9904@vinsol.com
+  phone: 12345678
+  new_password: 123456
+  confirm_password: 123456
