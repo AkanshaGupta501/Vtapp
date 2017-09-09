@@ -20,7 +20,6 @@ Dir.glob("./spec/support/*.rb").each{|f| require f}
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-
 RSpec.configure do |config|
 
   config.include Capybara::DSL
@@ -54,6 +53,7 @@ RSpec.configure do |config|
   # inherited by the metadata hash of host groups and examples, rather than
   # triggering implicit auto-inclusion in groups with matching metadata.
   config.alias_example_to :scenario
+  # config.alias_
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
 # The settings below are suggested to provide a good initial experience

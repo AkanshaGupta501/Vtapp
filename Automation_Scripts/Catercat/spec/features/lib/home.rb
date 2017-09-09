@@ -33,34 +33,6 @@ class SignUpModal < SitePrism::Section
   end
 end
 
-class AddNewAddress < SitePrism::Section
-  element :address_field, "textarea[name= 'address']"
-  element :postcode, "input[name='postcode']"
-  element :suburb, "select[name= 'city']"
-  element :submit_addr, "input[type='submit']"
-
-  def fill_new_address(data)
-    address_field.set(data['address'])
-    postcode.set(data['postcode'])
-    suburb.find(data['suburb']).click
-    submit_addr.click
-  end
-end
-
-class ChangePassword < SitePrism::Section
-  element :old_password, "input[name = 'old_password']"
-  element :new_password, "input[name= 'password']"
-  element :confirm_password, "input[name= 'password_confirmation']"
-  element :submit, "input[type = 'submit']"
-
-  def enter_new_password(data)
-    old_password.set(data['old_password'])
-    new_password.set(data['new_password'])
-    confirm_password.set(data['confirm_password'])
-    submit.click
-  end
-end
-
 #class LoginSignup < SitePrism::Section
 #  section :login, LoginModal, 'div.modal-content'
 #  section :signup, SignUpModal, 'div.modal-content'
@@ -69,28 +41,31 @@ end
 class Home < SitePrism::Page
   set_url '/'
   element :login_modal_window, "a[data-target = '#loginModal']"
-  element :signup_modal_window, "a[data-target = '#signupModal']"
+  element :signup_form, "a[data-target = '#signupModal']"
   element :user_name, "li.dropdown.a.dropdown-toggle"
   section :loginmodal, LoginModal, 'div.modal-content'
   section :signupmodal, SignUpModal, 'div#signupModal'
+
+  def load_signup_form
+    login_modal_window.click
+    signup_form.click
+  end
+
+  def get_user_name(data)
+    data['firstname'] + " " + data['lastname']
+  end
+
+  def make_user_login
+    login_modal_window.click
+    loginmodal.fill_login_details(data_for("login/valid_email_password"))
+  end
 end
 
 class UserPanel < SitePrism::Page
   element :user_name, "a.dropdown-toggle"
-end
 
-class UserProfile < SitePrism::Page
-  section :change_password, ChangePassword, "div.form-box.password"
-  #section :add_address_modal, AddNewAddress, "html"
-  element :address_field, "textarea[name= 'address']"
-  element :postcode, "input[name='postcode']"
-  element :suburb, "select[name= 'city']"
-  element :submit_addr, "input[type='submit']"
-
-  def fill_new_address(data)
-    address_field.set(data['address'])
-    postcode.set(data['postcode'])
-    suburb.find(data['suburb']).click
-    submit_addr.click
+  def go_to_profile
+    user_name.click
+    click_link('My Profile')
   end
 end

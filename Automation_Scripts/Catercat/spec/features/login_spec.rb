@@ -1,8 +1,8 @@
 describe "User Login" do
 	before do
     @home = Home.new
-	@home.load
-	@home.login_modal_window.click
+	  @home.load
+	  @home.login_modal_window.click
 	end
 
 	scenario "Invalid email id" do
