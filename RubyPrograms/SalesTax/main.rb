@@ -22,4 +22,4 @@ begin
 end while(/^(y|yes)$/i === choice)
 
 invoice = Invoice.new(product_array)
-puts invoice.generate
+invoice.display
