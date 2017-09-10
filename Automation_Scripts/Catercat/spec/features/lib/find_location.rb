@@ -1,6 +1,7 @@
 class FindLocation < SitePrism::Page
 	element :search_bar, "input[name = 'place']"
 	element :find_caterer_button, "input[type = 'submit']"
+  element :error_message, "span.help-block > p"
 
  def fill_google_autocomplete(text)
     sleep 1

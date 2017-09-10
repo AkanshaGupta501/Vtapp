@@ -9,3 +9,9 @@ details:
   address: ~street_address
   postcode: ~randomize(['1234', '8956', '7845', '2311', '7456'])
   delivery_suburb: ~randomize(['Atlantis', 'East London', 'Fish Hoek', 'Goodwood', 'Jagersfontein'])
+
+no_suburb:
+  suburb:
+
+no_caterer_in_suburb:
+  suburb: 'New Road'

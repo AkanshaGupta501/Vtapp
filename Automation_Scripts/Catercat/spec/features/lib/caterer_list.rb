@@ -16,6 +16,7 @@ end
 class CatererList < SitePrism::Page
 	element :validate_page, :xpath, "/html/body/nav[2]/div/div/ul/li[1]"
 	element :select_caterer, "body > div.container > div:nth-child(2) > div:nth-child(1) > a > div > div > div"
+	element :error_message, "body > div.container > div > div > div > h3"
 end
 
 class StoreMenu < SitePrism::Page
