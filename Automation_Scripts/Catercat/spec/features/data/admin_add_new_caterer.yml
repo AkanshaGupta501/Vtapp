@@ -1,0 +1,24 @@
+correct_profile_details:
+  firstname: ~user_name
+  lastname: ~last_name
+  email_id: ~email_address
+  contact: ~cell_phone
+
+incorrect_profile_details:
+  firstname: ~user_name
+  lastname: ~last_name
+  email_id: ~full_name
+  contact: ~street_address
+
+existing_email:
+  firstname: ~user_name
+  lastname: ~last_name
+  email_id: test123catercat@mailinator.com
+  contact: ~cell_phone
+
+correct_business_details:
+  name: ~full_name
+  address: ~street_address
+  postcode: ~randomize(['1234', '8956', '7845', '2311', '7456'])
+  suburb: ~randomize(['Atlantis', 'East London', 'Fish Hoek', 'Goodwood', 'Jagersfontein'])
+  aboutus: ~sentence

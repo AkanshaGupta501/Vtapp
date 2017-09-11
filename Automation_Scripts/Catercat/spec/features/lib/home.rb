@@ -2,7 +2,7 @@ class LoginModal < SitePrism::Section
   element :user_email_id, "input[name = 'email']"
   element :user_password, "input[name= 'password']"
   element :remember_me, "input[name = 'remember_me']"
-  element :login_button, "input[type = 'submit']"
+  element :login_button, "input[value = 'LOG IN']"
   element :error_message, "span.help-block > p"
 
   def fill_login_details(data)
@@ -19,7 +19,7 @@ class SignUpModal < SitePrism::Section
   element :user_phone_number, "input[name = 'mobile']"
   element :user_new_password, "input[name = 'password']"
   element :user_confirm_password,"input[name = 'password_confirmation']"
-  element :signup_button, "input[type = 'submit']"
+  element :signup_button, "input[value = 'SIGN UP']"
   element :error_message, "span.help-block > p"
 
   def fill_signup_details(data)

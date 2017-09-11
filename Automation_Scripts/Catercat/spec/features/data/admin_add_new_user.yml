@@ -1,0 +1,26 @@
+correct_details:
+  firstname: ~user_name
+  lastname: ~last_name
+  email_id: ~email_address
+  contact: ~cell_phone
+  address: ~street_address
+  postcode: ~randomize(['1234', '8956', '7845', '2311', '7456'])
+  suburb: ~randomize(['Atlantis', 'East London', 'Fish Hoek', 'Goodwood', 'Jagersfontein'])
+
+invalid_email:
+  firstname: ~user_name
+  lastname: ~last_name
+  email_id: ~full_name
+  contact: ~cell_phone
+  address: ~street_address
+  postcode: ~randomize(['1234', '8956', '7845', '2311', '7456'])
+  suburb: ~randomize(['Atlantis', 'East London', 'Fish Hoek', 'Goodwood', 'Jagersfontein'])
+
+existing_email:
+  firstname: ~user_name
+  lastname: ~last_name
+  email_id: akansha+71@vinsol.com
+  contact: ~cell_phone
+  address: ~street_address
+  postcode: ~randomize(['1234', '8956', '7845', '2311', '7456'])
+  suburb: ~randomize(['Atlantis', 'East London', 'Fish Hoek', 'Goodwood', 'Jagersfontein'])
