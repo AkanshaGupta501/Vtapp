@@ -21,7 +21,7 @@ class Invoice
     INVOICE_HEADER.each{ |header| invoice_details += "#{ header.ljust(12) }" }
     products.each{ |product| invoice_details += product.to_s }
     invoice_details += "\nGrand Total : Rs#{ total_price }/-"
-	  invoice_details
+    invoice_details
   end
 end
  
