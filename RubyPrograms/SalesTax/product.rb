@@ -41,6 +41,6 @@ class Product
   end
 
   def to_s
-    "\n#{name.ljust(12)}Rs#{ price }\tRs#{ total_tax }\t Rs#{ net_price }"
+    "\n#{ name.ljust(12) }Rs#{ price }\tRs#{ total_tax }\t Rs#{ net_price }"
   end
 end

@@ -17,9 +17,11 @@ class Invoice
   end
   
   def display
-    INVOICE_HEADER.each{|header| print "#{header.ljust(12)}"}
-    puts products
-    puts "\nGrand Total : Rs#{ total_price }/-"
+    invoice_details = String.new
+    INVOICE_HEADER.each{|header| invoice_details += "#{header.ljust(12)}"}
+    products.each{|product| invoice_details += product.to_s}
+    invoice_details += "\nGrand Total : Rs#{ total_price }/-"
+	invoice_details
   end
 end
  
