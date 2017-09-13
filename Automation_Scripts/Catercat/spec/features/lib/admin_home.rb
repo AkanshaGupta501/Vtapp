@@ -75,3 +75,27 @@ class AddNewCaterer < SitePrism::Page
     update_caterer.click
   end
 end
+
+class EditUser < SitePrism::Page
+  element :go_to_users, "body > nav.navbar.sub-navbar > div > div > ul > li:nth-child(1) > a"
+  element :find_user, "body > div.container > div.row > div.col-sm-12 > div.table-wrap.table-responsive > table > tbody > tr > td:nth-child(2)"
+  element :firstname, "input[name = 'firstname']"
+  element :lastname, "input[name = 'lastname']"
+  element :email, "input[name = 'email']"
+  element :contact, "input[name = 'mobile']"
+  element :address, "textarea[name = 'address']"
+  element :suburb, "select[name= 'city']"
+  element :postcode, "input[name = 'postcode']"
+  element :update, "input[value = 'Update']"
+  element :flash_success, "div.alert.alert-success"
+
+  def update_user_details(data)
+    firstname.set(data['firstname'])
+    lastname.set(data['lastname'])
+    contact.set(data['contact'])
+    address.set(data['address'])
+    suburb.select(data['suburb'])
+    postcode.set(data['postcode'])
+    update.click
+  end
+end

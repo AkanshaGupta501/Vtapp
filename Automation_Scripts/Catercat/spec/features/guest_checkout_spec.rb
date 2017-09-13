@@ -37,7 +37,7 @@ describe "Guest Checkouts the order" do
     expect(@store_menu.delivery_details.error_unavailable.text).to eq "Selected caterer not available at that date & time"
   end
 
-  scenario "User enters meals to cart exceeding the maximum count" do
+  scenario "User enters meals to cart exceeding the maximum count of meal" do
     @location = FindLocation.new
     @location.fill_google_autocomplete(data_for('guest_checkout/cart_exceeding_qty')['suburb'])
     @caterer_list = CatererList.new
@@ -46,6 +46,14 @@ describe "Guest Checkouts the order" do
     @store_menu.manage_cart_exceeding_qty(data_for('guest_checkout/cart_exceeding_qty'))
     page.find("body").click
     expect(@store_menu.has_cart_error?)
+  end
+
+  scenario "User enters wrong checkout details like invalid email and missing billing address" do
+    @location = FindLocation.new
+    @location.fill_google_autocomplete(data_for('guest_checkout/cart_exceeding_qty')['suburb'])
+    @caterer_list = CatererList.new
+    @caterer_list.select_caterer.click
+    @store_menu = StoreMenu.new
   end
 
   # scenario "Fill in correct details for checkout" do 
