@@ -13,6 +13,6 @@ describe "User Login" do
   scenario "Valid Login credentials" do
     @home.loginmodal.fill_login_details(data_for("login/valid_email_password"))
     @user_panel = UserPanel.new
-    expect(@user_panel.user_name.text).to eq "Akanshq Gupta"
+    expect(@user_panel.user_name.text).to eq "Akansha Gupta"
   end
 end

@@ -22,3 +22,21 @@ correct_business_details:
   postcode: ~randomize(['1234', '8956', '7845', '2311', '7456'])
   suburb: ~randomize(['Atlantis', 'East London', 'Fish Hoek', 'Goodwood', 'Jagersfontein'])
   aboutus: ~sentence
+
+
+edit_caterer:
+  lastname: ~last_name
+  contact: ~cell_phone
+  name: ~randomize(['Southy South Indian taste', 'Grab the Best', 'Cafe Route', 'Brew Up Something New'])
+  address: ~street_address
+  postcode: ~randomize(['1234', '8956', '7845', '2311', '7456'])
+  suburb: ~randomize(['Atlantis', 'East London', 'Fish Hoek', 'Goodwood', 'Jagersfontein'])
+  aboutus: ~sentence
+  delivery_fee: ~randomize(100..500)
+  mov: ~randomize(0..500)
+  mot: ~randomize(['2', '3', '4', '5'])
+  order_acceptance_time: ~randomize(['24', '48'])
+  availability_days: ~randomize(['all_days', 'Sunday', 'Monday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Tuesday'])
+  availability_time: ['1', '2', '3', '4']
+  province: 'Western Cape'
+  suburb: ~randomize(['Somerset West', 'Blue Downs', 'Atlantis', 'Cape Town'])
