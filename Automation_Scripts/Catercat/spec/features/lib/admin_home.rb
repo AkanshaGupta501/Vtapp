@@ -124,7 +124,7 @@ class EditCaterer < SitePrism::Page
   element :go_to_availability, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > ul > li:nth-child(4) > a"
   element :order_acceptance, "select[name = 'min_lead_time']"
   element :availability_days, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div > div > div.col-sm-3 > form > div:nth-child(4)"
-  element :availability_time, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div > div > div.col-sm-3 > form > div:nth-child(5)"
+  elements :availability_time, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div > div > div.col-sm-3 > form > div:nth-child(5) > div.checkbox > label"
   element :add_province, "select[name = 'province_id']"
   element :add_suburb, "select[name = 'suburb_id']"
   element :add_province_suburb, "input[value = 'Add']"
@@ -153,14 +153,15 @@ class EditCaterer < SitePrism::Page
   end
 
   def edit_availability_days(data)
-    puts data
     order_acceptance.select(data['order_acceptance_time'])
-    # availability_days.check(data['availability_days'])
-    data['availability_time'].each{|time| availability_time.find("div.checkbox:nth-child(#{time})").click}
-    update.click
-    add_province.select(data['province'])
-    add_suburb.select(data['suburb'])
-    add_province_suburb.click
+    availability_time.each do|input| 
+      input.click if data['availability_time'].include?(input.text) && (input.find(:css,'input[type="checkbox"]').checked? == false)
+      input.click if !data['availability_time'].include?(input.text) && (input.find(:css,'input[type="checkbox"]').checked? == true)
+    end
+    update.click 
+    # add_province.select(data['province'])
+    # add_suburb.select(data['suburb'])
+    # add_province_suburb.click
   end
   
 end

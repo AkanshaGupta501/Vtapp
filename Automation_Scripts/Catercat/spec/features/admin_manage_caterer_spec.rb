@@ -34,7 +34,6 @@ describe "Admin Adds New Caterer" do
   scenario "Admin edits the existing caterer, approved caterer" do
     @edit_caterer = EditCaterer.new
     @caterer_details = data_for('admin_manage_caterer/edit_caterer')
-    puts @caterer_details
     @edit_caterer.go_to_approved.click
     @edit_caterer.rows.each do |value|
       if value.find("td.img-flex > div:nth-child(2) > h5").text == @caterer_details['name']
@@ -49,7 +48,7 @@ describe "Admin Adds New Caterer" do
         expect(@edit_caterer.flash_caterer_updated_success.text).to eq "Success!"
         break
       else
-        next
+        page.execute_script('window.scrollTo(0,100)')
       end
     end
   end
