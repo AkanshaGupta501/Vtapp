@@ -3,10 +3,11 @@ class DeliveryDetails < SitePrism::Section
 	element :select_date, "div.daterangepicker.dropdown-menu.single.opensright.show-calendar > div.calendar.first.single.right > div > table > tbody > tr:nth-child(4) > td:nth-child(5)"
 	element :delivery_time, "select[name = 'time']"
 	element :error_unavailable, "span.help-block > p", visible: false
-	element :set, "div#datetime_add > div > div > form > div.modal-body > small > small > span"
+	element :set, "div#datetime_add > div > div > form > div.modal-body > span"
 
 	def select_date_picker(date)
-	fill_in('date', :with => date) 
+   page.execute_script("$('#date').removeAttr('readonly')")
+	 fill_in('date', :with => date) 
 	end
 end
 

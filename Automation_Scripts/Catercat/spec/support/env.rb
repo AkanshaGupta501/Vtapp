@@ -7,6 +7,7 @@ require 'selenium-webdriver'
 require 'data_magic'
 require 'spec_helper.rb'
 include DataMagic
+include CustomData
 
 DataMagic.yml_directory = "spec/features/data"
 Dir.glob("/*.yml").each{|f| DataMagic.load f}

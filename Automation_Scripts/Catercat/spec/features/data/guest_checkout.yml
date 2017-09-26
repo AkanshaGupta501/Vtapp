@@ -18,7 +18,7 @@ minimum_order_check:
 caterer_unavailable:
   suburb: Goodwood
   time: ~randomize(['04:00 PM-04:30 PM', '02:00 PM-02:30 PM', '05:00 PM-05:30 PM', '06:00 PM-06:30 PM'])
-  date: ~3.days_from_today
+  date: '11/01/17'
 
 cart_exceeding_qty:
   suburb: parow

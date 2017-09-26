@@ -1,3 +1,50 @@
+class AddMeal < SitePrism::Section
+  element :meal_name, "input[name = 'name']"
+  element :meal_summary, "input[name = 'summary']"
+  element :meal_description, "textarea[name = 'description']"
+  element :price, "input[name = 'price']"
+  element :min_qty, "input[name = 'min_quantity']"
+  element :max_qty, "input[name = 'max_quantity']"
+  element :serves, "input[name = 'serves']"
+  elements :cuisine, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div.container > div > div.col-sm-7 > div:nth-child(2) > div > div > label"
+  elements :category, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div.container > div > div.col-sm-7 > div:nth-child(3) > div > div > label"
+  elements :allergens,"body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div.container > div > div.col-sm-7 > div:nth-child(4) > div > div > label"
+  elements :meal_type, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div.container > div > div.col-sm-7 > div:nth-child(5) > div > div > label"
+  elements :availability_days, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div.container > div > div.col-sm-5 > div:nth-child(2) > div > div > label"
+  element :create_meal, "input[value = 'Create']"
+
+  def add_new_meal(data)
+    puts data
+    meal_name.set(data['meal_name'])
+    meal_summary.set(data['summary'])
+    meal_description.set(data['description'])
+    price.set(data['price'])
+    min_qty.set(data['min_qty'])
+    max_qty.set(data['min_qty'].to_i + 10)
+    serves.set(data['serves'])
+    cuisine.each do |cuisine_id|
+      cuisine_id.click if data['cuisine'] == cuisine_id.text
+    end
+    category.each do |category_id|
+      category_id.click if data['category'] == category_id.text
+    end
+    allergens.each do |allergen|
+      allergen.click if data['allergens'].include?(allergen.text)
+    end
+    meal_type.each do |type|
+      type.click if data['meal_type'].include?(type.text)
+    end
+    availability_days.each do |day|
+      day.click if data['availability_days'] == day.text
+    end
+    create_meal.click
+  end
+end
+
+
+
+
+
 class AdminHome < SitePrism::Page
   set_url '/admin/login'
   element :email_id, "input[name = 'email']"
@@ -122,12 +169,23 @@ class EditCaterer < SitePrism::Page
   element :mov, "input[name = 'min_order_val']"
   element :mot, "select[name = 'order_acceptance_time']"
   element :go_to_availability, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > ul > li:nth-child(4) > a"
+  element :go_to_bank, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > ul > li:nth-child(5) > a"
+  element :go_to_meals, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > ul > li:nth-child(6) > a"
   element :order_acceptance, "select[name = 'min_lead_time']"
   element :availability_days, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div > div > div.col-sm-3 > form > div:nth-child(4)"
   elements :availability_time, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div > div > div.col-sm-3 > form > div:nth-child(5) > div.checkbox > label"
   element :add_province, "select[name = 'province_id']"
   element :add_suburb, "select[name = 'suburb_id']"
   element :add_province_suburb, "input[value = 'Add']"
+  element :suburb_section, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div > div > div.col-sm-8.col-sm-offset-1 > div:nth-child(2) > table"
+  element :account_name, "input[name = 'bank_account_name']"
+  element :bank_id, "select[name = 'bank_id']"
+  element :branch_code, "input[name = 'bank_branch_code']"
+  element :account_number, "input[name = 'bank_account_number']"
+  element :account_type, "select[name = 'bank_account_type']"
+  element :add_meal_link, "div#meals > div > div:nth-child(1) > div.col-sm-6.text-right > a"
+  section :add_meal, AddMeal, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div.tab-content"
+  elements :verify_added_meal, "div#meals > div > div:nth-child(2) > div > div > table > tbody > tr > td:nth-child(2)"
 
 
   def edit_contact_details(data)
@@ -163,7 +221,34 @@ class EditCaterer < SitePrism::Page
     # add_suburb.select(data['suburb'])
     # add_province_suburb.click
   end
+
+  def manage_province(data)
+    data['number_times'].times do
+      suburb_name = data_for('admin_manage_caterer/suburbs_data')['suburb']
+      if suburb_section.text.include? suburb_name
+        puts "The given suburb exists in caterer's list"
+      else
+        add_province.select(data['province'])
+        add_suburb.select(suburb_name)
+        add_province_suburb.click
+      end
+    end
+    update.click 
+  end
+
+  def bank_details(data)
+    account_name.set(data['account_name'])
+    bank_id.select(data['bank_id'])
+    branch_code.set(data['branch_code'])
+    account_number.set(data['account_number'])
+    account_type.select(data['account_type'])
+    update.click
+  end
   
+  def admin_add_meal(data)
+    add_meal_link.click
+    add_meal.add_new_meal(data)
+  end
 end
 
 
