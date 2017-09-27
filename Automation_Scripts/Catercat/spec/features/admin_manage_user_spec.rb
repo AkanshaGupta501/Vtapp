@@ -32,7 +32,6 @@ describe "Admin Manages Users" do
   scenario "Admin edits specific user details" do
     @edit_user = EditUser.new
     @user_details = data_for('admin_manage_user/edit_user') 
-    puts @user_details
     @edit_user.rows.each do |value| 
       if value.find("td:nth-child(2)").text == @user_details['email_id']
         value.find("td:nth-child(6) > div > a.btn.btn-default").click
@@ -43,6 +42,13 @@ describe "Admin Manages Users" do
         next
       end
     end
+  end
+
+  scenario "Admin suspends / activates the user" do
+    @edit_user = EditUser.new
+    @edit_user.status.click
+    @edit_user.status.text == 'Suspend' ? click_link('Yes, Suspend') : click_link('Activate')
+    expect(@edit_user.flash_success.text).to eql "Success!"
   end
 end
 

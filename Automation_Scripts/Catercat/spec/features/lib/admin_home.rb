@@ -98,6 +98,7 @@ class EditUser < SitePrism::Page
   element :postcode, "input[name = 'postcode']"
   element :update, "input[value = 'Update']"
   element :flash_success, "div.alert.alert-success > strong"
+  element :status, "body > div.container > div.row > div.col-sm-12 > div.table-wrap.table-responsive > table > tbody > tr:nth-child(1) > td:nth-child(6) > div > a.btn.btn-danger.btn-sm"
 
   def update_user_details(data)
     firstname.set(data['firstname'])
@@ -172,7 +173,7 @@ class EditCaterer < SitePrism::Page
   element :go_to_bank, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > ul > li:nth-child(5) > a"
   element :go_to_meals, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > ul > li:nth-child(6) > a"
   element :order_acceptance, "select[name = 'min_lead_time']"
-  element :availability_days, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div > div > div.col-sm-3 > form > div:nth-child(4)"
+  elements :availability_days, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div > div > div.col-sm-3 > form > div:nth-child(4) > div > label"
   elements :availability_time, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div > div > div.col-sm-3 > form > div:nth-child(5) > div.checkbox > label"
   element :add_province, "select[name = 'province_id']"
   element :add_suburb, "select[name = 'suburb_id']"
@@ -186,6 +187,7 @@ class EditCaterer < SitePrism::Page
   element :add_meal_link, "div#meals > div > div:nth-child(1) > div.col-sm-6.text-right > a"
   section :add_meal, AddMeal, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div.tab-content"
   elements :verify_added_meal, "div#meals > div > div:nth-child(2) > div > div > table > tbody > tr > td:nth-child(2)"
+  element :caterer_status, "div#pending > table > tbody > tr:nth-child(3) > td:nth-child(5) > div > a.btn.btn-danger"
 
 
   def edit_contact_details(data)
@@ -212,14 +214,14 @@ class EditCaterer < SitePrism::Page
 
   def edit_availability_days(data)
     order_acceptance.select(data['order_acceptance_time'])
+    availability_days.each do |day|
+      day.click if data['availability_days'] == day.text
+    end
     availability_time.each do|input| 
       input.click if data['availability_time'].include?(input.text) && (input.find(:css,'input[type="checkbox"]').checked? == false)
       input.click if !data['availability_time'].include?(input.text) && (input.find(:css,'input[type="checkbox"]').checked? == true)
     end
     update.click 
-    # add_province.select(data['province'])
-    # add_suburb.select(data['suburb'])
-    # add_province_suburb.click
   end
 
   def manage_province(data)
