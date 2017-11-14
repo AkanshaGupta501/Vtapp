@@ -14,21 +14,21 @@ describe "Admin Manages Caterer" do
   scenario "Admin enters incorrect profile details for caterer" do
     @caterer.add_caterer_link.click
     @caterer.create_caterer(data_for('admin_manage_caterer/incorrect_profile_details'))
-    expect(@caterer.flash_caterer_created_error.text).to eq "Error! Form could not be submitted"
+    expect(@caterer.flash_caterer_created_error.text).to eq "Error! Form could not be submitted."
   end
 
   scenario "Admin enters existing email id in caterer profile" do
     @caterer.add_caterer_link.click
     @caterer.create_caterer(data_for('admin_manage_caterer/existing_email'))
-    expect(@caterer.flash_caterer_created_error.text).to eq "Error! Form could not be submitted"
+    expect(@caterer.flash_caterer_created_error.text).to eq "Error! Form could not be submitted."
   end
 
   scenario "Admin enters correct details for caterer" do
     @caterer.add_caterer_link.click
     @caterer.create_caterer(data_for('admin_manage_caterer/correct_profile_details'))
-    expect(@caterer.flash_caterer_created_success.text).to eq "Success! Caterer created successfully"
+    expect(@caterer.flash_caterer_created_success.text).to eq "Success! Caterer created successfully."
     @caterer.update_business_details(data_for('admin_manage_caterer/correct_business_details'))
-    expect(@caterer.flash_caterer_updated_success.text).to eq "Success! Caterer profile updated successfully"
+    expect(@caterer.flash_caterer_updated_success.text).to eq "Success! Caterer profile updated successfully."
   end
 
   scenario "Admin edits the existing caterer, approved caterer" do
@@ -37,7 +37,7 @@ describe "Admin Manages Caterer" do
     @meal_details = data_for('admin_manage_caterer/add_new_meal')
     @edit_caterer.go_to_approved.click
     @edit_caterer.rows.each do |value|
-      if value.find("td.img-flex > div:nth-child(2) > h5").text == @caterer_details['name']
+      if value.find("td > div.img-flex > div.od-description > h5").text == @caterer_details['name']
         value.find("td:nth-child(5) > div > a.btn.btn-default").click
         @edit_caterer.edit_contact_details(@caterer_details)
         expect(@edit_caterer.flash_caterer_updated_success.text).to eq "Success!"

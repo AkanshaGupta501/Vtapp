@@ -21,6 +21,7 @@ class SignUpModal < SitePrism::Section
   element :user_confirm_password,"input[name = 'password_confirmation']"
   element :signup_button, "input[value = 'SIGN UP']"
   element :error_message, "span.help-block > p"
+  element :tnc, "input[name = 'terms']"
 
   def fill_signup_details(data)
     user_first_name.set(data['firstname'])
@@ -29,6 +30,7 @@ class SignUpModal < SitePrism::Section
     user_phone_number.set(data['phone'])
     user_new_password.set(data['new_password'])
     user_confirm_password.set(data['confirm_password'])
+    tnc.click
     signup_button.click
   end
 end
@@ -42,7 +44,8 @@ class Home < SitePrism::Page
   set_url '/'
   element :login_modal_window, "a[data-target = '#loginModal']"
   element :signup_form, "a[data-target = '#signupModal']"
-  element :user_name, "li.dropdown.a.dropdown-toggle"
+  #navbar > ul.nav.navbar-nav.navbar-right.header-desktop-links > li.dropdown > a
+  # element :user_name, "div#navbar > ul.nav.navbar-nav.navbar-right.header-desktop-links > li.dropdown > a.dropdown-toggle"
   section :loginmodal, LoginModal, 'div.modal-content'
   section :signupmodal, SignUpModal, 'div#signupModal'
 
@@ -62,8 +65,8 @@ class Home < SitePrism::Page
 end
 
 class UserPanel < SitePrism::Page
-  element :user_name, "a.dropdown-toggle"
-
+  element :user_name, "div#navbar > ul.nav.navbar-nav.navbar-right.header-desktop-links > li.dropdown > a.dropdown-toggle"
+  
   def go_to_profile
     user_name.click
     click_link('My Profile')

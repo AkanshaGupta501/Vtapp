@@ -3,6 +3,7 @@ describe "User Changes Password"  do
   	@home = Home.new
     @home.load
     @home.make_user_login
+    sleep(6)
     @user_panel = UserPanel.new
     expect(@user_panel).to have_user_name
     @user_panel.go_to_profile

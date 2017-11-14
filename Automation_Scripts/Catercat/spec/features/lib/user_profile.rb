@@ -1,7 +1,8 @@
 class AddNewAddress < SitePrism::Section
   element :address_field, "textarea[name= 'address']"
   element :postcode, "input[name='postcode']"
-  element :suburb, "select[name= 'city']"
+  element :suburb, "input[name= 'suburb']"
+  element :province, "input[name = 'province']"
   element :submit_addr, "input[type='submit']"
   element :close_modal, "div#addAddressModal.modal.fade.in > div > div > div.modal-header > button > span"
   element :error_message, "div.form-group.has-error > span.help-block > p"
@@ -9,7 +10,8 @@ class AddNewAddress < SitePrism::Section
   def fill_new_address(data)
     address_field.set(data['address'])
     postcode.set(data['postcode'])
-    suburb.select(data['suburb'])
+    suburb.set(data['suburb'])
+    province.set(data['province'])
     submit_addr.click
   end
 end
@@ -18,7 +20,8 @@ class EditAddress < SitePrism::Section
   element :delete_button, "a#addressDelete"
   element :address_field, "textarea[name = 'address']"
   element :postcode, "input[name='postcode']"
-  element :suburb, "select[name= 'city']"
+  element :suburb, "input[name= 'suburb']"
+  element :province, "input[name = 'province']"
   element :submit_addr, "input[type='submit']"
 
   def delete_address
@@ -28,7 +31,8 @@ class EditAddress < SitePrism::Section
   def update_address(data)
     address_field.set(data['address'])
     postcode.set(data['postcode'])
-    suburb.select(data['suburb'])
+    suburb.set(data['suburb'])
+    province.set(data['province'])
     submit_addr.click
   end
 end
@@ -57,15 +61,15 @@ class ChangePassword < SitePrism::Section
 end
 
 class UserProfile < SitePrism::Page
-  element :address_link, "li#address > a"
-  element :add_address, "div.form-box.address > h4 > a" 
-  element :password_link, "li#password > a"
+  element :address_link, :xpath, "/html/body/div[2]/div[1]/div/div/div[1]/div/ul/li[3]/a"
+  element :add_address, "div#savedAddresses > h4 > a" 
+  element :password_link, :xpath, "/html/body/div[2]/div[1]/div/div/div[1]/div/ul/li[2]/a"
   element :flash_error, "div.alert.alert-danger"
   element :flash_success, "div.alert.alert-success"
   element :edit_address_link, :xpath, "(//*[@id='address']/div[1]/a)[1]"
   element :set_default_address, :xpath, "(//*[@id='address']/div[2]/p/a)[2]"
   section :add_address_modal, AddNewAddress, "div#addAddressModal > div > div.modal-content"
-  section :change_password, ChangePassword, "div.form-box.password"
+  section :change_password, ChangePassword, "div#password"
   section :edit_address_modal, EditAddress, "div#editAddressModal > div > div.modal-content"
   section :default_address_modal ,DefaultAddressConfirmation, "div#defaultAddressConfirmationModal > div > div.modal-content"
 end

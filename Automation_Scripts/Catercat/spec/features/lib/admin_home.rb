@@ -41,10 +41,6 @@ class AddMeal < SitePrism::Section
   end
 end
 
-
-
-
-
 class AdminHome < SitePrism::Page
   set_url '/admin/login'
   element :email_id, "input[name = 'email']"
@@ -68,8 +64,9 @@ class AddNewUser < SitePrism::Page
   element :email_id, "input[name = 'email']"
   element :contact, "input[name = 'mobile']"
   element :address, "textarea[name = 'address']"
-  element :suburb, "select[name= 'city']"
+  element :suburb, "input[name= 'suburb']"
   element :postcode, "input[name = 'postcode']"
+  element :province, "input[name = 'province']"
   element :submit, "input[value = 'Add']"
   element :flash_success, "div.alert.alert-success"
   element :flash_error, "div.alert.alert-danger"
@@ -80,8 +77,9 @@ class AddNewUser < SitePrism::Page
     email_id.set(data['email_id'])
     contact.set(data['contact'])
     address.set(data['address'])
-    suburb.select(data['suburb'])
+    suburb.set(data['suburb'])
     postcode.set(data['postcode'])
+    province.set(data['suburb'])
     submit.click
   end
 end
@@ -94,19 +92,21 @@ class EditUser < SitePrism::Page
   element :email, "input[name = 'email']"
   element :contact, "input[name = 'mobile']"
   element :address, "textarea[name = 'address']"
-  element :suburb, "select[name= 'city']"
+  element :suburb, "input[name= 'suburb']"
   element :postcode, "input[name = 'postcode']"
+  element :province, "input[name = 'province']"
   element :update, "input[value = 'Update']"
   element :flash_success, "div.alert.alert-success > strong"
-  element :status, "body > div.container > div.row > div.col-sm-12 > div.table-wrap.table-responsive > table > tbody > tr:nth-child(1) > td:nth-child(6) > div > a.btn.btn-danger.btn-sm"
+  element :status, "body > div.container > div.row > div.col-sm-12 > div:nth-child(2) > div > table > tbody > tr:nth-child(3) > td:nth-child(6) > div > a.btn.btn-danger.btn-sm"
 
   def update_user_details(data)
     firstname.set(data['firstname'])
     lastname.set(data['lastname'])
     contact.set(data['contact'])
     address.set(data['address'])
-    suburb.select(data['suburb'])
+    suburb.set(data['suburb'])
     postcode.set(data['postcode'])
+    province.set(data['suburb'])
     update.click
   end
 end
@@ -114,7 +114,7 @@ end
 
 class AddNewCaterer < SitePrism::Page
   element :go_to_caterer, "body > nav.navbar.sub-navbar > div > div > ul > li:nth-child(2) > a"
-  element :add_caterer_link, "body > div.container > div.row > div > div.row > div:nth-child(2) > div > div > div.col-sm-4 > a"
+  element :add_caterer_link, "body > div.container > div.row > div > div.row > div.col-sm-2.mt15.pull-right > a"
   element :firstname, "input[name = 'firstname']"
   element :lastname, "input[name = 'lastname']"
   element :email_id, "input[name = 'email']"
@@ -150,42 +150,42 @@ class AddNewCaterer < SitePrism::Page
 end
 
 class EditCaterer < SitePrism::Page
-  element :go_to_approved, "body > div.container > div.row > div > div.table-wrap.table-responsive > div > ul > li:nth-child(2) > a"
-  element :go_to_pending, "body > div.container > div.row > div > div.table-wrap.table-responsive > div > ul > li:nth-child(1) > a"
-  element :go_to_declined, "body > div.container > div.row > div > div.table-wrap.table-responsive > div > ul > li:nth-child(3) > a"
+  element :go_to_approved, "body > div.container > div.row > div > div:nth-child(2) > div > ul > li:nth-child(2) > a"
+  element :go_to_pending, "body > div.container > div.row > div > div:nth-child(2) > div > ul > li:nth-child(1) > a"
+  element :go_to_declined, "body > div.container > div.row > div >  div:nth-child(2) > div > ul > li:nth-child(3) > a"
   elements :rows, "div#pending > table > tbody > tr"
   element :firstname, "input[name = 'firstname']"
   element :lastname, "input[name = 'lastname']"
   element :email_id, "input[name = 'email']"
   element :contact, "input[name = 'mobile']"
   element :update, "input[value = 'Update']"
-  element :go_to_caterer_profile, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > ul > li:nth-child(2) > a"
+  element :go_to_caterer_profile, "body > div.container > div.row > div > div.table-wrap > div > ul > li:nth-child(2)  > a"   
   element :business_address, "textarea[name = 'business_address']"
   element :business_city, "select[name = 'business_city']"
   element :postcode, "input[name = 'business_postcode']"
   element :about_us, "textarea[name = 'business_about']"
   element :flash_caterer_updated_success, "div.alert.alert-success > strong"
-  element :go_to_orders, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > ul > li:nth-child(3) > a"
+  element :go_to_orders, "body > div.container > div.row > div > div.table-wrap > div > ul > li:nth-child(3)  > a"
   element :delivery_fee, "input[name = 'delivery_fee']"
   element :mov, "input[name = 'min_order_val']"
   element :mot, "select[name = 'order_acceptance_time']"
-  element :go_to_availability, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > ul > li:nth-child(4) > a"
-  element :go_to_bank, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > ul > li:nth-child(5) > a"
-  element :go_to_meals, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > ul > li:nth-child(6) > a"
+  element :go_to_availability, "body > div.container > div.row > div > div.table-wrap > div > ul > li:nth-child(4)  > a"
+  element :go_to_bank, "body > div.container > div.row > div > div.table-wrap > div > ul > li:nth-child(5)  > a"
+  element :go_to_meals, "body > div.container > div.row > div > div.table-wrap > div > ul > li:nth-child(6)  > a"
   element :order_acceptance, "select[name = 'min_lead_time']"
   elements :availability_days, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div > div > div.col-sm-3 > form > div:nth-child(4) > div > label"
   elements :availability_time, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div > div > div.col-sm-3 > form > div:nth-child(5) > div.checkbox > label"
   element :add_province, "select[name = 'province_id']"
   element :add_suburb, "select[name = 'suburb_id']"
   element :add_province_suburb, "input[value = 'Add']"
-  element :suburb_section, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div > div > div > div > div.col-sm-8.col-sm-offset-1 > div:nth-child(2) > table"
+  element :suburb_section, "body > div.container > div.row > div > div.table-wrap > div > div > div > div > div > div.col-sm-8.col-sm-offset-1 > div:nth-child(2) > table"
   element :account_name, "input[name = 'bank_account_name']"
   element :bank_id, "select[name = 'bank_id']"
   element :branch_code, "input[name = 'bank_branch_code']"
   element :account_number, "input[name = 'bank_account_number']"
   element :account_type, "select[name = 'bank_account_type']"
   element :add_meal_link, "div#meals > div > div:nth-child(1) > div.col-sm-6.text-right > a"
-  section :add_meal, AddMeal, "body > div.container > div.container > div > div > div.table-wrap.table-responsive > div > div.tab-content"
+  section :add_meal, AddMeal, "body > div.container > div.row > div > div.table-wrap > div > div"
   elements :verify_added_meal, "div#meals > div > div:nth-child(2) > div > div > table > tbody > tr > td:nth-child(2)"
   element :caterer_status, "div#pending > table > tbody > tr:nth-child(3) > td:nth-child(5) > div > a.btn.btn-danger"
 

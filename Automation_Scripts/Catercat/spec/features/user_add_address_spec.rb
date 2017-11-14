@@ -4,18 +4,19 @@ describe "User Adds New Address"  do
     @home.load
     @home.make_user_login
     @user_panel = UserPanel.new
-    expect(@user_panel).to have_user_name
+    sleep(6)
+    # expect(@user_panel).to have_user_name
     @user_panel.go_to_profile
     @profile = UserProfile.new
     @profile.address_link.click
     sleep(1)
   end
 
-  scenario "User does not enter postcode" do
+  scenario "User does not enter province" do
     @profile.add_address.click
     @profile.wait_until_add_address_modal_visible
-    @profile.add_address_modal.fill_new_address(data_for("user_address/missing_postcode"))
-    expect(@profile.add_address_modal.error_message.text).to eq "Postcode field is required"
+    @profile.add_address_modal.fill_new_address(data_for("user_address/missing_province"))
+    expect(@profile.add_address_modal.error_message.text).to eq "Province field is required"
   end
 
   scenario "User does not enter suburb" do

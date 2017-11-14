@@ -5,9 +5,11 @@ class GuestCheckoutForm < SitePrism::Page
 	element :mobile, "input[name = 'mobile']"
 	element :address, "input[name = 'address']"
 	element :postcode, "input[name = 'postcode']"
-	element :suburb, "select[name = 'city']"
+	element :suburb, "input[name = 'suburb']"
+	element :province, "input[name = 'province']"
 	element :checkbox, "input[name = 'sameAsDelivery']"
 	element :button_continue, "input[type = 'submit']"
+	element :flash_error, "body > div.flash-message-position > div.alert.alert-danger"
 
 
   def fill_in_guest_details(data)
@@ -18,7 +20,8 @@ class GuestCheckoutForm < SitePrism::Page
 		page.execute_script('window.scrollTo(0,500)')
 		address.set(data['address'])
 		postcode.set(data['postcode'])
-		suburb.select(data['delivery_suburb'])
+		suburb.set(data['delivery_suburb'])
+		province.set(data['delivery_suburb'])
 		page.execute_script('window.scrollTo(0,700)')
 		checkbox.click
 		page.execute_script('window.scrollTo(0,1000)')

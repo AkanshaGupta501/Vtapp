@@ -17,21 +17,25 @@ end
 
 class CatererList < SitePrism::Page
 	element :validate_page, :xpath, "/html/body/nav[2]/div/div/ul/li[1]"
-	element :select_caterer, "body > div.container > div:nth-child(2) > div:nth-child(1) > a > div > div > div"
+	element :select_caterer, "body > div.container > div > div > form > div:nth-child(4)"
 	element :error_message, "body > div.container > div > div > div > h3"
 end
 
 class StoreMenu < SitePrism::Page
 	element :validate_page, :xpath, "/html/body/div[2]/div[1]/div/div/div/h1"
-	element :select_menu, :xpath, "(/html/body/div[3]/div/div/div/ul/li[1]/a)[1]"
-	element :add_dish, :xpath, "(//*[@id='mealUrl']/div[1])[1]"
-	element :proceed_to_payment, "body > div.menu-wrap > div > div > div.col-sm-5 > div.order-box > a"
+	element :select_menu, :xpath, "(/html/body/div[4]/div[1]/div/div/div/div/ul/li[2]/a)[1]"
+	element :add_dish, :xpath, "(//*[@id='mealUrl']/div[1])[1]" 
+	element :proceed_to_payment, "body > div:nth-child(6) > div.menu-wrap > div > div > div.col-sm-5.caterer-menu-order-block > div > a"
 	element :validate_page, "body > div.caterer-banner > div.c-info > div > div > div:nth-child(2) > p"
 	element :validate_cart, "body > div.menu-wrap > div > div > div.col-sm-5 > div > table > tbody > tr:nth-child(2) > td.text-right > p"
 	element :flash_error_mop, "div.alert.alert-danger"
-	element :cart_qty_edit, "body > div.menu-wrap > div > div > div.col-sm-5 > div > table > tbody > tr:nth-child(1) > td.form-group > input"
+	element :cart_qty_edit, "body > div:nth-child(6) > div.menu-wrap > div > div > div.col-sm-5.caterer-menu-order-block > div > div.table-responsive > table > tbody > tr:nth-child(1) > td.form-group.order-menu-qty-cell > input"
 	element :cart_error, "body > div.menu-wrap > div > div > div.col-sm-5 > div > table > tbody > tr:nth-child(1) > td.form-group > input > span.help-block > p"
-	section :delivery_details, DeliveryDetails, "div.modal-content"
+	element :promotion_field, "body > div:nth-child(6) > div.menu-wrap > div > div > div.col-sm-5.caterer-menu-order-block > div > div.table-responsive > table > tbody > tr:nth-child(3) > td.text-right > span > input"
+  element :apply_promotion, "body > div:nth-child(6) > div.menu-wrap > div > div > div.col-sm-5.caterer-menu-order-block > div > div.table-responsive > table > tbody > tr:nth-child(3) > td:nth-child(3) > span"
+  element :error_promotion, "body > div:nth-child(6) > div.menu-wrap > div > div > div.col-sm-5.caterer-menu-order-block > div > div.table-responsive > table > tbody > tr:nth-child(3) > td.text-right > span > span > p"
+  element :successful_promotion, "body > div:nth-child(6) > div.menu-wrap > div > div > div.col-sm-5.caterer-menu-order-block > div > div.table-responsive > table > tbody > tr:nth-child(3) > td.text-right > small"
+  section :delivery_details, DeliveryDetails, "div.modal-content"
 	section :add_to_cart, AddToCart, "div.modal-content"
   
   def manage_cart(data)
@@ -40,6 +44,7 @@ class StoreMenu < SitePrism::Page
     sleep(5)
     add_dish_to_cart
     sleep(2)
+    page.execute_script('window.scrollTo(0,500)')
     proceed_to_payment.click
   end
 
@@ -54,8 +59,31 @@ class StoreMenu < SitePrism::Page
     sleep(5)
     add_dish_to_cart
     sleep(2)
+    page.execute_script('window.scrollTo(0,500)')
     cart_qty_edit.set(data['invalid_qty'])
 	end
+
+  def manage_cart_promotion(data)
+    select_dish
+    add_delivery_date_time(data['date'], data['time'])
+    sleep(5)
+    add_dish_to_cart
+    sleep(2)
+    page.execute_script('window.scrollTo(0,500)')
+    promotion_field.set(data['promotion_code'])
+    apply_promotion.click
+  end
+
+  def manage_cart_checkout(data)
+    select_dish
+    add_delivery_date_time(data['date'], data['time'])
+    sleep(5)
+    add_dish_to_cart
+    sleep(2)
+    page.execute_script('window.scrollTo(0,500)')
+    cart_qty_edit.set(data['qty'])
+    proceed_to_payment.click
+  end
 
 	def select_dish
 		select_menu.click

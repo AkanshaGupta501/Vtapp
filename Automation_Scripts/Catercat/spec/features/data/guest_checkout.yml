@@ -1,7 +1,8 @@
 correct_details:
-  suburb: parow
-  time: ~randomize(['10:00 AM-10:30 AM', '02:00 PM-02:30 PM', '08:00 AM-08:30 AM', '06:00 PM-06:30 PM'])
+  suburb: Stellenbosch
+  time: ~randomize(['12:00 PM-12:30 PM', '02:00 PM-02:30 PM', '05:00 PM-05:30 PM', '06:00 PM-06:30 PM'])
   date: ~3.days_from_today
+  qty: '10'
   firstname: ~user_name
   lastname: ~last_name
   email: ~email_address
@@ -10,21 +11,47 @@ correct_details:
   postcode: ~randomize(['1234', '8956', '7845', '2311', '7456'])
   delivery_suburb: ~randomize(['Atlantis', 'East London', 'Fish Hoek', 'Goodwood', 'Jagersfontein'])
 
+invalid_email:
+  suburb: Stellenbosch
+  time: ~randomize(['04:00 PM-04:30 PM', '02:00 PM-02:30 PM', '05:00 PM-05:30 PM', '06:00 PM-06:30 PM'])
+  date: ~3.days_from_today
+  qty: '10'
+  firstname: ~user_name
+  lastname: ~last_name
+  email: akansha.india@mailinator.com
+  mobile: ~cell_phone
+  address: ~street_address
+  postcode: ~randomize(['1234', '8956', '7845', '2311', '7456'])
+  delivery_suburb: ~randomize(['Atlantis', 'East London', 'Fish Hoek', 'Goodwood', 'Jagersfontein'])
+
+
 minimum_order_check:
   suburb: Langa
   time: ~randomize(['04:00 PM-04:30 PM', '02:00 PM-02:30 PM', '05:00 PM-05:30 PM', '06:00 PM-06:30 PM'])
   date: ~3.days_from_today
 
 caterer_unavailable:
-  suburb: Goodwood
+  suburb: Langa
   time: ~randomize(['04:00 PM-04:30 PM', '02:00 PM-02:30 PM', '05:00 PM-05:30 PM', '06:00 PM-06:30 PM'])
-  date: '11/01/17'
+  date: ~today
 
 cart_exceeding_qty:
-  suburb: parow
+  suburb: Langa
   time: ~randomize(['04:00 PM-04:30 PM', '02:00 PM-02:30 PM', '05:00 PM-05:30 PM', '06:00 PM-06:30 PM'])
   date: ~3.days_from_today
   invalid_qty: ~zip_code
+
+invalid_promotion:
+  suburb: Stellenbosch
+  time: ~randomize(['04:00 PM-04:30 PM', '02:00 PM-02:30 PM', '05:00 PM-05:30 PM', '06:00 PM-06:30 PM'])
+  date: ~3.days_from_today
+  promotion_code: "Hello"
+
+valid_promotion:
+  suburb: Stellenbosch
+  time: ~randomize(['04:00 PM-04:30 PM', '02:00 PM-02:30 PM', '05:00 PM-05:30 PM', '06:00 PM-06:30 PM'])
+  date: ~3.days_from_today
+  promotion_code: "Welcome101"
 
 no_suburb:
   suburb:
