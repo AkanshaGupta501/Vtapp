@@ -1,0 +1,42 @@
+correct_details:
+  suburb: Stellenbosch
+  time: ~randomize(['12:00 PM-12:30 PM', '02:00 PM-02:30 PM', '05:00 PM-05:30 PM', '06:00 PM-06:30 PM'])
+  date: ~3.days_from_today
+  qty: '10'
+  address: ~street_address
+  postcode: ~randomize(['1234', '8956', '7845', '2311', '7456'])
+  delivery_suburb: ~randomize(['Atlantis', 'East London', 'Fish Hoek', 'Goodwood', 'Jagersfontein'])
+
+minimum_order_check:
+  suburb: Langa
+  time: ~randomize(['04:00 PM-04:30 PM', '02:00 PM-02:30 PM', '05:00 PM-05:30 PM', '06:00 PM-06:30 PM'])
+  date: ~3.days_from_today
+
+caterer_unavailable:
+  suburb: Langa
+  time: ~randomize(['04:00 PM-04:30 PM', '02:00 PM-02:30 PM', '05:00 PM-05:30 PM', '06:00 PM-06:30 PM'])
+  date: ~today
+
+cart_exceeding_qty:
+  suburb: Langa
+  time: ~randomize(['04:00 PM-04:30 PM', '02:00 PM-02:30 PM', '05:00 PM-05:30 PM', '06:00 PM-06:30 PM'])
+  date: ~3.days_from_today
+  invalid_qty: ~zip_code
+
+invalid_promotion:
+  suburb: Stellenbosch
+  time: ~randomize(['04:00 PM-04:30 PM', '02:00 PM-02:30 PM', '05:00 PM-05:30 PM', '06:00 PM-06:30 PM'])
+  date: ~3.days_from_today
+  promotion_code: "Hello"
+
+valid_promotion:
+  suburb: Stellenbosch
+  time: ~randomize(['04:00 PM-04:30 PM', '02:00 PM-02:30 PM', '05:00 PM-05:30 PM', '06:00 PM-06:30 PM'])
+  date: ~3.days_from_today
+  promotion_code: "Welcome101"
+
+no_suburb:
+  suburb:
+
+no_caterer_in_suburb:
+  suburb: 'New Road'
