@@ -48,11 +48,18 @@ class AdminHome < SitePrism::Page
   element :login_button, "input[type = 'submit']"
   element :error_message, "div.account-box > span > ul > li"
   element :admin_name, "a.dropdown-toggle"
-
+  element :goto_menu_category, "body > div.container > div.row > div > div.table-wrap.table-responsive > div:nth-child(1) > ul > li:nth-child(1) > a"
+  element :goto_cuisine, "body > div.container > div.row > div > div.table-wrap.table-responsive > div:nth-child(1) > ul > li:nth-child(2) > a"
+  element :goto_promotion, "body > div.container > div.row > div > div.table-wrap.table-responsive > div:nth-child(1) > ul > li:nth-child(3) > a"
+  
   def fill_login_details(data)
     email_id.set(data['email_id'])
     password.set(data['password'])
     login_button.click
+  end
+
+  def goto_admin_settings
+    click_link('Settings')
   end
 end
 

@@ -7,6 +7,10 @@ module CustomData
   def generate_bank_code
     Time.now.to_i
   end
+
+  def generate_random_name
+    Time.now.to_i.to_s + "testing"
+  end
 end
 
 DataMagic.add_translator CustomData

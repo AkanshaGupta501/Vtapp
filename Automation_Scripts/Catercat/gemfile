@@ -5,5 +5,5 @@ gem 'selenium-webdriver', '~> 3.5'
 gem 'site_prism', '~> 2.9'
 gem 'chromedriver-helper', '~> 1.1'
 gem 'data_magic', '~> 1.0'
-# gem 'byebug', '~> 9.0'
+gem 'capybara-bootstrap-datepicker', group: :test
 gem 'watir', '~> 6.0'
