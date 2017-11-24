@@ -3,7 +3,7 @@ class GuestCheckoutForm < SitePrism::Page
 	element :lastname, "input[name = 'lastname']"
 	element :email, "input[name = 'email']"
 	element :mobile, "input[name = 'mobile']"
-	element :address, "input[name = 'address']"
+	element :address, "textarea[name = 'address']"
 	element :postcode, "input[name = 'postcode']"
 	element :suburb, "input[name = 'suburb']"
 	element :province, "input[name = 'province']"

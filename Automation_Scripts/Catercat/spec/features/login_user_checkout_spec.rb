@@ -10,7 +10,7 @@ describe "Logged in user Checkouts the order" do
   scenario "User does not fill suburb" do 
     @location = FindLocation.new
     @location.fill_google_autocomplete(data_for('login_user_checkout/no_suburb')['suburb'])
-    expect(@location.error_message.text).to eq "Suburb is required"
+    expect(@location.error_message.text).to eq "Please enter the location of your event"
   end
 
   scenario "Caterer does not exist in selected suburb" do
@@ -27,7 +27,7 @@ describe "Logged in user Checkouts the order" do
     @caterer_list.select_caterer.click
     @store_menu = StoreMenu.new
     @store_menu.manage_cart(data_for('login_user_checkout/minimum_order_check'))
-    expect(@store_menu.flash_error_mop.text).to eq "Error! Can not proceed due to the following errors"
+    expect(@store_menu.flash_error_mop.text).to eq "Error! Minimum order value is not enough to proceed."
   end
 
   scenario "Caterer is not available on selected date and time" do
@@ -37,7 +37,7 @@ describe "Logged in user Checkouts the order" do
     @caterer_list.select_caterer.click
     @store_menu = StoreMenu.new
     @store_menu.manage_cart_caterer_unavailable(data_for('login_user_checkout/caterer_unavailable'))
-    expect(@store_menu.delivery_details.error_unavailable.text).to eq "Selected caterer not available at that date & time"
+    expect(@store_menu.delivery_details.error_unavailable.text).to eq "Caterer is not available at the selected date and time"
   end
 
   scenario "User enters meals to cart exceeding the maximum count of meal" do
