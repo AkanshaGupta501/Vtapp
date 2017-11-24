@@ -64,6 +64,11 @@ class Promotion < SitePrism::Page
     update.click
   end
 
+  def edit_promo_code(data)
+    promo_code.set(data)
+    update.click
+  end
+
   def enter_promo_date(startdate, enddate)
     page.execute_script("$('input[name = startdate]').removeAttr('readonly')")
     start_date.set(startdate)

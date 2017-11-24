@@ -46,3 +46,6 @@ edit_promocode_date:
 edit_promo_value:
   promo_code: ~randomize(['WELCOME101', 'CODE123', 'FIRSTORDER'])
   percentage: ~randomize(-100..0)
+
+edit_promo_code:
+  new_promo_code: ~randomize(['WELCOME101', 'CODE123', 'FIRSTORDER'])
