@@ -9,7 +9,8 @@ module CustomData
   end
 
   def generate_random_name
-    Time.now.to_i.to_s + "testing"
+    code = generate_bank_code
+    code.to_s + "testing"
   end
 end
 
