@@ -42,4 +42,4 @@ no_caterer_in_suburb:
   suburb: 'New Road'
 
 user_name:
-  email: ~randomize(['akansha@mailinator.com', 'akansha@vinsol.co'])
+  email: ~randomize(['akansha@mailinator.com', 'vinsol.india@gmail.com'])

@@ -1,9 +1,7 @@
 describe "Admin Manages Users" do 
-  before(:all) do
-    @admin_home = AdminHome.new
-  end
-
+  
   before(:each) do
+    @admin_home = AdminHome.new
     @admin_home.load
     @admin_home.fill_login_details(data_for("admin_login/valid_details"))
     expect(@admin_home.admin_name.text).to eq "CaterCat Admin"
@@ -16,7 +14,7 @@ describe "Admin Manages Users" do
     @user_details = data_for("guest_checkout/correct_details")
     new_window = window_opened_by{ @admin.guest_checkout.click }
     within_window new_window do
-      sleep(3)
+      sleep(5)
       @location = FindLocation.new
       @location.fill_google_autocomplete(@user_details['suburb'])
       @caterer_list = CatererList.new
@@ -36,6 +34,7 @@ describe "Admin Manages Users" do
     @admin.select_user(data_for('login_user_checkout/user_name'))
     new_window = window_opened_by{ @admin.order_for_user.click }
     within_window new_window do
+      sleep(5)
       @location = FindLocation.new
       @location.fill_google_autocomplete(data_for('login_user_checkout/correct_details')['suburb'])
       @caterer_list = CatererList.new
