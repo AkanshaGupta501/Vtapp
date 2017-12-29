@@ -9,7 +9,7 @@ describe "Admin Manages Users" do
     @user.go_to_users.click
   end
   
-  scenario "Admin places an order for guest user" do
+  scenario "Admin places an order for guest user with correct details" do
     @admin = AdminPlaceOrder.new
     @user_details = data_for("guest_checkout/correct_details")
     new_window = window_opened_by{ @admin.guest_checkout.click }
@@ -29,7 +29,7 @@ describe "Admin Manages Users" do
     end
   end
 
-  scenario "Admin places an order for registered user" do
+  scenario "Admin places an order for registered user with correct details" do
     @admin = AdminPlaceOrder.new
     @admin.select_user(data_for('login_user_checkout/user_name'))
     new_window = window_opened_by{ @admin.order_for_user.click }
