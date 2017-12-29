@@ -23,12 +23,12 @@ User.prototype.compare_age = function(user2) {
     alert("Please enter valid user name")
   }
   else if(this.age == user2.age){
-      alert(this.name + " and " + user2.name + " are of the same age");
+    alert(this.name + " and " + user2.name + " are of the same age");
   }
   else{
-      var older = this.age < user2.age ? this.name : user2.name;
-      var younger = this.age < user2.age ? user2.name : this.name;
-      alert(older + " is older than " + younger);
+    var older = this.age < user2.age ? this.name : user2.name;
+    var younger = this.age < user2.age ? user2.name : this.name;
+    alert(older + " is older than " + younger);
   }
 }
 
