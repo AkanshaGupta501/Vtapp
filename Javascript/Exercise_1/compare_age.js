@@ -16,7 +16,6 @@ User.prototype.isValidName = function(user2){
 
 //this function compare ages
 User.prototype.compare_age = function(user2) {
-  debugger;
   var older = 0;
   var younger = 0;
   if(!this.isValidAge(user2)){
@@ -35,13 +34,13 @@ User.prototype.compare_age = function(user2) {
   }
 }
 
-
-
 var button = document.getElementById("compare_age");
-var names = document.getElementsByName("user_name");
-var ages = document.getElementsByName("age");
+var user = new Array();
 button.addEventListener('click', function () {
-  var user1 = new User(names[0].value, parseInt(ages[0].value));
-  var user2 = new User(names[1].value, parseInt(ages[1].value));
-  user1.compare_age(user2);
+  var user_names = document.querySelectorAll("input.user");
+  var user_ages = document.querySelectorAll("input.age");
+  for(var count = 0; count < user_names.length; count++){
+    user[count] = new User(user_names[count].value, parseInt(user_ages[count].value));
+  }
+  user[0].compare_age(user[1]);
 });
