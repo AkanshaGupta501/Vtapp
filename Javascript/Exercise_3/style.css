@@ -1,0 +1,11 @@
+.scrollView {
+  height: 100px; 
+  width: auto;
+  overflow:auto;
+}
+
+.childrenNode {
+  margin: 0px;
+  padding: 5px;
+  display:none; 
+}
