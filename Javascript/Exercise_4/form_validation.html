@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Form</title>  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+      <form id="registration_form" method="post">
+        <h1>Registration Form</h1>
+        
+        <fieldset>
+          <legend><span class="number">1</span>Your Information</legend>
+          <!-- Login Id -->
+          <label for="login_id">Login ID:</label>
+          <input data-type="text" type="text" id="login_id" name="Login ID" data-name="user_id" required>
+
+          <!-- Email ID -->
+          <label for="mail">Email:</label>
+          <input data-type="text" type="email" id="mail" name="Email" data-name="user_email" placeholder="user@domain.com" required>
+
+          <!-- User Name -->
+          <label for="name">Name:</label>
+          <input data-type="text" type="text" id="name" name="User Name" data-name="user_name" placeholder="User Name" required>
+          
+          <!-- Timezone -->
+          <label for="timezone">Timezone:</label>
+          <select id="timezone" name="user_zone">
+            <option value="gmt" selected> GMT </option>
+            <option value="ist"> GMT +5:30 </option>
+            <option value="pkt"> GMT +4:00 </option>
+            <option value="pst"> GMT +8:00 </option>
+          </select>
+
+          <!-- Home Page URL -->
+          <label for="user_page"> Home Page URL: </label>
+          <input data-type="text" type="url" name="URL" id="home_url" data-name="home_url" placeholder="https://www.google.com" required>
+          
+          <!-- About Me -->
+          <label for="about">About:</label>
+          <textarea data-type="textbox" id="about" name="About Me" data-name="user_about" placeholder="Minimum 50 characters" minLength = "50"></textarea>
+    
+          <input data-type="checkbox" name="TNC" data-name="tnc" type="checkbox"><label class="light" for="user_confirmation">Receive notification of comments</label>
+          <p class="notice">You will be sent an email when someone posts to your album or blog.</p>
+        
+        </fieldset>
+        <input type="submit" id="validate" value="Go">
+      </form>    
+      <script type="text/javascript" src="form_validation.js"></script>
+    </body>
+</html>
