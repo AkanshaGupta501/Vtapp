@@ -24,7 +24,7 @@ User.prototype.validateName = function(){
     isValid = false;
     alert("You must specify the first name to continue");
   }
-  else if(!isNaN(this.firstName)){
+  else if(!isNaN(this.lastName)){
     isValid = false;
     alert("You must specify the last name to continue");
   }
