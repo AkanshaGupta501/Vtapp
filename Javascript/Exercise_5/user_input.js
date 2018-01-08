@@ -1,17 +1,19 @@
 //This event is called when body is loaded and asks user to enter the values
 window.onload = function(){
-  var user_details = new User();
-  user_details.getUserName();
+  var options = {
+    user : new User(),
+  };
+  options.user.getUserName();
 }
 
 //User Class initialization with firstname and lastname as its attribute
 function User(){
-  this.firstName, this.lastName;
+  this.firstName = null;
+  this.lastName = null;
+  this.messageBox = document.getElementById("message");
 }
 
 User.prototype.validNameRegex = new RegExp(/^[a-zA-Z\s]+$/);
-
-User.prototype.messageBox = document.getElementById("message");
 
 User.prototype.getUserName = function(){
   do {
@@ -22,35 +24,28 @@ User.prototype.getUserName = function(){
 }
 
 User.prototype.validateUserName = function(){
-  var isValid = true;
-  if(!(this.validateNameIsNotEmpty(this.firstName, 'firstname') && this.validateNameIsNotEmpty(this.lastName, 'lastname'))){
-    isValid = false;
-  }
-  else if(!(this.validateNameHasLetters(this.firstName, 'firstname') && this.validateNameHasLetters(this.lastName, 'lastname'))){
-    isValid = false;
-  }
+  var isValid = (!(this.validateNameNotEmptyNoDigits(this.firstName, 'firstname') && this.validateNameNotEmptyNoDigits(this.lastName, 'lastname'))) ? false : true;
   return isValid;
 }
 
-User.prototype.validateNameIsNotEmpty = function(name, nameType){
-  var isValid = isNaN(name) ? true : false;
-  if(!isValid){
+User.prototype.validateNameNotEmptyNoDigits = function(name, nameType){
+  var isUserNameValid = true;
+  var isEmpty = !isNaN(name) ? false : true;
+  var isValidName = this.validNameRegex.test(name) ? true : false;
+  if(!isEmpty){
+    isUserNameValid = false;
     alert("You must specify " + nameType);
   }
-  return isValid;
-}
-
-User.prototype.validateNameHasLetters = function(name, nameType){
-  var isValidName = this.validNameRegex.test(name) ? true : false;
-  if(!isValidName){
+  else if(!isValidName){
+    isUserNameValid = false;
     alert("Your " + nameType + " must consist of letters only");
   }
-  return isValidName;
+  return isUserNameValid;
 }
 
 //If name is valid display it as alert and inside the div
 User.prototype.displayUserName = function(){
   var messageText = "Hello " + this.firstName.trim() + " " + this.lastName.trim();
-  alert(messageText)
+  alert(messageText);
   this.messageBox.innerHTML = messageText;
 }
