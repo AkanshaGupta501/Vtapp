@@ -1,10 +1,14 @@
 window.onload = function(){
   var newUrl = new Url();
-  newUrl.getUrl();
+  newUrl.init();
 }
 
 function Url(){
   this.url = null;
+}
+
+Url.prototype.init = function(){
+  this.getUrl();
 }
 
 Url.prototype.getUrl = function(){
