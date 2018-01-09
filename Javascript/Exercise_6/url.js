@@ -3,7 +3,6 @@ window.onload = function(){
   newUrl.init();
 }
 
-
 //URL Class
 function Url(){
   this.url = null;
