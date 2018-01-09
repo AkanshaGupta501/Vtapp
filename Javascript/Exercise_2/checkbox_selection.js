@@ -1,36 +1,43 @@
-//This function will be called when either of the day's checkbox will be clicked. 
-//As and when called the "Select None" checkbox will be unchecked
-
-function validateSelection(day) {
-  var days = document.getElementsByName("day");
-  var none = document.getElementById("none");
-  none.checked = false;
-  var countOfMarkedDays = 0, MaxLimit = 3;
-
-  //Array to store the name of days that are already selected
-  var nameOfSelectedDays = new Array();
-  for (var i = 0; i < days.length; i++) {
-    //Count the number of days selected 
-    if (days[i].checked == true && i != day) {
-      console.log(days[i]);
-      countOfMarkedDays++;
-      nameOfSelectedDays.push(days[i]);
+function Form(){
+  this.daysCheckboxes = document.querySelectorAll("[data-name = 'daysCheckbox']");
+  this.noneCheckbox = document.querySelector("[data-name = 'checkNone']");
+  
+  this.checkboxClickEvent = function(){
+    var current_reference = this;
+    for(var i = 0; i < this.daysCheckboxes.length; i++){
+      this.daysCheckboxes[i].onclick = function(){ current_reference.checkMaximumThreeCheckBoxes();}
     }
-    //If count goes above limit, uncheck selected day and alert already selected days
-    if (countOfMarkedDays >= MaxLimit) {
-      days[day].checked = false;
-      alert("Only 3 days can be selected. You have already selected " + nameOfSelectedDays[2].value + ", " + nameOfSelectedDays[1].value + " and " + nameOfSelectedDays[0].value);
-      return false;
+    
+    this.noneCheckbox.onclick = function(){ current_reference.checkNone();}
+  }
+
+  this.checkMaximumThreeCheckBoxes = function(){
+    var totalDaysSelected = 0;
+    var nameOfSelectedDays = new Array();
+
+    for(var selectedDay=0; selectedDay < this.daysCheckboxes.length; selectedDay++){
+      if(this.daysCheckboxes[selectedDay].checked === true){
+        this.noneCheckbox.checked = false;
+        nameOfSelectedDays.push(this.daysCheckboxes[selectedDay].value);
+        totalDaysSelected++;
+      }
+      
+      if(totalDaysSelected > 3){
+        this.daysCheckboxes[selectedDay].checked = false;
+        alert("You can Maximum select 3 days at a time. You have already selected " + nameOfSelectedDays[2] + ", " + nameOfSelectedDays[1] + ", " + nameOfSelectedDays[0]);
+        return false;
+      }
     }
   }
-  return true;
+
+  this.checkNone = function(){
+    for(var selectedDay = 0; selectedDay < this.daysCheckboxes.length; selectedDay++){
+      this.daysCheckboxes[selectedDay].checked = false;
+    }
+  }
 }
 
-//This function will be called when user selects "Select None" checkbox
-
-function selectNone() {
-  var days = document.getElementsByName("day");
-  for (var j = 0; j < days.length; j++) {
-    days[j].checked = false;
-  }
+window.onload = function(){
+  var form = new Form();
+  form.checkboxClickEvent();
 }
