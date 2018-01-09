@@ -37,7 +37,11 @@ function Form(){
   }
 }
 
+Form.prototype.init = function(){
+  this.checkboxClickEvent();
+}
+
 window.onload = function(){
   var form = new Form();
-  form.checkboxClickEvent();
+  form.init();
 }
