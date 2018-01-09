@@ -1,8 +1,3 @@
-window.onload = function(){
-  var newUrl = new Url();
-  newUrl.init();
-}
-
 //URL Class
 function Url(){
   this.url = null;
@@ -41,4 +36,9 @@ Url.prototype.ValidUrlRegex = new RegExp(/(http(s)?:\/\/){1}([\da-z(\.|\-|\@|\:|
 
 Url.prototype.navigateToUrl = function(){
   window.open(this.url, "_blank", "width=400, height=450, menubar=0, scrollbars=0, status=0");
+}
+
+window.onload = function(){
+  var newUrl = new Url();
+  newUrl.init();
 }
