@@ -1,16 +1,21 @@
 //This event is called when body is loaded and asks user to enter the values
 window.onload = function(){
   var options = {
-    user : new User(),
-  };
-  options.user.getUserName();
+    messageId : document.querySelector("[data-name = 'message']")
+      };
+  var user = new User(options);
+  user.init();
 }
 
 //User Class initialization with firstname and lastname as its attribute
-function User(){
+function User(options){
   this.firstName = null;
   this.lastName = null;
-  this.messageBox = document.getElementById("message");
+  this.messageBox = options.messageId;
+}
+
+User.prototype.init = function(){
+  this.getUserName();
 }
 
 User.prototype.validNameRegex = new RegExp(/^[a-zA-Z\s]+$/);
