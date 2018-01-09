@@ -1,12 +1,3 @@
-//This event is called when body is loaded and asks user to enter the values
-window.onload = function(){
-  var options = {
-    messageId : document.querySelector("[data-name = 'message']")
-      };
-  var user = new User(options);
-  user.init();
-}
-
 //User Class initialization with firstname and lastname as its attribute
 function User(options){
   this.firstName = null;
@@ -53,4 +44,13 @@ User.prototype.displayUserName = function(){
   var messageText = "Hello " + this.firstName.trim() + " " + this.lastName.trim();
   alert(messageText);
   this.messageBox.innerHTML = messageText;
+}
+
+//This event is called when body is loaded and asks user to enter the values
+window.onload = function(){
+  var options = {
+    messageId : document.querySelector("[data-name = 'message']")
+      };
+  var user = new User(options);
+  user.init();
 }
