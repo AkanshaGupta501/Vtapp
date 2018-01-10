@@ -7,7 +7,7 @@ function Form(options){
 Form.prototype.bindEvent = function(){
   var _this = this;
   this.noneCheckbox.addEventListener("click", function() {
-  _this.checkNone();
+    _this.checkNone();
   });
 
   for(var day = 0; day < this.daysCheckboxes.length; day++){
@@ -20,25 +20,27 @@ Form.prototype.bindEvent = function(){
 Form.prototype.validateCheckboxSelection = function(checkBoxID){
   if(checkBoxID.checked){
     this.noneCheckbox.checked = false;
-    this.selectedDays.push(checkBoxID.value);
+    this.pushIfCheckboxLengthValidated(checkBoxID);
   }
-  else if(!checkBoxID.checked){
+  else{
     this.selectedDays.pop();
   }
-  this.checkMaximumThreeCheckBoxes(checkBoxID);
 }
 
 Form.prototype.checkNone = function(){
-  for(var selectedDay = 0; selectedDay < this.daysCheckboxes.length; selectedDay++){
-    this.daysCheckboxes[selectedDay].checked = false;
-    this.selectedDays.pop();
+  for(var day = 0; day < this.daysCheckboxes.length; day++){
+    this.daysCheckboxes[day].checked = false;
   }
+  this.selectedDays = [];
 }
 
-Form.prototype.checkMaximumThreeCheckBoxes = function(checkBoxID){
-  if(this.selectedDays.length > 3){
+Form.prototype.pushIfCheckboxLengthValidated = function(checkBoxID){
+  if(this.selectedDays.length >= 3){
     checkBoxID.checked = false;
     alert("You can Maximum select 3 days at a time. You have already selected " + this.selectedDays[2] + ", " + this.selectedDays[1] + ", " + this.selectedDays[0]);
+  }
+  else{
+    this.selectedDays.push(checkBoxID.value);
   }
 }
 
@@ -46,7 +48,7 @@ window.onload = function(){
   var options = {
     daysCheckBoxes : document.querySelectorAll("[data-name = 'daysCheckbox']"),
     noneCheckBox : document.querySelector("[data-name = 'checkNone']")
-  };
-  var newForm = new Form(options)
+  },
+    newForm = new Form(options);
   newForm.bindEvent();
 }
