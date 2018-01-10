@@ -2,7 +2,7 @@
 function User(options){
   this.firstName = null;
   this.lastName = null;
-  this.messageBox = options.messageId;
+  this.messageBox = options.messageDOM;
 }
 
 User.prototype.init = function(){
@@ -25,30 +25,34 @@ User.prototype.validateUserName = function(){
 
 User.prototype.validateNameNotEmptyNoDigits = function(name, nameType){
   var isUserNameValid = true;
+  var message = null;
 
   if(!isNaN(name)){
     isUserNameValid = false;
-    alert("You must specify " + nameType);
+    this.displayMessages("You must specify " + nameType);
   }
   else if(!this.ValidNameRegex.test(name)){
     isUserNameValid = false;
-    alert("Your " + nameType + " must consist of letters only");
+    this.displayMessages("Your " + nameType + " must consist of letters only");
   }
   return isUserNameValid;
 }
 
-//If name is valid display it as alert and inside the div
+User.prototype.displayMessages = function(message){
+  alert(message);
+}
+
 User.prototype.displayUserName = function(){
   var messageText = "Hello " + this.firstName.trim() + " " + this.lastName.trim();
-  alert(messageText);
+  this.displayMessages(messageText);
   this.messageBox.innerHTML = messageText;
 }
 
 //This event is called when body is loaded and asks user to enter the values
 window.onload = function(){
   var options = {
-    messageId : document.querySelector("[data-name = 'message']")
-      };
+    messageDOM : document.querySelector("[data-name = 'message']")
+  };
   var user = new User(options);
   user.init();
 }
