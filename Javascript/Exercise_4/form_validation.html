@@ -2,50 +2,67 @@
 <html>
 <head>
   <title>Registration Form</title>  
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="style.css"> 
 </head>
-<body>
-      <form id="registration_form" method="post">
-        <h1>Registration Form</h1>
-        
-        <fieldset>
-          <legend><span class="number">1</span>Your Information</legend>
-          <!-- Login Id -->
-          <label for="login_id">Login ID:</label>
-          <input data-type="text" type="text" id="login_id" name="Login ID" data-name="user_id" required>
+  <body>
+    <div id="container">
+      <header>Registration Form</header>
+      <form data-name="registration_form" method="post">
+        <ul>
+          <li>
+            <span class="labels"><p>Login Id</p></span>
+            <span class="inputs">
+              <input data-type="text" type="text" name="Login ID" placeholder = "Login-ID" class="textfields input">
+            </span>
+          </li>
 
-          <!-- Email ID -->
-          <label for="mail">Email:</label>
-          <input data-type="text" type="email" id="mail" name="Email" data-name="user_email" placeholder="user@domain.com" required>
+          <li>
+            <span class="labels"><p>Email</p></span>
+            <span class="inputs">
+              <input data-type="text" type="text" name="Email" data-name="user_email" placeholder="user@domain.com"  class="textfields input">
+            </span>
+          </li>
 
-          <!-- User Name -->
-          <label for="name">Name:</label>
-          <input data-type="text" type="text" id="name" name="User Name" data-name="user_name" placeholder="User Name" required>
+          <li>
+            <span class="labels"><p>Name</p></span>
+            <span class="inputs">
+              <input data-type="text" type="text" name="User Name" placeholder="User Name" class="textfields input">
+            </span>
+          </li>
           
-          <!-- Timezone -->
-          <label for="timezone">Timezone:</label>
-          <select id="timezone" name="user_zone">
-            <option value="gmt" selected> GMT </option>
-            <option value="ist"> GMT +5:30 </option>
-            <option value="pkt"> GMT +4:00 </option>
-            <option value="pst"> GMT +8:00 </option>
-          </select>
+          <li>
+            <span class="labels"><p>Timezone</p></span>
+            <span class="inputs">
+              <select name="timezone" class="input">
+                <option value="GMT">GMT</option>
+                <option value="GMT +1">GMT +1:00</option>
+                <option value="GMT +5.5">GMT +5.50</option>
+                <option value="GMT -13:00">GMT -13:00</option>
+                <option value="GMT +4">GMT +4:00</option>
+              </select>
+            </span>
+          </li>
 
-          <!-- Home Page URL -->
-          <label for="user_page"> Home Page URL: </label>
-          <input data-type="text" type="url" name="URL" id="home_url" data-name="home_url" placeholder="https://www.google.com" required>
-          
-          <!-- About Me -->
-          <label for="about">About:</label>
-          <textarea data-type="textbox" id="about" name="About Me" data-name="user_about" placeholder="Minimum 50 characters" minLength = "50"></textarea>
-    
-          <input data-type="checkbox" name="TNC" data-name="tnc" type="checkbox"><label class="light" for="user_confirmation">Receive notification of comments</label>
-          <p class="notice">You will be sent an email when someone posts to your album or blog.</p>
+          <li>
+            <span class="labels"><p>Home Page</p></span>
+            <span class="inputs">
+              <input data-type="text" type="text" name="URL" class="textfields input" data-name="home_url" placeholder="https://www.google.com">
+            </span>
+          </li>
+        </ul>
+
+        <span class = "labels"><p>About me</p></span>
+        <textarea data-type="textbox" name="About Me" rows="15" cols="60" placeholder="Minimum 50 characters" class="textfields"></textarea>
         
-        </fieldset>
-        <input type="submit" id="validate" value="Go">
-      </form>    
-      <script type="text/javascript" src="form_validation.js"></script>
-    </body>
+        <label for="checkbox"><p>
+        <input data-type="checkbox" id = "checkbox" name="TNC" data-name="tnc" type="checkbox">
+        Receive notification of comments<p></label>
+
+        <p id="detail">You will be sent an email when someone post comments to your blog or Album</p>
+        <p id="confirm">Your password would be mailed to you</p>
+        <input type="submit" value="Go" name="save" />
+      </form>
+    </div>
+    <script type="text/javascript" src="form_validation.js"></script>
+  </body>
 </html>
