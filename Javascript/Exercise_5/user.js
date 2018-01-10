@@ -7,32 +7,30 @@ function User(options){
 
 User.prototype.init = function(){
   this.getUserName();
+  this.displayUserName();
 }
 
-User.prototype.validNameRegex = new RegExp(/^[a-zA-Z\s]+$/);
+User.prototype.ValidNameRegex = new RegExp(/^[a-zA-Z\s]+$/);
 
 User.prototype.getUserName = function(){
   do {
     this.firstName = prompt("Please enter the first name");
     this.lastName = prompt("Please enter the last name");
-    } while(!this.validateUserName());
-    this.displayUserName();
+    } while(!this.validateUserName());   
 }
 
 User.prototype.validateUserName = function(){
-  var isValid = (!(this.validateNameNotEmptyNoDigits(this.firstName, 'firstname') && this.validateNameNotEmptyNoDigits(this.lastName, 'lastname'))) ? false : true;
-  return isValid;
+  return (!(this.validateNameNotEmptyNoDigits(this.firstName, 'firstname') && this.validateNameNotEmptyNoDigits(this.lastName, 'lastname'))) ? false : true;
 }
 
 User.prototype.validateNameNotEmptyNoDigits = function(name, nameType){
   var isUserNameValid = true;
-  var isEmpty = !isNaN(name) ? false : true;
-  var isValidName = this.validNameRegex.test(name) ? true : false;
-  if(!isEmpty){
+
+  if(!isNaN(name)){
     isUserNameValid = false;
     alert("You must specify " + nameType);
   }
-  else if(!isValidName){
+  else if(!this.ValidNameRegex.test(name)){
     isUserNameValid = false;
     alert("Your " + nameType + " must consist of letters only");
   }
