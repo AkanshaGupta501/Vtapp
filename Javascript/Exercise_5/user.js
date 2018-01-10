@@ -25,7 +25,6 @@ User.prototype.validateUserName = function(){
 
 User.prototype.validateNameNotEmptyNoDigits = function(name, nameType){
   var isUserNameValid = true;
-  var message = null;
 
   if(!isNaN(name)){
     isUserNameValid = false;
