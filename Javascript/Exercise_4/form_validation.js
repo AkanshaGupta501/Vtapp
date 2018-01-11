@@ -7,30 +7,28 @@ function Form(options){
   this.checkBox = options.checkBox;
 }
 
+//Submit form if validated else throws relevant errors
 Form.prototype.init = function() {
   !this.validateForm() ? event.preventDefault() : this.displayMessage("Form submitted successfully");
 }
-// this functioon validates form based on various params and if OK display success message
+
 Form.prototype.validateForm = function(){
   return this.validateInputForEmpty() && this.validateEmailUrlFormat() && this.validateTextBoxLength() && this.validateCheckbox();
 }
 
-// this function checks whether any of the input field must not be left empty
+//This function checks if input fields are not left empty or contains any white spaces
 Form.prototype.validateInputForEmpty = function(){
   var isValid = true
   for (i = 0; i < this.inputTextFields.length; i++) {
-      if (!isNaN(this.inputTextFields[i].value)) {
+      if (this.checkIfEmpty(this.inputTextFields[i].value)) {
         this.displayMessage(this.inputTextFields[i].name + " can not be empty");
         isValid = false;
       }
     }
-    if(!isNaN(this.textBoxField.value)){
-      this.displayMessage("About us cannot be empty");
-      isValid = false;
-    }
     return isValid;
 }
 
+//This function validates that user enters valid email and URL
 Form.prototype.validateEmailUrlFormat = function(){
   var isValid = true;
   if(!this.EmailRegex.test(this.userEmail.value)){ 
@@ -44,6 +42,7 @@ Form.prototype.validateEmailUrlFormat = function(){
   return isValid;
 }
 
+//this function validates the number of characters in the textbox
 Form.prototype.validateTextBoxLength = function(){
   var isValid = true;
     if (this.textBoxField.value.length < 50) {
@@ -53,6 +52,7 @@ Form.prototype.validateTextBoxLength = function(){
     return isValid;
 }
 
+//This function validates if checkbox is checked or not
 Form.prototype.validateCheckbox = function(){
   var isValid = true;
     if (!this.checkBox.checked) {
@@ -60,6 +60,10 @@ Form.prototype.validateCheckbox = function(){
       isValid = false;
     }
     return isValid;
+}
+
+Form.prototype.checkIfEmpty = function(inputValue){
+  return (inputValue.length === 0 || !inputValue.trim());
 }
 
 Form.prototype.EmailRegex = new RegExp(/([\w\d]+[._%+-]?[\w\d])+@([\w\d]+[.-]?[\w\d])+\.[\w]{2,4}/i);
@@ -74,9 +78,9 @@ window.onload = function(){
   var options = {
     userEmail : document.querySelector("[data-name = 'user_email']"),
     homeUrl : document.querySelector("[data-name = 'home_url']"),
-    inputTextFields : document.querySelectorAll("[data-type = 'text']"),
-    textBoxField : document.querySelector("[data-type = 'textbox']"),
-    checkBox : document.querySelector("[data-type = 'checkbox']")
+    textBoxField : document.querySelector("[data-name = 'textbox']"),
+    checkBox : document.querySelector("[data-type = 'checkbox']"),
+    inputTextFields : document.querySelectorAll("[data-type = 'text']")
   },
   form = document.querySelector("[data-name = 'registration_form']");
 
