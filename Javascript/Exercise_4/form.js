@@ -1,5 +1,6 @@
 // New class initialization for forms
 function Form(options){
+  this.formDOM = options.formDOM;
   this.inputTextFields = options.inputTextFields;
   this.userEmail = options.userEmail;
   this.homeUrl = options.homeUrl;
@@ -9,7 +10,10 @@ function Form(options){
 
 //Submit form if validated else throws relevant errors
 Form.prototype.init = function() {
-  !this.validateForm() ? event.preventDefault() : this.displayMessage("Form submitted successfully");
+  var _this = this;
+  this.formDOM.addEventListener("submit", function(){
+    !_this.validateForm() ? event.preventDefault() : _this.displayMessage("Form submitted successfully");
+  });
 }
 
 Form.prototype.validateForm = function(){
@@ -36,7 +40,7 @@ Form.prototype.validateEmailUrlFormat = function(){
     isValid = false;
   }
   if(!this.UrlRegex.test(this.homeUrl.value)){
-    this.displayMessage("Please enter valid URL address");
+    this.displayMessage("Please enter valid Home URL address");
     isValid = false;
   }
   return isValid;
@@ -66,9 +70,9 @@ Form.prototype.checkIfEmpty = function(inputValue){
   return (inputValue.length === 0 || !inputValue.trim());
 }
 
-Form.prototype.EmailRegex = new RegExp(/([\w\d]+[._%+-]?[\w\d])+@([\w\d]+[.-]?[\w\d])+\.[\w]{2,4}/i);
+Form.prototype.EmailRegex = new RegExp(/([\w\d]+[._%+-]?)+(\w\d)*@([\w\d]+[.-]?)+(\w\d)*\.[\w]{2,255}/i);
 
-Form.prototype.UrlRegex = new RegExp(/(http(s)?:\/\/.)?(www\.)?[-\w\d@:.\+~#=\[\]]{2,256}\.[a-z]{2,6}\b([-\w\d@:\+.~#?&\/=]*)/i);
+Form.prototype.UrlRegex = new RegExp(/[\w\d.\-]{2,256}\.[a-z]{2,6}/i);
 
 Form.prototype.displayMessage = function(message){
   alert(message);
@@ -76,18 +80,15 @@ Form.prototype.displayMessage = function(message){
 
 window.onload = function(){
   var options = {
+    formDOM : document.querySelector("[data-name = 'registration_form']"),
     userEmail : document.querySelector("[data-name = 'user_email']"),
     homeUrl : document.querySelector("[data-name = 'home_url']"),
     textBoxField : document.querySelector("[data-name = 'textbox']"),
     checkBox : document.querySelector("[data-type = 'checkbox']"),
     inputTextFields : document.querySelectorAll("[data-type = 'text']")
   },
-  form = document.querySelector("[data-name = 'registration_form']");
-
-  form.addEventListener("submit", function(){
-    var new_form = new Form(options);
-    new_form.init();
-  });
+  form = new Form(options);
+  form.init();
 }
 
 
