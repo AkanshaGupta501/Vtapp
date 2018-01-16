@@ -34,7 +34,6 @@ Form.prototype.validateInputForEmpty = function(){
 
 //This function validates that user enters valid email and URL
 Form.prototype.validateEmailUrlFormat = function(){
-  debugger;
   var isValid = true;
   if(!this.EmailRegex.test(this.userEmail.value)){ 
     this.displayMessage("Please enter valid email address"); 
