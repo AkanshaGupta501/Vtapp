@@ -70,9 +70,10 @@ Form.prototype.checkIfEmpty = function(inputValue){
   return (inputValue.length === 0 || !inputValue.trim());
 }
 
-Form.prototype.EmailRegex = new RegExp(/(^[\w\d]+[._%+-]?)+(\w\d)*@([\w\d]+[.-]?)+(\w\d)*\.[\w]{2,255}/i);
+Form.prototype.EmailRegex = new RegExp(/^[\w.]+@([a-z0-9]+\.)+[a-z]+$/i);
 
-Form.prototype.UrlRegex = new RegExp(/^[\w\d.\-]{2,256}\.[a-z]{2,6}/i);
+
+Form.prototype.UrlRegex = new RegExp(/^([\w-]+[a-z0-9]\.)+[a-z]+(\/[\w]*)*$/i);
 
 Form.prototype.displayMessage = function(message){
   alert(message);
