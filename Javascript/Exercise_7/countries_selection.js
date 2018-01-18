@@ -1,29 +1,38 @@
-function CountryNames() {
-  this.selectbox1 = document.getElementById("countrylist1");
-  this.selectbox2 = document.getElementById("countrylist2");
-  this.add = document.getElementById("add");
-  this.remove = document.getElementById("remove");
-
-  // method for onclick event
-  this.addOrRemoveEvent = function() {
-    var that = this;
-    this.add.onclick = function() { 
-      that.moveCountries(that.selectbox1, that.selectbox2); 
-    };
-    this.remove.onclick = function() { 
-      that.moveCountries(that.selectbox2, that.selectbox1); 
-    };
-  }
-
-  // method to move countries form one list to other
-  this.moveCountries = function(choice1, choice2) {
-    for (var i = 0; i < choice1.options.length; i++) {
-      if (choice1.options[i].selected) {
-        choice2.appendChild(choice1.options[i--]);
-      }
-    }
-  }
+function CountryNameSelection(options){
+  this.selectBoxFirst = options.selectBox1;
+  this.selectBoxSecond = options.selectBox2;
+  this.addButton = options.addButton;
+  this.removeButton = options.removeButton;
 }
 
-var countryList = new CountryNames();
-countryList.addOrRemoveEvent();
+CountryNameSelection.prototype.bindEvent = function() {
+  var _this = this;
+  this.addButton.onclick = function() { 
+    _this.moveCountries(_this.selectBoxFirst, _this.selectBoxSecond); 
+  };
+  this.removeButton.onclick = function() { 
+    _this.moveCountries(_this.selectBoxSecond, _this.selectBoxFirst); 
+  };
+}
+
+ // method to move countries form one select box to another select box
+CountryNameSelection.prototype.moveCountries = function(firstSelection, secondSelection) {
+  var selectedItems = firstSelection.selectedOptions;
+    while(selectedItems[0]) {
+      secondSelection.appendChild(selectedItems[0]);
+      secondSelection.selectedOptions[0].selected = false;
+    }
+}
+
+window.onload = function(){
+  var options = {
+    selectBox1 : document.querySelector("[data-id = 'countrylist1']"),
+    selectBox2 : document.querySelector("[data-id = 'countrylist2']"),
+    addButton : document.querySelector("[data-id = 'add']"),
+    removeButton : document.querySelector("[data-id = 'remove']"),
+  };
+
+  var countriesSelection = new CountryNameSelection(options);
+  countriesSelection.bindEvent();
+}
+
