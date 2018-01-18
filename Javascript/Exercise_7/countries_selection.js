@@ -16,11 +16,11 @@ CountryNameSelection.prototype.bindEvent = function() {
 }
 
  // method to move countries form one select box to another select box
-CountryNameSelection.prototype.moveCountries = function(firstSelection, secondSelection) {
-  var selectedItems = firstSelection.selectedOptions;
+CountryNameSelection.prototype.moveCountries = function(firstSelectBox, secondSelectBox) {
+  var selectedItems = firstSelectBox.selectedOptions;
     while(selectedItems[0]) {
-      secondSelection.appendChild(selectedItems[0]);
-      secondSelection.selectedOptions[0].selected = false;
+      secondSelectBox.appendChild(selectedItems[0]);
+      secondSelectBox.selectedOptions[0].selected = false;
     }
 }
 
