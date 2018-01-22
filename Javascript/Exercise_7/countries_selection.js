@@ -20,6 +20,7 @@ countryListManager.prototype.moveCountries = function(firstSelectBox, secondSele
   var selectedItems = firstSelectBox.selectedOptions;
   for (var index = 0; index < selectedItems.length; index++) {
         secondSelectBox.appendChild(selectedItems[index]);
+        secondSelectBox.selectedOptions[index].selected = false;
         index = index - 1;
     }
 }
