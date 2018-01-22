@@ -17,8 +17,7 @@ Form.prototype.init = function() {
 }
 
 Form.prototype.validateForm = function(){
-  //return this.validateInputForEmpty() && this.validateEmailUrlFormat() && this.validateTextBoxLength() && this.validateCheckbox();
-  return this.validateEmailUrlFormat();
+  return this.validateInputForEmpty() && this.validateEmailUrlFormat() && this.validateTextBoxLength() && this.validateCheckbox();  
 }
 
 //This function checks if input fields are not left empty or contains any white spaces
@@ -35,7 +34,6 @@ Form.prototype.validateInputForEmpty = function(){
 
 //This function validates that user enters valid email and URL
 Form.prototype.validateEmailUrlFormat = function(){
-  debugger;
   var isValid = true;
   if(!this.EmailRegex.test(this.userEmail.value)){ 
     this.displayMessage("Please enter valid email address"); 
