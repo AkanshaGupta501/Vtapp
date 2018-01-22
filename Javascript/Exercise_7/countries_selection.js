@@ -1,11 +1,11 @@
-function CountryNameSelection(options){
+function countryListManager(options){
   this.selectBoxFirst = options.selectBox1;
   this.selectBoxSecond = options.selectBox2;
   this.addButton = options.addButton;
   this.removeButton = options.removeButton;
 }
 
-CountryNameSelection.prototype.bindEvent = function() {
+countryListManager.prototype.bindEvent = function() {
   var _this = this;
   this.addButton.onclick = function() { 
     _this.moveCountries(_this.selectBoxFirst, _this.selectBoxSecond); 
@@ -16,11 +16,11 @@ CountryNameSelection.prototype.bindEvent = function() {
 }
 
  // method to move countries form one select box to another select box
-CountryNameSelection.prototype.moveCountries = function(firstSelectBox, secondSelectBox) {
+countryListManager.prototype.moveCountries = function(firstSelectBox, secondSelectBox) {
   var selectedItems = firstSelectBox.selectedOptions;
-    while(selectedItems[0]) {
-      secondSelectBox.appendChild(selectedItems[0]);
-      secondSelectBox.selectedOptions[0].selected = false;
+  for (var index = 0; index < selectedItems.length; index++) {
+        secondSelectBox.appendChild(selectedItems[index]);
+        index = index - 1;
     }
 }
 
@@ -32,7 +32,7 @@ window.onload = function(){
     removeButton : document.querySelector("[data-id = 'remove']"),
   };
 
-  var countriesSelection = new CountryNameSelection(options);
+  var countriesSelection = new countryListManager(options);
   countriesSelection.bindEvent();
 }
 
