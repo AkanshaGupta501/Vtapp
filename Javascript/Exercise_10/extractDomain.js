@@ -11,11 +11,11 @@ extractDomainSubdomain.prototype.validateURL = function() {
 
 extractDomainSubdomain.prototype.excerptDomainSubdomain = function(){
   var hostName = this.url.value.match(this.UrlPattern);
-  var domain = hostName[2];
-  var subdomain = hostName[1];
-  this.displayMessage("Domain Name : " + domain);
+  var domainName = hostName[2];
+  var subDomainName = hostName[1];
+  this.displayMessage("Domain Name : " + domainName);
   if(subdomain != ''){
-    this.displayMessage("SubDomain Name : " + subdomain);
+    this.displayMessage("SubDomain Name : " + subDomainName);
   }
   
 }
