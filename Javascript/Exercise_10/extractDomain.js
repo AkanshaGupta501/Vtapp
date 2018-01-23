@@ -14,7 +14,7 @@ extractDomainSubdomain.prototype.excerptDomainSubdomain = function(){
   var domainName = hostName[2];
   var subDomainName = hostName[1];
   this.displayMessage("Domain Name : " + domainName);
-  if(subdomain != ''){
+  if(subDomainName != ''){
     this.displayMessage("SubDomain Name : " + subDomainName);
   }
   
