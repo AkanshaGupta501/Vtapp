@@ -3,14 +3,12 @@
   width: auto;
   overflow:auto;
 }
-.childrenNode {
+.listView {
   margin: 0px;
   padding: 5px;
-  display:none; 
+  list-style: none;
+  display: none; 
 }
-.showCheckboxes{
-  display: block;
-}
-.hideCheckboxes{
-  display: none;
+ul {
+  list-style-type: none;
 }
