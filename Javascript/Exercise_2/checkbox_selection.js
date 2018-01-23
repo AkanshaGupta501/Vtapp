@@ -48,7 +48,7 @@ window.onload = function(){
   var options = {
     daysCheckBoxes : document.querySelectorAll("[data-name = 'daysCheckbox']"),
     noneCheckBox : document.querySelector("[data-name = 'checkNone']")
-  },
-    newForm = new Form(options);
+  };
+  var newForm = new Form(options);
   newForm.bindEvent();
 }
