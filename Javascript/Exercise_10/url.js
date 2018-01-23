@@ -4,26 +4,27 @@ function Url(options){
 }
 
 Url.prototype.validateURL = function() {  
-  var isValid = this.UrlPattern.test(this.url.value);
-  isValid == false ? this.displayMessage("Please enter a valid url") : this.extractDomainSubdomain();
-  return isValid;
+  return this.UrlPattern.test(this.url.value);
 }
 
 Url.prototype.extractDomainSubdomain = function(){
-  var hostName = this.url.value.match(this.UrlPattern);
-  var domainName = hostName[2];
-  var subDomainName = hostName[1];
-  this.displayMessage("Domain Name : " + domainName);
-  if(subDomainName != ''){
-    this.displayMessage("SubDomain Name : " + subDomainName);
+  var host = this.url.value.match(this.UrlPattern),
+    domain = host[2],
+    subdomain = host[1];
+  this.displayMessage("Domain Name : " + domain);
+  if(subdomain != ''){
+    this.displayMessage("SubDomain Name : " + subdomain);
   }
-  
 }
 
-Url.prototype.bindEvent = function() {
+Url.prototype.displayMessage = function(message){
+  alert(message);
+}
+
+Url.prototype.bindEvents = function() {
   var _this = this;
   this.submitButton.addEventListener("click", function(){
-  _this.validateURL() ? this.displayMessage("Form submitted") : event.preventDefault();
+    _this.urlManager();
   });
 
   this.url.addEventListener("focus", function(){
@@ -31,8 +32,14 @@ Url.prototype.bindEvent = function() {
   }); 
 }
 
-Url.prototype.displayMessage = function(message){
-  alert(message);
+Url.prototype.urlManager = function(){
+  if(!this.validateURL()){
+      this.displayMessage("Please enter a valid URL");
+      event.preventDefault();
+    }
+    else{
+      this.extractDomainSubdomain();
+    }
 }
 
 Url.prototype.UrlPattern = new RegExp(/^(?:http(?:s)?:\/\/)?(?:www\.)?((?:(?:[\w\-~]+)\.)*)((?:[\w\-~]+)\.[a-z]{2,6})(\/[\w#-~?]*)*$/i);
@@ -43,6 +50,6 @@ window.onload = function(){
     submitButton : document.querySelector("[data-id = 'submit']")
   };
   var urlObject = new Url(options);
-  urlObject.bindEvent();
+  urlObject.bindEvents();
 }
 
