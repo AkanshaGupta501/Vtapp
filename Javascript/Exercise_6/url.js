@@ -15,12 +15,12 @@ Url.prototype.getValidUrl = function(){
 }
 
 Url.prototype.validateUrl = function(){
-  return (!this.checkIfNotEmptyAndValid()) ? false : true;
+  return this.checkIfNotEmptyAndValid();
 }
 
 Url.prototype.checkIfNotEmptyAndValid = function(){
   var isUrlValid = true;
-
+  
   if(!isNaN(this.url)){
     isUrlValid = false;
     alert("You must enter the URL to continue");
