@@ -5,7 +5,7 @@ function countryListManager(options){
   this.removeButton = options.removeButton;
 }
 
-countryListManager.prototype.bindEvent = function() {
+countryListManager.prototype.bindEvents = function() {
   var _this = this;
   this.addButton.onclick = function() { 
     _this.moveCountries(_this.selectBoxFirst, _this.selectBoxSecond); 
@@ -18,7 +18,8 @@ countryListManager.prototype.bindEvent = function() {
  // method to move countries form one select box to another select box
 countryListManager.prototype.moveCountries = function(firstSelectBox, secondSelectBox) {
   var selectedItems = firstSelectBox.selectedOptions;
-  for (var index = 0; index < selectedItems.length; index++) {
+  var numberOfItemsSelected = selectedItems.length;
+  for (var index = 0; index < numberOfItemsSelected; index++) {
         secondSelectBox.appendChild(selectedItems[index]);
         secondSelectBox.selectedOptions[index].selected = false;
         index = index - 1;
@@ -34,6 +35,6 @@ window.onload = function(){
   };
 
   var countriesSelection = new countryListManager(options);
-  countriesSelection.bindEvent();
+  countriesSelection.bindEvents();
 }
 
