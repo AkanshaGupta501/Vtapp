@@ -1,39 +1,46 @@
 function CheckBoxList(options) {
-  this.pageDom = options;
+  this.parentElements = options;
 }
 
 CheckBoxList.prototype.bindEvent = function(){
   var _this = this;
-  for(var i = 0; i < this.pageDom.length; i++){
-    this.pageDom[i].addEventListener("click", function(){
+  for(var index = 0; index < this.parentElements.length; index++){
+    this.parentElements[index].addEventListener("click", function(){
       _this.toggleChildCheckboxes(this);
     });
   }
 }
 
-CheckBoxList.prototype.toggleChildCheckboxes = function(parentLabel){
-  var parentCheckbox = parentLabel.firstChild;
-  var subCheckboxesDiv = parentLabel.nextSibling.nextSibling;
+//Show and hide children if parent is selected or not
+CheckBoxList.prototype.toggleChildCheckboxes = function(parentLabels){
+  var parentCheckbox = parentLabels.firstChild;
+  var subCheckboxesDiv = parentLabels.nextSibling.nextSibling;
   var subChildrenArray = subCheckboxesDiv.children;
-  
-  //This condition checks whether parent checkbox is selected or not
   if(parentCheckbox.checked) {
-    subCheckboxesDiv.classList.add("showCheckboxes");
-    parentCheckbox.scrollIntoView();
-    for(position in subChildrenArray) {
-      subChildrenArray[position].firstChild.checked = true;
-    } 
+    this.showChildCheckboxes(parentCheckbox, subCheckboxesDiv, subChildrenArray);
   } 
   else {
-    subCheckboxesDiv.classList.add("hideCheckboxes");
-    for(position in subChildrenArray) {
-      subChildrenArray[position].firstChild.checked = false;
-    }
+    this.hideChildCheckboxes(parentCheckbox, subCheckboxesDiv, subChildrenArray);
   }
 }
 
+CheckBoxList.prototype.showChildCheckboxes = function(parentCheckbox, subCheckboxesDiv, subChildrenArray){
+  subCheckboxesDiv.classList.add("showCheckboxes");
+    parentCheckbox.scrollIntoView();
+    for(position in subChildrenArray) {
+      subChildrenArray[position].firstChild.checked = true;
+    }
+}
+
+CheckBoxList.prototype.hideChildCheckboxes = function(parentCheckbox, subCheckboxesDiv, subChildrenArray){
+  subCheckboxesDiv.classList.add("hideCheckboxes");
+    for(position in subChildrenArray) {
+      subChildrenArray[position].firstChild.checked = false;
+    }
+}
+
 window.onload = function() {
-  var nodeDOMS = document.querySelectorAll("[data-name = 'parent']");
-  var checkBox = new CheckBoxList(nodeDOMS);
+  var parentElements = document.querySelectorAll("[data-name = 'parent']");
+  var checkBox = new CheckBoxList(parentElements);
   checkBox.bindEvent();
 }
