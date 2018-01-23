@@ -1,6 +1,6 @@
 // New class initialization for forms
 function Form(options){
-  this.formDOM = options.formDOM;
+  this.formElement = options.formElement;
   this.inputTextFields = options.inputTextFields;
   this.userEmail = options.userEmail;
   this.homeUrl = options.homeUrl;
@@ -8,16 +8,20 @@ function Form(options){
   this.checkBox = options.checkBox;
 }
 
+Form.prototype.EmailRegex = new RegExp(/^\w+([\+\.-]?\w+)*@\w+([\.-]?\ w+)*(\.\w{2,256})+$/i);
+
+Form.prototype.UrlRegex = new RegExp(/^([\w-]+[a-z0-9]\.)+[a-z]+(\/[\w]*)*$/i);
+
 //Submit form if validated else throws relevant errors
 Form.prototype.init = function() {
   var _this = this;
-  this.formDOM.addEventListener("submit", function(){
+  this.formElement.addEventListener("submit", function(){
     !_this.validateForm() ? event.preventDefault() : _this.displayMessage("Form submitted successfully");
   });
 }
 
 Form.prototype.validateForm = function(){
-  return this.validateInputForEmpty() && this.validateEmailUrlFormat() && this.validateTextBoxLength() && this.validateCheckbox();  
+  return this.validateInputForEmpty() && this.validateEmailFormat() && this.validateUrlFormat() && this.validateTextBoxLength() && this.validateCheckbox();  
 }
 
 //This function checks if input fields are not left empty or contains any white spaces
@@ -32,20 +36,21 @@ Form.prototype.validateInputForEmpty = function(){
     return isValid;
 }
 
-//This function validates that user enters valid email and URL
-Form.prototype.validateEmailUrlFormat = function(){
-  var isValid = true;
+Form.prototype.validateEmailFormat = function(){
   if(!this.EmailRegex.test(this.userEmail.value)){ 
     this.displayMessage("Please enter valid email address"); 
-    isValid = false;
+    return false;
   }
-  if(!this.UrlRegex.test(this.homeUrl.value)){
-    this.displayMessage("Please enter valid Home URL address");
-    isValid = false;
-  }
-  return isValid;
+  return true;
 }
 
+Form.prototype.validateUrlFormat = function(){
+  if(!this.UrlRegex.test(this.homeUrl.value)){
+    this.displayMessage("Please enter valid Home URL address");
+    return false;
+  }
+  return true;
+}
 //this function validates the number of characters in the textbox
 Form.prototype.validateTextBoxLength = function(){
   var isValid = true;
@@ -70,17 +75,13 @@ Form.prototype.checkIfEmpty = function(inputValue){
   return (inputValue.length === 0 || !inputValue.trim());
 }
 
-Form.prototype.EmailRegex = new RegExp(/^\w+([\+\.-]?\w+)*@\w+([\.-]?\ w+)*(\.\w{2,256})+$/i);
-
-Form.prototype.UrlRegex = new RegExp(/^([\w-]+[a-z0-9]\.)+[a-z]+(\/[\w]*)*$/i);
-
 Form.prototype.displayMessage = function(message){
   alert(message);
 }
 
 window.onload = function(){
   var options = {
-    formDOM : document.querySelector("[data-name = 'registration_form']"),
+    formElement : document.querySelector("[data-name = 'registration_form']"),
     userEmail : document.querySelector("[data-name = 'user_email']"),
     homeUrl : document.querySelector("[data-name = 'home_url']"),
     textBoxField : document.querySelector("[data-name = 'textbox']"),
