@@ -28,7 +28,7 @@ extractDomainSubdomain.prototype.bindEvent = function() {
 
   this.url.addEventListener("focus", function(){
     _this.url.value = null;
-  });
+  }); 
 }
 
 extractDomainSubdomain.prototype.displayMessage = function(message){
