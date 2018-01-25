@@ -13,19 +13,19 @@ CheckBoxManager.prototype.bindEvent = function() {
 
 CheckBoxManager.prototype.toggleChildCheckboxes = function(parent) {
   var listElement = document.getElementById(parent.value);
-  var childrenCheckboxes = document.getElementsByName(parent.value);
+  var childCheckboxes = document.getElementsByName(parent.value);
   if(parent.checked){
-    this.showHideChildren("block", true, listElement, childrenCheckboxes);
+    this.showHideChildren("block", true, listElement, childCheckboxes);
     listElement.scrollIntoView(false);
   }
   else{
-    this.showHideChildren("none", false, listElement, childrenCheckboxes);
+    this.showHideChildren("none", false, listElement, childCheckboxes);
   }
 }
 
-CheckBoxManager.prototype.showHideChildren = function(displayCss, checkValue, listElement, childrenCheckboxes){
-  for(var index = 0; index < childrenCheckboxes.length; index++){
-    childrenCheckboxes[index].checked = checkValue;
+CheckBoxManager.prototype.showHideChildren = function(displayCss, isChecked, listElement, childCheckboxes){
+  for(var index = 0; index < childCheckboxes.length; index++){
+    childCheckboxes[index].checked = isChecked;
   }
   listElement.setAttribute("style", "display :" + displayCss);
 }
