@@ -24,7 +24,7 @@ Url.prototype.displayMessage = function(message){
 Url.prototype.bindEvents = function() {
   var _this = this;
   this.submitButton.addEventListener("click", function(){
-    _this.urlManager();
+    _this.init();
   });
 
   this.url.addEventListener("focus", function(){
@@ -32,14 +32,14 @@ Url.prototype.bindEvents = function() {
   }); 
 }
 
-Url.prototype.urlManager = function(){
+Url.prototype.init = function(){
   if(!this.validateURL()){
-      this.displayMessage("Please enter a valid URL");
-      event.preventDefault();
-    }
-    else{
-      this.extractDomainSubdomain();
-    }
+    this.displayMessage("Please enter a valid URL");
+    event.preventDefault();
+  }
+  else{
+    this.extractDomainSubdomain();
+  }
 }
 
 Url.prototype.UrlPattern = new RegExp(/^(?:http(?:s)?:\/\/)?(?:www\.)?((?:(?:[\w\-~]+)\.)*)((?:[\w\-~]+)\.[a-z]{2,6})(\/[\w#-~?]*)*$/i);
