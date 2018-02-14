@@ -72,5 +72,3 @@ mysql> describe testing_table;
 | last_name  | varchar(10) | YES  |     | NULL    |       |
 +------------+-------------+------+-----+---------+-------+
 4 rows in set (0.02 sec)
-
-mysql>
