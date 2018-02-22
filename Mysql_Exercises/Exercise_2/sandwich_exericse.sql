@@ -1,3 +1,41 @@
+******************************EXERCISE QUERIES**************************************
+
+*****QUERY 1 places where Jones can eat(using a nested subquery)*******************
+mysql> select location from sandwiches where filling = (select filling from tastes where name = 'jones');
++----------+
+| location |
++----------+
+| butterly |
+| O'Neil's |
++----------+
+2 rows in set (0.01 sec)
+
+********QUERY 2 places where Jones can eat(without using a nested subquery)*************
+mysql> select location from sandwiches, tastes where tastes.name = 'jones' AND tastes.filling = sandwiches.filling;
++----------+
+| location |
++----------+
+| butterly |
+| O'Neil's |
++----------+
+2 rows in set (0.00 sec)
+
+********QUERY 3 for each location the number of people who can eat there*********************
+mysql> select S.location, count(T.name) as People_Count from sandwiches as S, tastes as T where T.filling = S.filling group by S.location;
++----------+--------------+
+| location | People_Count |
++----------+--------------+
+| butterly |            3 |
+| lincoln  |            4 |
+| O'Neil's |            5 |
+| old nag  |            3 |
++----------+--------------+
+4 rows in set (0.00 sec)
+
+
+**************************DATABASE SCHEMA***************************************
+
+
 mysql> create database sandwich_exercise;
 Query OK, 1 row affected (0.00 sec)
 
@@ -131,36 +169,3 @@ mysql> select * from tastes;
 +-------+---------+
 7 rows in set (0.00 sec)
 
-******************************EXERCISE QUERIES**************************************
-
-*****QUERY 1 places where Jones can eat(using a nested subquery)*******************
-mysql> select location from sandwiches where filling = (select filling from tastes where name = 'jones');
-+----------+
-| location |
-+----------+
-| butterly |
-| O'Neil's |
-+----------+
-2 rows in set (0.01 sec)
-
-********QUERY 2 places where Jones can eat(without using a nested subquery)*************
-mysql> select location from sandwiches, tastes where tastes.name = 'jones' AND tastes.filling = sandwiches.filling;
-+----------+
-| location |
-+----------+
-| butterly |
-| O'Neil's |
-+----------+
-2 rows in set (0.00 sec)
-
-********QUERY 3 for each location the number of people who can eat there*********************
-mysql> select S.location, count(T.name) as People_Count from sandwiches as S, tastes as T where T.filling = S.filling group by S.location;
-+----------+--------------+
-| location | People_Count |
-+----------+--------------+
-| butterly |            3 |
-| lincoln  |            4 |
-| O'Neil's |            5 |
-| old nag  |            3 |
-+----------+--------------+
-4 rows in set (0.00 sec)
