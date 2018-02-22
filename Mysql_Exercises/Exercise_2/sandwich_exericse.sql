@@ -21,7 +21,7 @@ mysql> select location from sandwiches, tastes where tastes.name = 'jones' AND t
 2 rows in set (0.00 sec)
 
 ********QUERY 3 for each location the number of people who can eat there*********************
-mysql> select S.location, count(T.name) as People_Count from sandwiches as S, tastes as T where T.filling = S.filling group by S.location;
+mysql> select location, count(name) as People_Count from sandwiches, tastes where tastes.filling = sandwiches.filling group by location;
 +----------+--------------+
 | location | People_Count |
 +----------+--------------+
@@ -31,7 +31,6 @@ mysql> select S.location, count(T.name) as People_Count from sandwiches as S, ta
 | old nag  |            3 |
 +----------+--------------+
 4 rows in set (0.00 sec)
-
 
 **************************DATABASE SCHEMA***************************************
 
