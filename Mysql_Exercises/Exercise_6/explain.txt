@@ -1,0 +1,196 @@
+1: What do different columns in the output of EXPLAIN mean? What possible values can those have? What is the meaning of those values?
+
+Ans: The EXPLAIN statement provides information about how MySQL executes statements. EXPLAIN works with SELECT, DELETE, INSERT, REPLACE, and UPDATE statements.EXPLAIN returns a row of information for each table used in the SELECT statement. It lists the tables in the output in the order that MySQL would read them while processing the statement. 
+
+Following columns are returned when explain is used:
+  id: id The SELECT identifier. This is the sequential number of the SELECT within the query.
+  
+  select_type: The type of SELECT, which can be any of those shown in the following table.
+    SIMPLE – Simple query without any unions or subqueries
+    PRIMARY – Outermost SELECT query
+    UNION – Second or later SELECT query of a union
+    DEPENDENT UNION – Second or later SELECT query of a union which is dependent on an outer query
+    SUBQUERY – First SELECT query in a subquery
+    DEPENDENT SUBQUERY – First SELECT query in a subquery, dependent on an outer query
+    DERIVED – SELECT query used as a table in a FROM clause
+
+  Table – The table to which the row of output refers.
+
+  Type – The join type.it provides important piece of information, as it indicates how efficiently the server was able to retrieve the requested rows of data.
+    system - The table has only one row (= system table). This is a special case of the const join type.
+    const - The table has at most one matching row, which is read at the start of the query
+    eq_ref - One row is read from this table for each combination of rows from the previous tables. Other than the system and const types
+    ref - All rows with matching index values are read from this table for each combination of rows from the previous tables
+    fulltext - The join is performed using a FULLTEXT index.
+    ref_or_null - This join type is like ref, but with the addition that MySQL does an extra search for rows that contain NULL values
+    index_merge - This join type indicates that the Index Merge optimization is used.
+    range - Only rows that are in a given range are retrieved, using an index to select the rows
+    ALL - A full table scan is done for each combination of rows from the previous tables
+
+  Possible_keys – The possible_keys column indicates which indexes MySQL can choose from use to find the rows in this table.
+
+  Key – The key column indicates the key (index) that MySQL actually decided to use.
+  
+  key_len – The key_len column indicates the length of the key that MySQL decided to use. Mostly useful for determining how many parts of a multi-part index the server used.
+  
+  ref - The ref column shows which columns or constants are compared to the index named in the key column to select rows from the table
+
+  rows – The rows column indicates the number of rows MySQL believes it must examine to execute the query.
+
+  Extra- This column contains additional information about how MySQL resolves the query.
+    Not exists – MySQL was able to do a LEFT JOIN optimization on the query and does not examine more rows in this table for the previous row combination after it finds one row that matches the LEFT JOIN criteria
+    Using filesort – MySQL must do an extra pass to find out how to retrieve the rows in sorted order. The sort is done by going through all rows according to the join type and storing the sort key and pointer to the row for all rows that match the WHERE clause
+    Using index – Server is able to return rows directly from the index instead of doing an additional seek to read the actual rows. Generally good news.
+    Using temporary – Server will need to create a temporary table to hold results. Often occurs with differing GROUP BY and ORDER BY columns.
+    Using where – Server is using values in the WHERE clause to limit returned rows.
+    Distinct – Server is able to perform an optimization where it will stop searching for more rows for the current row combination after it has found the first matching row
+
+Q2: We use EXPLAIN to optimize slow SQL queries used in our application. Lets say we have a comments table in our application that has a foreign key, user_id, referencing to users table. EXPLAINing the query that finds all the comments made by a user gives us following result.
+
+mysql> EXPLAIN SELECT * FROM comments WHERE user_id = 41;
+
++-------------+------+---------------+---------+-------+---------+-------------+
+| select_type | type | key | key_len | ref | rows | Extra |
++-------------+------+---------------+---------+-------+---------+-------------+
+| SIMPLE | ALL | NULL | NULL | NULL | 1002345 | Using where |
++-------------+------+---------------+---------+-------+---------+-------------+
+
+mysql> SELECT count(id) FROM comments;
+
++-----------+
+| count(id) |
++-----------+
+| 1002345 |
++-----------+
+
+2.1 The value under 'rows' column in the output of EXPLAIN query and SELECT query after it are same. What does it mean?
+Ans: The rows which are shown in the explain command is the estimate value of the rows which the query optimizer or parser would think is needed to examine the entire data set. It is just an estimate and it may or may not be correct all the time. This number has been derived from the table statistics and index selection.
+ While The count(id) command would start from the beginning to the end counting the rows.
+
+2.2 Is the SELECT query optimal? If no, how do we optimize it?
+Ans: No its not optimal.It can be optimized through following steps:
+
+ Using Indexes: There are no indexes so indexing can increase its performance and search will be faster instead of full table scan, as query will work only on the selected index values.
+
+ Query Performance Optimization: The Query Performance must be seen and analyses using the EXPLAIN keyword. It describes the course of execution of the query and the number of rows that would be needed to execute the query and deliver the result set sucesfully.
+
+Q3. In Rails world, we have someting called polymorphic associations.Lets say in our web application, we can let users comment on photographs and articles. Some of rows in comments table are represented as following:
+
+mysql> SELECT * FROM comments LIMIT 5;
+
++----+------------------+----------------+---------+
+| id | commentable_type | commentable_id | user_id |
++----+------------------+----------------+---------+
+| 1 + Article | 1 | 1 |
++----+------------------+----------------+---------+
+| 2 + Photo | 1 | 1 |
++----+------------------+----------------+---------+
+| 3 + Photo | 2 | 2 |
++----+------------------+----------------+---------+
+| 4 + Photo | 2 | 2 |
++----+------------------+----------------+---------+
+| 5 + Article | 1 | 2 |
++----+------------------+----------------+---------+
+
+When we need to fetch comments of a user on a particular Article or Photo we form a query like:
+
+mysql> EXPLAIN SELECT * FROM comments WHERE commentable_id = 1 AND commentable_type = 'Article' AND user_id = 1;
+
++-------------+------+---------------+---------+-------+---------+-------------+
+| select_type | type | key | key_len | ref | rows | Extra |
++-------------+------+---------------+---------+-------+---------+-------------+
+| SIMPLE | ALL | NULL | NULL | NULL | 1000025 | Using where |
++-------------+------+---------------+---------+-------+---------+-------------+
+
+
+3.1 We decide to index columns in comments table to optimize the SELECT query. What column(s) will you index in which order?
+
+Ans: The columns for indexing are selected based on the fact how much frequently it will be used in fectching the result or in search operation. So, if we would be using the comment id frequently in our queries then it is  better to make it as the index and then proceed further else less frequently column if made as an index then it will lead to wastage of system memory and will prove of no use.
+In practical selecting the id for index is good and then we also select comment type as an option for index to reduce the number of rows scanned for the search operation.
+
+4.1 EXPLAIN a SELECT query against one of your databases which employs an INNER JOIN between two tables. What does the output look like? What does the values under different columns mean? Do you get only one row in EXPLAIN's output?
+Ans:
+
+mysql> explain select branch, holdings.title from holdings join
+    -> titles on titles.title = holdings.title
+    -> where titles.author = 'Ann Brown';
++----+-------------+----------+-------+---------------+-------+---------+------+------+--------------------------------+
+| id | select_type | table    | type  | possible_keys | key   | key_len | ref  | rows | Extra                          |
++----+-------------+----------+-------+---------------+-------+---------+------+------+--------------------------------+
+|  1 | SIMPLE      | holdings | index | title         | title | 52      | NULL |   10 | Using index                    |
+|  1 | SIMPLE      | titles   | ALL   | PRIMARY       | NULL  | NULL    | NULL |    5 | Using where; Using join buffer |
++----+-------------+----------+-------+---------------+-------+---------+------+------+--------------------------------+
+2 rows in set (0.00 sec)
+
+4.2 Form the same select query in above question using a subquery instead of a JOIN. What does the EXPLAIN output look like now? Which query is better and why?
+
+mysql> explain select branch, title from holdings
+    -> where title in (
+    -> select title from titles where
+    -> author = 'Ann Brown');
++----+--------------------+----------+-----------------+---------------+---------+---------+------+------+--------------------------+
+| id | select_type        | table    | type            | possible_keys | key     | key_len | ref  | rows | Extra                    |
++----+--------------------+----------+-----------------+---------------+---------+---------+------+------+--------------------------+
+|  1 | PRIMARY            | holdings | index           | NULL          | title   | 52      | NULL |   10 | Using where; Using index |
+|  2 | DEPENDENT SUBQUERY | titles   | unique_subquery | PRIMARY       | PRIMARY | 52      | func |    1 | Using where              |
++----+--------------------+----------+-----------------+---------------+---------+---------+------+------+--------------------------+
+2 rows in set (0.00 sec)
+
+Right now there is no indexing and no sorting on both the table so there could be no conslusion possible at the moment. We can re-check this by creating some indexes.
+
+Here, we create index step by step to see the optimized results.
+
+mysql> create index title_index on holdings(title);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> explain select branch, holdings.title from holdings join
+    -> titles on titles.title = holdings.title
+    -> where titles.author = 'Ann Brown';
++----+-------------+----------+------+---------------+-------------+---------+-----------------------------+------+-------------+
+| id | select_type | table    | type | possible_keys | key         | key_len | ref                         | rows | Extra       |
++----+-------------+----------+------+---------------+-------------+---------+-----------------------------+------+-------------+
+|  1 | SIMPLE      | titles   | ALL  | PRIMARY       | NULL        | NULL    | NULL                        |    5 | Using where |
+|  1 | SIMPLE      | holdings | ref  | title_index   | title_index | 52      | library_system.titles.title |    1 | Using index |
++----+-------------+----------+------+---------------+-------------+---------+-----------------------------+------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> explain select branch, title from holdings where title in
+    -> (select title from titles
+    -> where author = 'Ann Brown');
++----+--------------------+----------+-----------------+---------------+-------------+---------+------+------+--------------------------+
+| id | select_type        | table    | type            | possible_keys | key         | key_len | ref  | rows | Extra                    |
++----+--------------------+----------+-----------------+---------------+-------------+---------+------+------+--------------------------+
+|  1 | PRIMARY            | holdings | index           | NULL          | title_index | 52      | NULL |   10 | Using where; Using index |
+|  2 | DEPENDENT SUBQUERY | titles   | unique_subquery | PRIMARY       | PRIMARY     | 52      | func |    1 | Using where              |
++----+--------------------+----------+-----------------+---------------+-------------+---------+------+------+--------------------------+
+2 rows in set (0.00 sec)
+
+mysql> create index author_index on titles(author);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> explain select branch, holdings.title from holdings join
+    -> titles on titles.title = holdings.title
+    -> where titles.author = 'Ann Brown';
++----+-------------+----------+------+----------------------+--------------+---------+-----------------------------+------+--------------------------+
+| id | select_type | table    | type | possible_keys        | key          | key_len | ref                         | rows | Extra                    |
++----+-------------+----------+------+----------------------+--------------+---------+-----------------------------+------+--------------------------+
+|  1 | SIMPLE      | titles   | ref  | PRIMARY,author_index | author_index | 52      | const                       |    2 | Using where; Using index |
+|  1 | SIMPLE      | holdings | ref  | title_index          | title_index  | 52      | library_system.titles.title |    1 | Using index              |
++----+-------------+----------+------+----------------------+--------------+---------+-----------------------------+------+--------------------------+
+2 rows in set (0.00 sec)
+
+mysql> explain select branch,title from holdings
+    -> where title in
+    -> (select title from titles
+    -> where author = 'Ann Brown');
++----+--------------------+----------+-----------------+----------------------+-------------+---------+------+------+--------------------------+
+| id | select_type        | table    | type            | possible_keys        | key         | key_len | ref  | rows | Extra                    |
++----+--------------------+----------+-----------------+----------------------+-------------+---------+------+------+--------------------------+
+|  1 | PRIMARY            | holdings | index           | NULL                 | title_index | 52      | NULL |   10 | Using where; Using index |
+|  2 | DEPENDENT SUBQUERY | titles   | unique_subquery | PRIMARY,author_index | PRIMARY     | 52      | func |    1 | Using where              |
++----+--------------------+----------+-----------------+----------------------+-------------+---------+------+------+--------------------------+
+2 rows in set (0.00 sec)
+
+Now we can see that in join approach it will scan a two rows from  table while in subquery it still scan 10 rows from titles table so we can say that join is better in this case.
