@@ -189,3 +189,8 @@ mysql> select * from commissions;
 |  8 |           6 |              5000 |
 +----+-------------+-------------------+
 8 rows in set (0.00 sec)
+
+**creating index as commission_amount because its referenced most of the time**
+mysql> create index commission_amount on commissions(commission_amount);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
