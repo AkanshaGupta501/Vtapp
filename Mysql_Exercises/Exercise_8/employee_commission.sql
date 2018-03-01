@@ -1,27 +1,31 @@
 ***Exercise_queries***
 **Ques - 1 Find the employee who gets highest total commission**
 
-mysql> select distinct name from employees left join
-    -> commissions on employee_id where
-    -> employees.id IN (
-    -> select commissions.employee_id from commissions
-    -> where commissions.commission_amount = (select MAX(commission_amount) from commissions));
-+-------------+
-| name        |
-+-------------+
-| Chris Gayle |
-| Wasim Akram |
-+-------------+
-2 rows in set (0.00 sec)
-
+mysql> select group_concat(employee_commissions.name) as Employee,
+    -> Total_Amount as Commission_Paid from (
+    -> select employees.name, sum(commission_amount) as Total_Amount
+    -> from employees left join commissions
+    -> on employee_id = employees.id
+    -> group by employee_id
+    -> ) as employee_commissions
+    -> group by Total_Amount
+    -> order by Total_Amount desc limit 1;
++-------------------------+-----------------+
+| Employee                | Commission_Paid |
++-------------------------+-----------------+
+| Chris Gayle,Wasim Akram |            9000 |
++-------------------------+-----------------+
+1 row in set (0.00 sec)
 
 **Ques-2 Select employee with 4th highest salary**
 
-mysql> select name, salary from employees
+mysql> select group_concat(name) as Name, salary
+    -> from employees
+    -> group by salary
     -> order by salary desc
     -> limit 1 offset 3;
 +--------------+--------+
-| name         | salary |
+| Name         | salary |
 +--------------+--------+
 | Rahul Dravid | 700000 |
 +--------------+--------+
@@ -29,19 +33,22 @@ mysql> select name, salary from employees
 
 **Ques-3 Find the department that is giving highest commission**
 
-mysql> select name from departments where
-    -> id IN (
-    -> select department_id from employees join commissions
-    -> on employee_id = employees.id where
-    -> commission_amount = (
-    -> select MAX(commission_amount) from commissions));
-+---------+
-| name    |
-+---------+
-| banking |
-| service |
-+---------+
-2 rows in set (0.00 sec)
+mysql> select group_concat(departments.name) as Department,
+    -> Total_Commission from departments
+    -> left join (
+    -> select employees.department_id, sum(commission_amount) as Total_Commission
+    -> from employees left join commissions
+    -> on employee_id = employees.id
+    -> group by employees.department_id) as departments_commission
+    -> on departments.id = departments_commission.department_id
+    -> group by Total_Commission
+    -> order by Total_Commission desc limit 1;
++------------+------------------+
+| Department | Total_Commission |
++------------+------------------+
+| banking    |            13000 |
++------------+------------------+
+1 row in set (0.00 sec)
 
 **Ques-4 Find employees with commission greater than Rs.3000**
 
