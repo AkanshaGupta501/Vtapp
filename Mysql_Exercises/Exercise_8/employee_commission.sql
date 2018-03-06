@@ -69,6 +69,47 @@ mysql> select group_concat(name) as Employees,
 
 
 ****Database Schema****
+
+mysql> select * from departments;
++----+-----------+
+| id | name      |
++----+-----------+
+|  1 | banking   |
+|  2 | insurance |
+|  3 | service   |
++----+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from employees;
++----+---------------+---------+---------------+
+| id | name          | salary  | department_id |
++----+---------------+---------+---------------+
+|  1 | Chris Gayle   | 1000000 |             1 |
+|  2 | Michael Clark |  800000 |             2 |
+|  3 | Rahul Dravid  |  700000 |             1 |
+|  4 | Ricky Ponting |  600000 |             2 |
+|  5 | Albie Morkel  |  650000 |             2 |
+|  6 | Wasim Akram   |  750000 |             3 |
++----+---------------+---------+---------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from commissions;
++----+-------------+-------------------+
+| id | employee_id | commission_amount |
++----+-------------+-------------------+
+|  1 |           1 |              5000 |
+|  2 |           2 |              3000 |
+|  3 |           3 |              4000 |
+|  4 |           1 |              4000 |
+|  5 |           2 |              3000 |
+|  6 |           4 |              2000 |
+|  7 |           5 |              1000 |
+|  8 |           6 |              5000 |
+|  9 |           6 |              4000 |
++----+-------------+-------------------+
+9 rows in set (0.02 sec)
+
+
 mysql> create database employee_commission;
 Query OK, 1 row affected (0.01 sec)
 
@@ -159,43 +200,6 @@ mysql> insert into commissions(employee_id, commission_amount) values
 Query OK, 8 rows affected (0.00 sec)
 Records: 8  Duplicates: 0  Warnings: 0
 
-mysql> select * from departments;
-+----+-----------+
-| id | name      |
-+----+-----------+
-|  1 | banking   |
-|  2 | insurance |
-|  3 | service   |
-+----+-----------+
-3 rows in set (0.00 sec)
-
-mysql> select * from employees;
-+----+---------------+---------+---------------+
-| id | name          | salary  | department_id |
-+----+---------------+---------+---------------+
-|  1 | Chris Gayle   | 1000000 |             1 |
-|  2 | Michael Clark |  800000 |             2 |
-|  3 | Rahul Dravid  |  700000 |             1 |
-|  4 | Ricky Ponting |  600000 |             2 |
-|  5 | Albie Morkel  |  650000 |             2 |
-|  6 | Wasim Akram   |  750000 |             3 |
-+----+---------------+---------+---------------+
-6 rows in set (0.00 sec)
-
-mysql> select * from commissions;
-+----+-------------+-------------------+
-| id | employee_id | commission_amount |
-+----+-------------+-------------------+
-|  1 |           1 |              5000 |
-|  2 |           2 |              3000 |
-|  3 |           3 |              4000 |
-|  4 |           1 |              4000 |
-|  5 |           2 |              3000 |
-|  6 |           4 |              2000 |
-|  7 |           5 |              1000 |
-|  8 |           6 |              5000 |
-+----+-------------+-------------------+
-8 rows in set (0.00 sec)
 
 **creating index as commission_amount because its referenced most of the time**
 mysql> create index commission_amount on commissions(commission_amount);
