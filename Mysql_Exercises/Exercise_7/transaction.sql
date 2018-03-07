@@ -150,7 +150,7 @@ mysql> DESCRIBE accounts;
 
 #INSERTing the data
 
-mysql> INSERT INTO users(name, email, account_no) VALUESs
+mysql> INSERT INTO users(name, email, account_no) VALUES
     -> ('user1', 'user1@gmail.com', 98765),
     -> ('user2', 'user2@gmail.com', 98766),
     -> ('user3', 'user3@gmail.com', 98767),
@@ -158,7 +158,7 @@ mysql> INSERT INTO users(name, email, account_no) VALUESs
 Query OK, 4 rows affected (0.00 sec)
 Records: 4  Duplicates: 0  Warnings: 0
 
-mysql> INSERT INTO accounts(account_no, balance) VALUESs
+mysql> INSERT INTO accounts(account_no, balance) VALUES
     -> (98765, 10000),
     -> (98766, 2000),
     -> (98767, 50000),
