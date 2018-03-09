@@ -43,6 +43,19 @@ mysql> SELECT articles.content, group_concat(comments.content separator '----') 
 +-------------------+----------------------+
 2 rows in set (0.00 sec)
 
+---Using variable---
+mysql> SELECT articles.content, group_concat(comments.content separator '----') AS Comments
+       FROM articles, users, comments
+       WHERE articles.id = comments.article_id AND
+       articles.user_id = users.id AND
+       users.name = @userName GROUP BY articles.id;
++-------------------------+----------------------------------------------------------------+
+| content                 | Comments                                                       |
++-------------------------+----------------------------------------------------------------+
+| Artificial Intelligence | Could be improvised more----Nice article,specified pin details |
++-------------------------+----------------------------------------------------------------+
+1 row in set (0.00 sec)
+
 
 
 ----using nested subquery------
@@ -59,6 +72,21 @@ mysql> SELECT articles.content, group_concat(comments.content) AS Comments FROM
 | Blind River       | Nice work         |
 +-------------------+-------------------+
 2 rows in set (0.00 sec)
+
+---Using  variable---
+mysql> SELECT articles.content, group_concat(comments.content) AS Comments FROM
+       articles LEFT JOIN comments
+       ON article_id = articles.id
+       WHERE articles.user_id = (
+       SELECT users.id FROM users WHERE users.name = @userName) 
+       GROUP BY articles.id;
+
++-------------------------+-------------------------------------------------------------+
+| content                 | Comments                                                    |
++-------------------------+-------------------------------------------------------------+
+| Artificial Intelligence | Could be improvised more,Nice article,specified pin details |
++-------------------------+-------------------------------------------------------------+
+1 row in set (0.00 sec)
 
 **Query -3 Write a query to select all articles which do not have any comments**
 
