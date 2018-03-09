@@ -5,10 +5,10 @@ mysql> SELECT employees.name, SUM(commission_amount) AS Total_Amount
        FROM employees LEFT JOIN commissions
        ON employee_id = employees.id
        GROUP BY employee_id
-       HAVING Total_Amount = (SELECT MAX(total) FROM (
-         SELECT sum(commission_amount) AS total
+       HAVING Total_Amount = (SELECT sum(commission_amount) AS total
          FROM commissions
-         GROUP BY employee_id) HighestCommission);
+         GROUP BY employee_id
+         ORDER BY Total DESC LIMIT 1);
 +-------------+--------------+
 | name        | Total_Amount |
 +-------------+--------------+
@@ -47,11 +47,11 @@ mysql> SELECT departments.name AS Department,
          GROUP BY employees.department_id) AS departments_commission
        ON departments.id = departments_commission.department_id
        GROUP BY Total_Commission
-       having Total_Commission = (SELECT MAX(total) FROM (
-         SELECT sum(commission_amount) AS total 
+       having Total_Commission = (SELECT sum(commission_amount) AS total 
          FROM employees LEFT JOIN commissions
          ON employee_id = employees.id
-         GROUP BY employees.department_id) HighestCommission);
+         GROUP BY employees.department_id
+         ORDER BY total DESC LIMIT 1);
 +------------+------------------+
 | Department | Total_Commission |
 +------------+------------------+
@@ -63,7 +63,7 @@ mysql> SELECT departments.name AS Department,
 
 mysql> SELECT group_concat(name) AS Employees,
        commission_amount AS Commission_Paid FROM
-       employees join commissions
+       employees LEFT JOIN commissions
        ON employee_id = employees.id
        GROUP BY commission_amount
        HAVING commission_amount > 3000;
@@ -124,6 +124,7 @@ Query OK, 1 row affected (0.01 sec)
 
 mysql> USE employee_commission;
 Database changed
+
 mysql> CREATE TABLE departments(
     -> id INT AUTO_INCREMENT,
     -> name VARCHAR(30) NOT NULL,
@@ -215,3 +216,12 @@ Records: 8  Duplicates: 0  Warnings: 0
 mysql> CREATE INDEX commission_amount ON commissions(commission_amount);
 Query OK, 0 rows affected (0.05 sec)
 Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create index employees_identity ON commissions(employee_id);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create index departments_identity ON employees(department_id);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
