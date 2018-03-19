@@ -211,17 +211,18 @@ Query OK, 8 rows affected (0.00 sec)
 Records: 8  Duplicates: 0  Warnings: 0
 
 
-**creating index as commission_amount because its referenced most of the time**
+
+##Indexes
 
 mysql> CREATE INDEX commission_amount ON commissions(commission_amount);
 Query OK, 0 rows affected (0.05 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> create index employees_identity ON commissions(employee_id);
+mysql> CREATE INDEX employees_identity ON commissions(employee_id);
 Query OK, 0 rows affected (0.04 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-mysql> create index departments_identity ON employees(department_id);
+mysql> CREATE INDEX departments_identity ON employees(department_id);
 Query OK, 0 rows affected (0.03 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
