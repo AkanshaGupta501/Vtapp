@@ -19,7 +19,7 @@ mysql> SELECT employees.name, SUM(commission_amount) AS Total_Amount
 
 **Ques-2 Select employee with 4th highest salary**
 
-mysql> mysql> SELECT name FROM employees
+mysql> SELECT name FROM employees
        INNER JOIN (
          SELECT salary FROM employees
          GROUP BY salary
@@ -216,13 +216,5 @@ Records: 8  Duplicates: 0  Warnings: 0
 
 mysql> CREATE INDEX commission_amount ON commissions(commission_amount);
 Query OK, 0 rows affected (0.05 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> CREATE INDEX employees_identity ON commissions(employee_id);
-Query OK, 0 rows affected (0.04 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> CREATE INDEX departments_identity ON employees(department_id);
-Query OK, 0 rows affected (0.03 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
