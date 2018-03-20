@@ -131,7 +131,10 @@ On a general note, MYSQL iteself indexes the primary key of the table.
 However, we might need to index the foreign key constarints(if any) explicitly.
 If we analyse the above table, then we can say the index is already present on id, and we can 
 further add index to users_id and comment_type(reason that we might need to see all those items on 
-which users comment the most).
+which users comment the most) along with comment_id to determine collectively the response as storing 
+alone the comment_id might not solve the purpose alone.
+
+Hence, the entire three columns of the table, comment_type, comment_id and user_id should be indexed.
 
 4.1 EXPLAIN a SELECT query against one of your databases which employs an INNER JOIN between two tables. 
 What does the output look like? What does the values under different columns mean? 
