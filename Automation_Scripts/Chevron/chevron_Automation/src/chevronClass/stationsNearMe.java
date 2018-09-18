@@ -1,0 +1,148 @@
+package chevronClass;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+
+public class stationsNearMe {
+	displayMessages display = new displayMessages();
+	homePage homeObj = new homePage();
+	
+	public void updateFilters(AndroidDriver driver) {
+		verifyOptions(driver);
+		try {
+			driver.findElementById("com.chevron:id/filter_bar_diesel").click();
+		    driver.findElementById("com.chevron:id/filter_bar_extra_mile").click();
+		    driver.findElementById("com.chevron:id/filter_bar_distance_iv").click();
+		    homeObj.introduceWait(3000);
+		    List<MobileElement> options = driver.findElementsById("android:id/text1");
+		    MobileElement requiredMiles = options.get(5);
+		    String optionValue = requiredMiles.getText();
+		    requiredMiles.click();
+		    homeObj.introduceWait(3000);
+		    display.Assert(driver.findElementById("com.chevron:id/filter_bar_distance_iv").getText(), optionValue);
+		    display.printMessage("Miles Updated Successfully");
+		    display.printMessage("Changes made to the Options successfully");
+		}
+		catch(Exception noOptionsFound) {
+			display.FailMessage("No Options Found");
+		}
+	}
+
+	public boolean validateStationsNearMePage(AndroidDriver driver) {
+		return driver.findElementById("com.chevron:id/station_finder_fragment_searched_address").isDisplayed();
+	}
+	
+	public String verifyCountOnStationsNearMe(AndroidDriver driver) {
+		return driver.findElementById("com.chevron:id/station_finder_fragment_station_count").getText();
+	}
+	
+	public void verifyDieselBarVisibility(AndroidDriver driver) {
+		try {
+			display.Assert(driver.findElementById("com.chevron:id/diesel_only_bar_layout").isDisplayed(), true);
+		}
+		catch(Exception noBarFound){
+			display.FailMessage("Diesel Bar already Seen");
+		}
+	}
+	
+	public void verifyStationsNearMeVisibility(AndroidDriver driver) {
+		try {
+			MobileElement container = (MobileElement) driver.findElementById("com.chevron:id/station_finder_home_fragment_near_by_btn");
+			container.findElementByClassName("android.widget.TextView").click();
+			homeObj.introduceWait(5000);
+			try {
+				display.Assert(driver.findElementById("com.chevron:id/list_container").isDisplayed(), true);
+				display.printMessage("Verified - Stations Near Me Screen Found");
+			}
+			catch(Exception noAssertionFound) {
+				display.FailMessage("Stations Near By Page Not found");
+			}
+		}
+		catch(Exception noLinkFound) {
+			display.FailMessage("No such link found");
+		}
+	}
+	
+	public void verifyOptions(AndroidDriver driver) {
+		try {
+			driver.findElementById("com.chevron:id/station_finder_fragment_filter_option_layout").click();
+			display.Assert(driver.findElementById("com.chevron:id/filter_bar_layout").isDisplayed(), true);
+			display.printMessage("Filters Seen");
+		}
+		catch(Exception noSuchLinkFound) {
+			display.FailMessage("No Options Link found");
+		}
+	}
+	
+	public void verifyOptionsCloseButton(AndroidDriver driver) {
+		verifyOptions(driver);
+		try {
+			driver.findElementById("com.chevron:id/filter_bar_close_iv").click();
+			display.Assert(driver.findElementById("com.chevron:id/list_container").isDisplayed(), true);
+			display.printMessage("Close Button in  Options working fine");
+		}
+		catch(Exception noCloseButtonFound) {
+			display.FailMessage("No Close Button found");
+		}
+	}
+	
+	public void verifyResetButton(AndroidDriver driver) {
+		updateFilters(driver);
+		try {
+			driver.findElementById("com.chevron:id/filter_bar_reset_all_tv").click();
+			display.Assert(driver.findElementById("com.chevron:id/filter_bar_distance_iv").getText(), "35 miles");
+			display.printMessage("Reset Button working fine");
+		}
+		catch(Exception noSuchLinkFound) {
+			display.FailMessage("No Reset Button Found");
+		}
+	}
+	
+	public void showResults(AndroidDriver driver) {
+		HashMap stationData = new HashMap();
+		updateFilters(driver);
+		try {
+			driver.findElementById("com.chevron:id/filter_bar_show_result_tv").click();
+			WebDriverWait wait = new WebDriverWait(driver, 3000);
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("com.chevron:id/station_finder_fragment_station_near_header")));
+			try {
+				List<MobileElement> list = driver.findElementsById("android.widget.RelativeLayout");
+				MobileElement card1 = list.get(1);
+				display.Assert(card1.findElementById("com.chevron:id/station_list_item_collapsed").isDisplayed(), true);
+				display.printMessage("Stations List visible");
+				stationData = storeStationDetails(card1,stationData);
+				printStationDetails(stationData);
+				display.printMessage("Show Button working fine");
+			}
+			catch(Exception noCardsFound) {
+				display.FailMessage("No Stations List Visible");
+			}
+		}
+		catch(Exception noSuchButtonFound) {
+			display.FailMessage("No Show Results Button");
+		}
+	}
+	
+	public HashMap storeStationDetails(MobileElement card,HashMap hash) {
+		String stationNumber = card.findElementById("com.chevron:id/station_list_item_station_name").getText();
+		String stationAddress = card.findElementById("com.chevron:id/station_list_item_street_address").getText();
+		String distance = card.findElementById("com.chevron:id/station_list_item_distance").getText();
+	    hash.put("number", stationNumber);
+	    hash.put("address", stationAddress);
+	    hash.put("distance", distance);
+		return hash;
+	}
+	
+	public void printStationDetails(HashMap hash) {
+		hash.forEach((key, value) -> {
+			display.printMessage(key + ":" + value);
+		});
+	}	
+}
