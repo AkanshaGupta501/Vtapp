@@ -1,0 +1,17 @@
+package chevronClass;
+
+import io.appium.java_client.android.AndroidDriver;
+
+public class inboxPage {
+  displayMessages display = new displayMessages();
+  homePage homeObj = new homePage();
+  
+  public void verifyBackNavigation(AndroidDriver driver) {
+	  try {
+		  
+	  }
+	  catch(Exception noButtonFound) {
+		  display.FailMessage("No Back Navigation Button found");
+	  }
+  }
+}

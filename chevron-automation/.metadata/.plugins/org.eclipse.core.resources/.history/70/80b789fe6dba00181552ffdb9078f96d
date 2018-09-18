@@ -1,0 +1,24 @@
+package chevronClass;
+
+import io.appium.java_client.android.AndroidDriver;
+
+public class stationsNearMe {
+	displayMessages display = new displayMessages();
+
+	public boolean validateStationsNearMePage(AndroidDriver driver) {
+		return driver.findElementById("com.chevron:id/station_finder_fragment_searched_address").isDisplayed();
+	}
+	
+	public String verifyCountOnStationsNearMe(AndroidDriver driver) {
+		return driver.findElementById("com.chevron:id/station_finder_fragment_station_count").getText();
+	}
+	
+	public void verifyDieselBarVisibility(AndroidDriver driver) {
+		try {
+			display.Assert(driver.findElementById("com.chevron:id/diesel_only_bar_layout").isDisplayed(), true);
+		}
+		catch(Exception noBarFound){
+			display.FailMessage("Diesel Bar already Seen");
+		}
+	}
+}

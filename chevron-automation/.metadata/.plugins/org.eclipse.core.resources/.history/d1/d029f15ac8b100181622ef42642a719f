@@ -1,0 +1,215 @@
+package chevronClass;
+
+import java.net.MalformedURLException;
+import java.util.List;
+
+import org.openqa.selenium.Dimension;
+import org.testng.Assert;
+
+import io.appium.java_client.MobileCommand;
+import io.appium.java_client.MobileDriver;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidKeyCode;
+
+public class feedbackPage {
+
+	homePage homeObj = new homePage();
+	fakegpsApp fakeGpsObj = new fakegpsApp();
+	
+	public void turnOffLocation() throws MalformedURLException, InterruptedException {
+		fakeGpsObj.setup();
+		if(fakeGpsObj.checkifAppPlayingLocation() == true) {
+			fakeGpsObj.pauseLocation();
+		}else {
+			//Do Nothing
+		}
+		fakeGpsObj.closeApp();
+	}
+	
+	public void verifyNoListIfLocationUnavailable(AndroidDriver driver) {
+		try {
+			String status = driver.findElementById("com.chevron:id/feedback_fragment_status_message_text").getText();
+			Assert.assertEquals(status, "We couldn't find any stations near this location.");
+			display.printMessage(status);
+		}
+		catch(Exception noSuchMessageFound) {
+			display.FailMessage("Informative message missing");
+		}
+	}
+	
+	public void verifySearchStations(AndroidDriver driver) {
+		try {
+			driver.findElementById("com.chevron:id/feedback_fragment_find_location_text").click();
+			MobileElement searchBar = (MobileElement) driver.findElementById("com.chevron:id/station_finder_search_edit_text");
+			searchBar.sendKeys("San Francisco");
+			List<MobileElement> suggestions = driver.findElementsByClassName("android.widget.RelativeLayout");
+			homeObj.introduceWait(5000);
+			MobileElement location = suggestions.get(0);
+			Assert.assertEquals(location.findElementById("com.chevron:id/suggestions_list_row_text").getText(), "San Francisco, CA");
+			location.findElementById("com.chevron:id/suggestions_list_row_text").click();
+			homeObj.introduceWait(5000);
+			try {
+				Boolean stationsListVisible = driver.findElementsById("com.chevron:id/feedback_station_list_item_feedback_rl").isEmpty();
+				Assert.assertFalse(stationsListVisible);
+				display.printMessage("Feedback Stations Visible");
+			}
+			catch(Exception noStationsNearBy) {
+				display.FailMessage("There are no stations near By");
+			}
+		}
+		catch(Exception noSuchElementFound) {
+			display.FailMessage("No such link found");
+		}
+	}
+	
+	public void fillTheFeedbackForm(AndroidDriver driver) {
+		try {
+			verifySearchStations(driver);
+			redirectUserToFeedbackWebPage(driver);
+			navigationAroundPages(driver);
+			closeFeedBack(driver);
+		}
+		catch(Exception noStationsFound) {
+			display.FailMessage("No Stations Found for submitting the feedback");
+		}
+	}
+	
+	public void redirectUserToFeedbackWebPage(AndroidDriver driver) {
+		try {
+			List<MobileElement> stations = (List<MobileElement>) driver.findElementsById("com.chevron:id/feedback_station_list_item_feedback_rl");
+			MobileElement feedbackStation = stations.get(0);
+			String stationNumber = feedbackStation.findElementById("com.chevron:id/feedback_station_list_item_name_textview").getText();
+			String stationAddress = feedbackStation.findElementById("com.chevron:id/feedback_station_list_item_address_textview").getText();
+			String milesAhead = feedbackStation.findElementById("com.chevron:id/feedback_station_list_item_distance_textview").getText();
+			printStationDetails(stationNumber, stationAddress, milesAhead);
+			feedbackStation.findElementById("com.chevron:id/feedback_station_list_item_feedback_select_button").click();
+			Assert.assertEquals(driver.findElementById("com.chevron:id/feedback_form_fragment_header_text").getText(), "Feedback");
+			display.printMessage("User redirected to Feedback Page");
+			homeObj.introduceWait(10000);	
+		}
+		catch(Exception noWebViewFound) {
+			display.FailMessage("Web View is not found");
+		}
+	}
+	
+	public void printStationDetails(String number, String address, String distance) {
+		display.printMessage("Station Number:\t" + number);
+		display.printMessage("Station Address: \t" + address);
+		display.printMessage("Station distance from Current Location:\t" + distance);
+	}
+	
+	public void navigationAroundPages(AndroidDriver driver) {
+		try {
+			driver.findElementById("to-step-2").click();
+			homeObj.introduceWait(5000);
+			try {
+				display.printMessage("Naviagted to second question");
+				verifyPreviousButton(driver, "back-to-1", "to-step-2");
+				driver.findElementById("to-step-3").click();
+				homeObj.introduceWait(5000);
+				try {
+					display.printMessage("Naviagted to third question");
+					verifyPreviousButton(driver, "from-3-to-2", "to-step-3");
+					MobileElement listOptions = (MobileElement) driver.findElementById("contact-by");
+					List<MobileElement> options = listOptions.findElementsByClassName("android.view.View");
+					MobileElement option3 = options.get(2);
+					option3.findElementByClassName("android.widget.Button").click();
+					homeObj.introduceWait(6000);
+					scrollToBottom(driver, 0.8, 0.1);
+				}
+				catch(Exception thirdnavigationNotFound) {
+					display.FailMessage("Third Navigation was not successful");
+				}
+			}
+			catch(Exception secondNavigationNotFound) {
+				display.FailMessage("Second Navigation Button was not successful");
+			}
+		}
+		catch(Exception noNavigationFound) {
+			display.FailMessage("Navigation Buttons were not found");
+		}
+	}
+	
+	public void closeFeedBack(AndroidDriver driver) {
+		try {
+			driver.findElementById("feedback-finished").click();
+			homeObj.introduceWait(3000);
+			Assert.assertTrue(driver.findElementById("com.chevron:id/home_station_finder_head").isDisplayed());
+			display.printMessage("Form Filled Successfully");
+		}
+		catch(Exception closeButton) {
+			display.FailMessage("Close Button Option was not found");
+		}
+	}
+	
+	public void verifyDialerFeature(AndroidDriver driver) {
+		verifySearchStations(driver);
+		redirectUserToFeedbackWebPage(driver);
+		navigationAroundPages(driver);
+		try {
+			List<MobileElement> webViews = driver.findElementsByClassName("android.webkit.WebView");
+			MobileElement webView = webViews.get(1);
+			MobileElement feedBackBody = (MobileElement) webView.findElementById("feedback-body");
+			List<MobileElement> views = feedBackBody.findElementsByClassName("android.view.View");
+			MobileElement subView = views.get(1);
+			List<MobileElement> subViews1 = subView.findElementsByClassName("android.view.View");
+			MobileElement viewWithMobileNumber = subViews1.get(1);
+			viewWithMobileNumber.findElementByClassName("android.view.View").click();
+			homeObj.introduceWait(2000);
+			try {
+				String contactNumber = driver.findElementById("com.google.android.dialer:id/digits").getText();
+				Assert.assertTrue(contactNumber.equals("(855) 285-9595"));
+				display.printMessage("Phone Dialer Feature working successfully");
+				navigateBackToApp(driver);
+			}
+			catch(Exception noDialerFound) {
+				display.FailMessage("No Phone Dialer found");
+			}
+		}
+		catch(Exception noContactLinkFound) {
+			display.FailMessage("Unable to find the contact number Link");
+		}
+	}
+	
+	public void navigateBackToApp(AndroidDriver driver) throws InterruptedException {
+		driver.pressKeyCode(AndroidKeyCode.BACK);
+		driver.pressKeyCode(AndroidKeyCode.BACK);
+		driver.pressKeyCode(AndroidKeyCode.BACK);
+		homeObj.introduceWait(5000);
+		closeFeedBack(driver);
+	}
+	
+	public void verifyPreviousButton(AndroidDriver driver, String previousButtonId, String nextButtonId) throws InterruptedException {
+		driver.findElementById(previousButtonId).click();
+		homeObj.introduceWait(4000);
+		MobileElement nextButton = (MobileElement) driver.findElementById(nextButtonId);
+		Assert.assertTrue(nextButton.isDisplayed());
+		display.printMessage("Previous Button "+ previousButtonId + " working fine" );
+		nextButton.click();
+		homeObj.introduceWait(5000);
+	}
+	
+	
+	public void verifyDoneButton(AndroidDriver driver) {
+		verifySearchStations(driver);
+		redirectUserToFeedbackWebPage(driver);
+		try {
+			driver.findElementById("com.chevron:id/feedback_form_fragment_done_button").click();
+			homeObj.introduceWait(2000);
+			Assert.assertTrue(driver.findElementById("com.chevron:id/feedback_fragment_find_location_text").isDisplayed());
+			display.printMessage("Done Button working successfully");
+		}
+		catch(Exception noDoneButtonFound) {
+			display.FailMessage("No Done Button Found");
+		}
+	}
+	
+	public void scrollToBottom(AndroidDriver driver, Double valueStartY, Double valueEndY) throws InterruptedException {
+		  Dimension size= driver.manage().window().getSize();
+		    int starty=(int)(size.height * valueStartY);
+		    int endy=(int)(size.height * valueEndY);
+		    int startx=size.width/2;
+		    driver.swipe(startx, starty, startx, endy, 1000);
+		}
+}

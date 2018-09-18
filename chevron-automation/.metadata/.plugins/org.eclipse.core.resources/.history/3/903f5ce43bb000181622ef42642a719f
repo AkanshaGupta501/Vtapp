@@ -1,0 +1,161 @@
+package chevronClass;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import org.testng.Assert;
+import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+
+
+public class homePage {
+	
+  AndroidDriver driver;
+  stationsNearMe stationsNear = new stationsNearMe();
+  public AndroidDriver setup() throws MalformedURLException {
+	  DesiredCapabilities capabilities = new DesiredCapabilities();
+		capabilities.setCapability("deviceName", "emulator-5554");
+		capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
+		capabilities.setCapability(CapabilityType.VERSION, "7.1.1");
+		capabilities.setCapability("platformName", "Android");
+		capabilities.setCapability("appPackage", "com.chevron");
+		capabilities.setCapability("appActivity", "com.chevron.Home");
+		capabilities.setCapability("autoGrantPermissions", "true");
+		capabilities.setCapability("autoAcceptAlerts", "true");
+		capabilities.setCapability("fullReset", false);
+		capabilities.setCapability("noReset", true);
+		capabilities.setCapability("unicodeKeyboard", true);
+		capabilities.setCapability("resetKeyboard", true);
+		driver = new AndroidDriver (new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+		return driver;
+  }
+  
+  public void introduceWait(Integer duration) throws InterruptedException {
+	  Thread.sleep(duration);
+  }
+  
+  public void closeApp() {
+	  driver.quit();
+  }
+  
+ 
+  public void locationPermissionActions() {
+		//Verify the modal text for further action to be performed
+		try {
+			String modalMessage = driver.findElementByAccessibilityId("com.android.packageinstaller:id/permission_message").getText();
+			driver.findElementByAccessibilityId("com.android.packageinstaller:id/permission_allow_button").click();
+			System.out.println("Location Permission Accepted");
+		}
+		catch(Exception noSuchElement) {
+			System.out.println("Permission already Accepted");
+		}
+	}
+  
+  public void seeUpdateDialog() {
+	  try {
+		  MobileElement view = (MobileElement) driver.findElementByClassName("android.widget.LinearLayout");
+			try {
+				String modalHeader = view.findElementByAccessibilityId("com.chevron:id/whats_new_dialog_header").getText();
+				Assert.assertEquals(modalHeader, "What's new in the update");
+				view.findElementByAccessibilityId("com.chevron:id/whats_new_dialog_close_button").click();
+				System.out.println("What's New Dialgoue Seen");
+			}
+			catch(Exception noElementFound) {
+				System.out.println("No WhatsNew Dialog Seen");
+			}
+		}
+		catch(AssertionError e) {
+			e.printStackTrace();
+			throw e;
+		}		  
+  }
+  
+  public void countOnRedBanner(AndroidDriver driver) throws InterruptedException {
+	  try {
+		    //driver.setLocation(new Location(37.7749, 122.4194, 16));
+			introduceWait(10000);
+			try {
+				String countOfStations = driver.findElementById("com.chevron:id/home_nearby_stations_count").getText();
+				navigateToStationsNearMe();
+				introduceWait(5000);
+				try {
+					Assert.assertEquals(stationsNear.validateStationsNearMePage(driver), true);
+					String countFromStationsNearMe = stationsNear.verifyCountOnStationsNearMe(driver);
+					Assert.assertEquals(countOfStations, countFromStationsNearMe);
+					System.out.println("Count on both pages match\t" + countFromStationsNearMe);
+				}
+				catch(Exception noElementFound) {
+					Assert.fail("Counts do not match");
+				}
+			}
+			catch(Exception noStationsNearBy) {
+				System.out.println("No Stations Near By");
+				navigateToStationsNearMe();
+				introduceWait(5000);
+				try {
+					Assert.assertEquals(stationsNear.validateStationsNearMePage(driver), true);
+					String countFromStationsNearMe = stationsNear.verifyCountOnStationsNearMe(driver);
+					Assert.assertEquals(0, countFromStationsNearMe);
+					System.out.println("Count on both pages match\t" + countFromStationsNearMe);
+				}
+				catch(Exception noElementFound) {
+					Assert.fail("Counts do not match - No Stations");
+				}
+			}
+	  }
+	  catch(AssertionError e){
+		  e.printStackTrace();
+		  throw e;
+	  }
+  }
+  
+  public void navigateToCards() {
+		try {
+			driver.findElementById("com.chevron:id/home_chevron_cards_head").click();
+			System.out.println("Navigated to Chevron Cards Screen");
+		}
+		catch(Exception noElementExist) {
+			System.out.println("Already on Chevron Cards Screen");
+		}
+	}
+  
+  public void navigateToPromos() {
+		try {
+			driver.findElementById("com.chevron:id/home_promotions_head").click();
+			System.out.println("Navigated to Chevron Promos Screen");
+		}
+		catch(Exception noElementExist) {
+			System.out.println("Already on Chevron Promos Screen");
+		}
+	}
+  
+  public void navigateToStationsNearMe() {
+	  try {
+		  driver.findElementById("com.chevron:id/home_station_finder_head").click();
+		  introduceWait(2000);
+		  Assert.assertEquals(driver.findElementById("com.chevron:id/station_finder_home_fragment_menu_parent").isDisplayed(), true);
+		  driver.findElementById("com.chevron:id/station_finder_home_fragment_near_by_btn").click();
+		  System.out.println("Navigated to Stations Near Me");
+	  }
+	  catch(Exception noElementExist) {
+		  System.out.println("Already on Stations Near Me");
+	  }
+  }
+  
+  public void navigateToFeedback() {
+	  try {
+		  driver.findElementById("com.chevron:id/home_feedback_head").click();
+		  introduceWait(2000);
+		  Boolean status = driver.findElementById("com.chevron:id/feedback_fragment_header_text").isDisplayed();
+		  Assert.assertEquals(status, true);
+		  System.out.println("Navigated to Feedback Screen");
+	  }
+	  catch(Exception noElementExist) {
+		  System.out.println("Already on Feedback Screen");
+	  }
+  }
+} 

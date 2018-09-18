@@ -1,0 +1,87 @@
+package testCases;
+
+import java.net.MalformedURLException;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import java.net.MalformedURLException;
+
+import chevronClass.homePage;
+import chevronClass.intermediateStationPage;
+import chevronClass.stationsNearMe;
+import io.appium.java_client.android.AndroidDriver;
+
+public class stationsNearMeTestCases {
+
+	homePage homeObj = new homePage();
+	intermediateStationPage intermediateScreen = new intermediateStationPage();
+	stationsNearMe nearMe = new stationsNearMe();
+	AndroidDriver driver;
+	
+	@BeforeMethod
+	public void setup() throws MalformedURLException {
+		driver = homeObj.setup();
+	}
+	
+//	@Test(priority = 1)
+//	//Verify that intermediate station's option screen is visible
+//	public void verifyIntermediateScreen() {
+//		homeObj.navigateToIntermediateScreen();
+//	}
+//	
+//	@Test(priority = 2)
+//	//Verify that back button of intermediate screen is working
+//	public void verifyBackButtonOfIntermediateScreen() throws InterruptedException {
+//		homeObj.navigateToIntermediateScreen();
+//		intermediateScreen.verifyBackButton(driver);
+//	}
+	
+	
+	//Verify stations Near Me Screen is visible
+	@Test(priority = 4)
+	public void verifyStationsNearMe() {
+		homeObj.navigateToIntermediateScreen();
+		nearMe.verifyStationsNearMeVisibility(driver);
+	}
+	
+	
+	//Verify the options close button
+	//Verify the Reset Button
+	
+	//Verify the Show Button
+	
+	//Verify Address Bar in Stations Near An Address
+	
+	//Verify Options Modal is pre-opened in Stations That Have...
+	
+	//Verify Station details with the collapsed view
+	
+	//Verify the direction App suggestion from the collapsed view
+	
+	//Verify phone dialer from the detailed view
+	
+	//Verify the directions dialog and navigation from the detailed view
+	
+	//Verify the feedback form navigation and functionality from the detailed view
+	
+	//Verify close button functionality for the detaile view
+	
+	//Verify the stations Near: text in Stations NearMe/ThatHave and Address
+	
+	/*This test will work only when app is running for the first time after install and no action has been taken yet for this green bar*/	
+//	@Test(priority = 3)
+//	//Verify the visibility of diesel bar
+//	public void verifyDeiselBar() {
+//		homeObj.navigateToStationsNearMe();
+//		nearMe.verifyDieselBarVisibility(driver);
+//	}
+	
+	
+	
+	@AfterMethod
+	public void closeApp() {
+		homeObj.closeApp();
+	}
+}
+

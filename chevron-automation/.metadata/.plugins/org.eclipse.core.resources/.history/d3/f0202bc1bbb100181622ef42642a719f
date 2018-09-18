@@ -1,0 +1,137 @@
+package chevronClass;
+
+import java.net.MalformedURLException;
+import java.util.List;
+
+import org.testng.Assert;
+
+import io.appium.java_client.MobileCommand;
+import io.appium.java_client.MobileDriver;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+
+public class feedbackPage {
+
+	homePage homeObj = new homePage();
+	fakegpsApp fakeGpsObj = new fakegpsApp();
+	
+	public void turnOffLocation() throws MalformedURLException, InterruptedException {
+		fakeGpsObj.setup();
+		if(fakeGpsObj.checkifAppPlayingLocation() == true) {
+			fakeGpsObj.pauseLocation();
+		}else {
+			//Do Nothing
+		}
+		fakeGpsObj.closeApp();
+	}
+	
+	public void verifyNoListIfLocationUnavailable(AndroidDriver driver) {
+		try {
+			String status = driver.findElementById("com.chevron:id/feedback_fragment_status_message_text").getText();
+			Assert.assertEquals(status, "We couldn't find any stations near this location.");
+			System.out.println(status);
+		}
+		catch(Exception noSuchMessageFound) {
+			Assert.fail("Informative message missing");
+		}
+	}
+	
+	public void verifySearchStations(AndroidDriver driver) {
+		try {
+			driver.findElementById("com.chevron:id/feedback_fragment_find_location_text").click();
+			MobileElement searchBar = (MobileElement) driver.findElementById("com.chevron:id/station_finder_search_edit_text");
+			searchBar.sendKeys("San Francisco");
+			List<MobileElement> suggestions = driver.findElementsByClassName("android.widget.RelativeLayout");
+			homeObj.introduceWait(5000);
+			MobileElement location = suggestions.get(0);
+			Assert.assertEquals(location.findElementById("com.chevron:id/suggestions_list_row_text").getText(), "San Francisco, CA");
+			location.findElementById("com.chevron:id/suggestions_list_row_text").click();
+			homeObj.introduceWait(5000);
+			try {
+				Boolean stationsListVisible = driver.findElementsById("com.chevron:id/feedback_station_list_item_feedback_rl").isEmpty();
+				Assert.assertFalse(stationsListVisible);
+				System.out.println("Feedback Stations Visible");
+			}
+			catch(Exception noStationsNearBy) {
+				Assert.fail("There are no stations near By");
+			}
+		}
+		catch(Exception noSuchElementFound) {
+			Assert.fail("No such link found");
+		}
+	}
+	
+	public void fillTheFeedbackForm(AndroidDriver driver) {
+		try {
+			verifySearchStations(driver);
+			List<MobileElement> stations = (List<MobileElement>) driver.findElementsById("com.chevron:id/feedback_station_list_item_feedback_rl");
+			MobileElement feedbackStation = stations.get(0);
+			String stationNumber = feedbackStation.findElementById("com.chevron:id/feedback_station_list_item_name_textview").getText();
+			String stationAddress = feedbackStation.findElementById("com.chevron:id/feedback_station_list_item_address_textview").getText();
+			String milesAhead = feedbackStation.findElementById("com.chevron:id/feedback_station_list_item_distance_textview").getText();
+			printStationDetails(stationNumber, stationAddress, milesAhead);
+			feedbackStation.findElementById("com.chevron:id/feedback_station_list_item_feedback_select_button").click();
+			//Assert.assertEquals(driver.findElementById("com.chevron:id/feedback_form_fragment_header_text").getText(), "Feedback");
+			System.out.println("User redirected to Feedback Page");
+			homeObj.introduceWait(10000);
+		    fillTheForm(driver);
+		}
+		catch(Exception noStationsFound) {
+			Assert.fail("No Stations Found for submitting the feedback");
+		}
+	}
+	
+	public void printStationDetails(String number, String address, String distance) {
+		System.out.println("Station Number:\t" + number);
+		System.out.println("Station Address: \t" + address);
+		System.out.println("Station distance from Current Location:\t" + distance);
+	}
+	
+	public void verifyThePage(AndroidDriver driver, String address) {
+		try {
+			List<MobileElement> views = driver.findElementsByClassName("android.view.View");
+			MobileElement header = views.get(0);
+			List<MobileElement> nestedViews = driver.findElementsByClassName("android.view.View");
+			MobileElement stationAddressDetails = nestedViews.get(1);
+			Boolean text = stationAddressDetails.findElementsByXPath("//android.view.View[@text='"+address+"']").isEmpty();
+			
+			System.out.println(":" + text);
+		}
+		catch(Exception noDetailsFound) {
+			System.out.println(noDetailsFound);
+		}
+	}
+	
+	public void fillTheForm(AndroidDriver driver) {
+		try {
+			driver.findElementById("to-step-2").click();
+			homeObj.introduceWait(5000);
+			try {
+				System.out.println("Naviagted to second question");
+				verifyPreviousButton(driver, "back-to-1", "to-step-2");
+				driver.findElementById("to-step-3").click();
+				homeObj.introduceWait(5000);
+				try {
+					
+				}
+				catch(Exception thirdnavigationNotFound) {
+					Assert.fail("Third Navigation was not found");
+				}
+			}
+			catch(Exception secondNavigationNotFound) {
+				Assert.fail("Second Navigation Button missing");
+			}
+		}
+		catch(Exception noNavigationFound) {
+			Assert.fail("Navigation Buttons were not found");
+		}
+	}
+	
+	public void verifyPreviousButton(AndroidDriver driver, String previousButtonId, String nextButtonId) throws InterruptedException {
+		driver.findElementById(previousButtonId).click();
+		homeObj.introduceWait(4000);
+		MobileElement nextButton = (MobileElement) driver.findElementById(nextButtonId);
+		Assert.assertTrue(nextButton.isDisplayed());
+		nextButton.click();
+	}
+}

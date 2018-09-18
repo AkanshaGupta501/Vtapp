@@ -1,0 +1,26 @@
+package testCases;
+
+import java.net.MalformedURLException;
+
+import org.testng.annotations.BeforeMethod;
+
+import chevronClass.homePage;
+import io.appium.java_client.android.AndroidDriver;
+
+public class stationFinderTestCases {
+
+	AndroidDriver driver;
+	homePage homeObj = new homePage();
+	
+	@BeforeMethod
+	public void setup() throws MalformedURLException {
+		driver = homeObj.setup();
+	}
+	
+	@Test(priority = 1)
+	//Verify that intermediate station's option screen is visible
+	public void verifyIntermediateScreen() {
+		homeObj.navigateToIntermediateScreen();
+	}
+}
+

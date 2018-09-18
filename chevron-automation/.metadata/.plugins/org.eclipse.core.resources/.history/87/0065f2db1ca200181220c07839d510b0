@@ -1,0 +1,86 @@
+package chevronClass;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.springframework.util.Assert;
+
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+
+public class homePage {
+	
+  AndroidDriver driver;
+  public AndroidDriver setup() throws MalformedURLException {
+	  DesiredCapabilities capabilities = new DesiredCapabilities();
+		capabilities.setCapability("deviceName", "emulator-5554");
+		capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
+		capabilities.setCapability(CapabilityType.VERSION, "7.1.1");
+		capabilities.setCapability("platformName", "Android");
+		capabilities.setCapability("appPackage", "com.chevron");
+		capabilities.setCapability("appActivity", "com.chevron.Home");
+		capabilities.setCapability("autoGrantPermissions", "true");
+		capabilities.setCapability("autoAcceptAlerts", "true");
+		capabilities.setCapability("fullReset", false);
+		capabilities.setCapability("noReset", true);
+		capabilities.setCapability("unicodeKeyboard", true);
+		capabilities.setCapability("resetKeyboard", true);
+		driver = new AndroidDriver (new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+		return driver;
+  }
+  
+  public void introduceWait(Integer duration) throws InterruptedException {
+	  Thread.sleep(duration);
+  }
+  
+  public void closeApp() {
+	  driver.quit();
+  }
+  
+  public void locationPermissionActions() {
+		//Verify the modal text for further action to be performed
+		try {
+			String modalMessage = driver.findElementByAccessibilityId("com.android.packageinstaller:id/permission_message").getText();
+			driver.findElementByAccessibilityId("com.android.packageinstaller:id/permission_allow_button").click();
+			System.out.println("Location Permission Accepted");
+		}
+		catch(Exception noSuchElement) {
+			System.out.println("Permission already Accepted");
+		}
+	}
+  
+  public void seeUpdateDialog() {
+	  try {
+		  MobileElement view = (MobileElement) driver.findElementByClassName("android.widget.LinearLayout");
+			try {
+				String modalHeader = view.findElementByAccessibilityId("com.chevron:id/whats_new_dialog_header").getText();
+				System.out.println(modalHeader);
+				view.findElementByAccessibilityId("com.chevron:id/whats_new_dialog_close_button").click();
+				System.out.println("What's New Dialgoue Seen");
+			}
+			catch(Exception noElementFound) {
+				System.out.println("No WhatsNew Dialog Seen");
+			}
+		}
+		catch(AssertionError e) {
+			e.printStackTrace();
+			throw e;
+		}		  
+  }
+  public void navigateToCards() {
+		try {
+			System.out.println("Hello");
+			 MobileElement headerBar = (MobileElement) driver.findElementByAccessibilityId("com.chevron:id/home_heading_container");
+			 System.out.println(headerBar);
+			headerBar.findElementByAccessibilityId("com.chevron:id/home_chevron_cards_head").click();
+			System.out.println("Navigated to Chevron Cards Screen");
+		}
+		catch(Exception noElementExist) {
+			System.out.println("Already on Chevron Cards Screen");
+		}
+	}
+  
+  
+} 

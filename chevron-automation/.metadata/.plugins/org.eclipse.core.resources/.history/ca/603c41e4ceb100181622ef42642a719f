@@ -1,0 +1,65 @@
+package testCases;
+
+import java.net.MalformedURLException;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import chevronClass.cardsPage;
+import chevronClass.homePage;
+import io.appium.java_client.android.AndroidDriver;
+
+public class cardsTestCases {
+	AndroidDriver driver;
+	cardsPage cardsObj = new cardsPage();
+	homePage homeObj = new homePage();
+	
+	@BeforeMethod
+	public void setup() throws MalformedURLException {
+		driver = homeObj.setup();
+	}
+	
+	@Test(priority = 1)
+	//Verify user is redirected to Chevron Cards
+	public void navigateToCards() {
+		homeObj.navigateToCards();
+		cardsObj.validateCardsScreen(driver);
+	}
+	
+//	@Test(priority = 2)
+//	//Verify that provided credentials are working
+//	public void verifySypiPlugin() {
+//		homeObj.navigateToCards();
+//		cardsObj.navigateToCreditCardsLogin(driver);
+//	}
+	
+	@Test(priority = 3)
+	//verify that Personalcard link is working
+	public void verifyPersonalCard() {
+		homeObj.navigateToCards();
+		cardsObj.personalCardLink(driver);
+	}
+	
+	@Test(priority = 4)
+	//Verify that BusinessCard Link is working
+	public void verifyBusinessCard() throws InterruptedException {
+		homeObj.navigateToCards();
+		cardsObj.businessCardLink(driver);
+	}
+	
+	@Test(priority = 5)
+	//Verify that Back button is working
+	public void verifyWorkingOfBackButton() {
+		homeObj.navigateToCards();
+		cardsObj.validateCardsScreen(driver);
+		cardsObj.validateBackButton(driver);
+	}
+	
+	@AfterMethod
+	public void closeApplication() {
+		homeObj.closeApp();
+	}
+}

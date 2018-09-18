@@ -1,0 +1,30 @@
+package chevronClass;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import io.appium.java_client.android.AndroidDriver;
+
+public class fakegpsApp {
+
+	public AndroidDriver setup() throws MalformedURLException {
+		  DesiredCapabilities capabilities = new DesiredCapabilities();
+			capabilities.setCapability("deviceName", "emulator-5554");
+			capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
+			capabilities.setCapability(CapabilityType.VERSION, "7.1.1");
+			capabilities.setCapability("platformName", "Android");
+			capabilities.setCapability("appPackage", "com.lexa.fakegps");
+			capabilities.setCapability("appActivity", "com.lexa.fakegps.ui.Main");
+			capabilities.setCapability("autoGrantPermissions", "true");
+			capabilities.setCapability("autoAcceptAlerts", "true");
+			capabilities.setCapability("fullReset", false);
+			capabilities.setCapability("noReset", true);
+			capabilities.setCapability("unicodeKeyboard", true);
+			capabilities.setCapability("resetKeyboard", true);
+			driver = new AndroidDriver (new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+			return driver;
+	  }
+}

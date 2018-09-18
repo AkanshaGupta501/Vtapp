@@ -1,0 +1,14 @@
+package chevronClass;
+
+import org.testng.Assert;
+
+public class displayMessages {
+
+	public void printMessage(String message) {
+		System.out.println(message);
+	}
+	
+	public void AssertFail(String message) {
+		Assert.fail(message);
+	}
+}

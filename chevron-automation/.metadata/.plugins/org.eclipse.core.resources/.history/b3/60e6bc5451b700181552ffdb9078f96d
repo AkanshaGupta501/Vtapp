@@ -1,0 +1,14 @@
+package chevronClass;
+
+import io.appium.java_client.android.AndroidDriver;
+
+public class stationsNearMe {
+
+	public boolean validateStationsNearMePage(AndroidDriver driver) {
+		return driver.findElementById("com.chevron:id/station_finder_fragment_searched_address").isDisplayed();
+	}
+	
+	public String verifyCountOnStationsNearMe(AndroidDriver driver) {
+		return driver.findElementById("com.chevron:id/station_finder_fragment_station_count").getText();
+	}
+}

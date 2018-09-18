@@ -1,0 +1,31 @@
+package testCases;
+
+import java.net.MalformedURLException;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import chevronClass.homePage;
+import io.appium.java_client.android.AndroidDriver;
+
+public class feedbackTestCases {
+
+	AndroidDriver driver;
+	homePage homeObj = new homePage();
+	
+	@BeforeMethod
+	public void setup() throws MalformedURLException {
+		driver = homeObj.setup();
+	}
+	
+	@Test(priority = 1)
+	public void validateFeedbackPage() {
+		homeObj.navigateToCards();
+	}
+	
+	@AfterMethod
+	public void quit() {
+		homeObj.closeApp();
+	}
+}

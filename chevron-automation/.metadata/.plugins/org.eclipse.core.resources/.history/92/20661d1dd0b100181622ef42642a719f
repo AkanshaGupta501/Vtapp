@@ -1,0 +1,16 @@
+package chevronClass;
+
+public class settingsPage {
+
+	homePage homeObj = new homePage();
+	displayMessages display = new displayMessages();
+	
+	public void clickOnPrivacyPolicy(AndroidDriver) {
+		try {
+			
+		}
+		catch(Exception noLinkFound) {
+			display.FailMessage("No Privacy Link Found");
+		}
+	}
+}

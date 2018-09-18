@@ -1,0 +1,68 @@
+package chevronClass;
+
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+
+public class settingsPage {
+
+	homePage homeObj = new homePage();
+	displayMessages display = new displayMessages();
+	
+	public void clickOnPrivacyPolicy(AndroidDriver driver) {
+		try {
+			driver.findElementById("com.chevron:id/settings_privacy_policy_text").click();
+			display.printMessage("Navigated to Privacy Policy Page");
+		}
+		catch(Exception noLinkFound) {
+			display.FailMessage("No Privacy Link Found");
+		}
+	}
+	
+	public void verifyAppVersion(AndroidDriver driver) {
+		try {
+			MobileElement appVersion = (MobileElement) driver.findElementById("com.chevron:id/settings_version_number");
+			display.Assert(appVersion.isDisplayed(), true);
+			display.printMessage("Current App Version:\t" + appVersion.getText());
+		}
+		catch(Exception noTextFound) {
+			display.FailMessage("No app version found");
+		}
+	}
+	
+	public void verifyPrivacyPolicyPage(AndroidDriver driver) {
+		clickOnPrivacyPolicy(driver);
+		try {
+			MobileElement browserWebView = (MobileElement) driver.findElementByClassName("android.webkit.WebView");
+			display.Assert(browserWebView.findElementById("main-content").isDisplayed(), true);
+			display.printMessage("Privacy Policy Page Seen");
+		}
+		catch(Exception noPageExist) {
+			display.FailMessage("No Privacy Policy Page Found");
+		}
+	}
+	
+	public void verifyHeaderofPrivacyPolicy(AndroidDriver driver) {
+		clickOnPrivacyPolicy(driver);
+		try {
+			String header = driver.findElementById("com.chevron:id/browser_dialog_header_text").getText();
+			display.Assert(header, "Privacy Policy");
+			display.printMessage(header + " seen");
+		}
+		catch(Exception noHeaderFound) {
+			display.FailMessage("No Header Found");
+		}
+	}
+	
+	public void verifyDoneButtononPrivacyPolicy(AndroidDriver driver) {
+		clickOnPrivacyPolicy(driver);
+		try {
+			driver.findElementById("com.chevron:id/browser_dialog_done_button").click();
+			display.printMessage("Done Button Clicked");
+			display.Assert(driver.findElementById("com.chevron:id/settings_privacy_policy_text").isDisplayed(), true);
+			display.printMessage("Done Button Working Fine");
+		}
+		catch(Exception noDoneButtonFound) {
+			display.FailMessage("No Done Button Found");
+		}
+	}
+}

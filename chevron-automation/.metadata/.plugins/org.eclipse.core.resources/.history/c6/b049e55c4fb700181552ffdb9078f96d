@@ -1,0 +1,47 @@
+package testCases;
+
+import java.net.MalformedURLException;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import java.net.MalformedURLException;
+
+import chevronClass.homePage;
+import chevronClass.intermediateStationPage;
+import io.appium.java_client.android.AndroidDriver;
+
+public class stationFinderTestCases {
+
+	homePage homeObj = new homePage();
+	intermediateStationPage intermediateScreen = new intermediateStationPage();
+	AndroidDriver driver;
+	
+	@BeforeMethod
+	public void setup() throws MalformedURLException {
+		driver = homeObj.setup();
+	}
+	
+	@Test(priority = 1)
+	//Verify that intermediate station's option screen is visible
+	public void verifyIntermediateScreen() {
+		homeObj.navigateToIntermediateScreen();
+	}
+	
+	@Test(priority = 2)
+	//Verify that back button of intermediate screen is working
+	public void verifyBackButtonOfIntermediateScreen() throws InterruptedException {
+		homeObj.navigateToIntermediateScreen();
+		intermediateScreen.verifyBackButton(driver);
+	}
+	
+/*This test will work only when app is running for the first time after install and no action has been taken yet for this green bar*/	
+	@Test(priority = 3)
+	//Verify that diesel bar is visible
+	
+	@AfterMethod
+	public void closeApp() {
+		homeObj.closeApp();
+	}
+}
+

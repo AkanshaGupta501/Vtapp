@@ -1,0 +1,84 @@
+package chevronClass;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Assert;
+
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+
+public class fakegpsApp {
+
+	AndroidDriver driver;
+	homePage homeObj = new homePage();
+	public void setup() throws MalformedURLException {
+		  DesiredCapabilities capabilities = new DesiredCapabilities();
+			capabilities.setCapability("deviceName", "emulator-5554");
+			capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
+			capabilities.setCapability(CapabilityType.VERSION, "7.1.1");
+			capabilities.setCapability("platformName", "Android");
+			capabilities.setCapability("appPackage", "com.lexa.fakegps");
+			capabilities.setCapability("appActivity", "com.lexa.fakegps.ui.Main");
+			capabilities.setCapability("autoGrantPermissions", "true");
+			capabilities.setCapability("autoAcceptAlerts", "true");
+			capabilities.setCapability("fullReset", false);
+			capabilities.setCapability("noReset", true);
+			capabilities.setCapability("unicodeKeyboard", true);
+			capabilities.setCapability("resetKeyboard", true);
+			driver = new AndroidDriver (new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+	  }
+	
+	public void setLocation() throws InterruptedException {
+		try {
+			homeObj.introduceWait(5000);
+			driver.findElementById("com.lexa.fakegps:id/action_search").click();
+			MobileElement searchBar = (MobileElement) driver.findElementById("android:id/search_src_text");
+			searchBar.sendKeys("San Francisco \n");
+			homeObj.introduceWait(6000);
+			System.out.println("Location Set Successfully in FakeGPS app");
+		}
+		catch(Exception noSearchButtonFound) {
+			Assert.fail("No search button was found");
+		}
+	}
+	
+	public void playSelectedLocation() throws InterruptedException {
+		try {
+			setLocation();
+			driver.findElementById("com.lexa.fakegps:id/action_start").click();
+			homeObj.introduceWait(3000);
+			System.out.println("Play Button Clicked");
+		}
+		catch(Exception noPlayButtonFound) {
+			Assert.fail("No Play Button found");
+		}
+	}
+	
+	public void pauseLocation() throws InterruptedException {
+		try {
+			driver.findElementById("com.lexa.fakegps:id/action_stop").click();
+			homeObj.introduceWait(3000);
+			System.out.println("Pause Button Clicked");
+		}
+		catch(Exception noPauseButtonFound) {
+			Assert.fail("No Pause Button Found");
+		  }
+	}
+	
+	public boolean checkifAppPlayingLocation() {
+		try {
+			driver.findElementById("com.lexa.fakegps:id/action_stop").isDisplayed();
+			return true;
+		}
+		catch(Exception appInPauseState) {
+			return false;
+		}
+	}
+	
+	public void closeApp() {
+		driver.quit();
+	}
+}

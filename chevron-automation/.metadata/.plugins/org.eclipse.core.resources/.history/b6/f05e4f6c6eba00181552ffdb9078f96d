@@ -1,0 +1,43 @@
+package chevronClass;
+
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+
+public class stationsNearMe {
+	displayMessages display = new displayMessages();
+	homePage homeObj = new homePage();
+
+	public boolean validateStationsNearMePage(AndroidDriver driver) {
+		return driver.findElementById("com.chevron:id/station_finder_fragment_searched_address").isDisplayed();
+	}
+	
+	public String verifyCountOnStationsNearMe(AndroidDriver driver) {
+		return driver.findElementById("com.chevron:id/station_finder_fragment_station_count").getText();
+	}
+	
+	public void verifyDieselBarVisibility(AndroidDriver driver) {
+		try {
+			display.Assert(driver.findElementById("com.chevron:id/diesel_only_bar_layout").isDisplayed(), true);
+		}
+		catch(Exception noBarFound){
+			display.FailMessage("Diesel Bar already Seen");
+		}
+	}
+	
+	public void verifyStationsNearMeVisibility(AndroidDriver driver) {
+		try {
+			MobileElement container = (MobileElement) driver.findElementById("com.chevron:id/station_finder_home_fragment_near_by_btn");
+			container.findElementByClassName("android.widget.TextView").click();
+			homeObj.introduceWait(5000);
+			try {
+				display.Assert(driver.findElementById("com.chevron:id/list_container").isDisplayed(), true);
+			}
+			catch(Exception noAssertionFound) {
+				display.FailMessage("Stations Near By Page Not found");
+			}
+		}
+		catch(Exception noLinkFound) {
+			display.FailMessage("No such link found");
+		}
+	}
+}

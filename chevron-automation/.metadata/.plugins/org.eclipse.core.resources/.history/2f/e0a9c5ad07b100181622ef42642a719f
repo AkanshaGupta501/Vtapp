@@ -1,0 +1,47 @@
+package testCases;
+
+import java.net.MalformedURLException;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import chevronClass.feedbackPage;
+import chevronClass.homePage;
+import io.appium.java_client.android.AndroidDriver;
+
+public class feedbackTestCases {
+
+	AndroidDriver driver;
+	homePage homeObj = new homePage();
+	feedbackPage feedbackObj = new feedbackPage();
+	
+	@BeforeMethod
+	public void setup() throws MalformedURLException {
+		driver = homeObj.setup();
+	}
+	
+//	@Test(priority = 1)
+//	public void validateFeedbackPage() {
+//		homeObj.navigateToFeedback();
+//	}
+//	
+//	@Test(priority = 2)
+//	//Test for appropriate messages, if no station is available
+//	public void validateNoLocationAvailable() {
+//		homeObj.navigateToFeedback();
+//		feedbackObj.verifyNoListIfLocationUnavailable(driver);	
+//	}
+	
+	@Test(priority = 3)
+	//Test for functionality of Search Feedback Station
+	public void verifySearchStation() {
+		homeObj.navigateToFeedback();
+		feedbackObj.verifySearchStations(driver);
+	}
+	
+	@AfterMethod
+	public void quit() {
+		homeObj.closeApp();
+	}
+}

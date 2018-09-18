@@ -1,0 +1,9 @@
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
+configDescList=org.eclipse.launchbar.core.descriptorType.default\:New_configuration,org.eclipse.launchbar.core.descriptorType.default\:New_configuration (1),org.eclipse.launchbar.core.descriptorType.default\:promoTestCases.verifyCloseOfPopUp,org.eclipse.launchbar.core.descriptorType.default\:feedbackTestCases.verifySearchStation,org.eclipse.launchbar.core.descriptorType.default\:feedbackTestCases,org.eclipse.launchbar.core.descriptorType.default\:promoTestCases,org.eclipse.launchbar.core.descriptorType.default\:homeTestCases,org.eclipse.launchbar.core.descriptorType.default\:cardsTestCases,org.eclipse.launchbar.core.descriptorType.default\:settingsTestCases,org.eclipse.launchbar.core.descriptorType.default\:inboxTestCases,org.eclipse.launchbar.core.descriptorType.default\:stationFinderTestCases,org.eclipse.launchbar.core.descriptorType.default\:stationsNearMeTestCases
+eclipse.preferences.version=1
+org.eclipse.launchbar.core.descriptorType.default\:New_configuration/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:New_configuration/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:cardsTestCases/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:cardsTestCases/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
