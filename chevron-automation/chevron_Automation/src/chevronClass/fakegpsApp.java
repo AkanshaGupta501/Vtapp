@@ -13,7 +13,6 @@ import io.appium.java_client.android.AndroidDriver;
 public class fakegpsApp {
 
 	AndroidDriver driver;
-	homePage homeObj = new homePage();
 	displayMessages display = new displayMessages();
 	public void setup() throws MalformedURLException {
 		  DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -34,11 +33,11 @@ public class fakegpsApp {
 	
 	public void setLocation() throws InterruptedException {
 		try {
-			display.introduceWait(5000);
+			display.wait(5000);
 			driver.findElementById("com.lexa.fakegps:id/action_search").click();
 			MobileElement searchBar = (MobileElement) driver.findElementById("android:id/search_src_text");
 			searchBar.sendKeys("San Francisco \n");
-			display.introduceWait(6000);
+			display.wait(6000);
 			display.printMessage("Location Set Successfully in FakeGPS app");
 		}
 		catch(Exception noSearchButtonFound) {
@@ -60,7 +59,7 @@ public class fakegpsApp {
 	public void pauseLocation() throws InterruptedException {
 		try {
 			driver.findElementById("com.lexa.fakegps:id/action_stop").click();
-			display.introduceWait(3000);
+			display.wait(3000);
 			display.printMessage("Pause Button Clicked");
 		}
 		catch(Exception noPauseButtonFound) {

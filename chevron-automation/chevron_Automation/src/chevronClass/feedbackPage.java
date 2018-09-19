@@ -4,17 +4,15 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 import org.openqa.selenium.Dimension;
-import org.testng.Assert;
-
-import io.appium.java_client.MobileCommand;
-import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidKeyCode;
+import static io.appium.java_client.touch.offset.PointOption.point;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 
 public class feedbackPage {
 
-	homePage homeObj = new homePage();
 	fakegpsApp fakeGpsObj = new fakegpsApp();
 	displayMessages display = new displayMessages();
 	
@@ -45,11 +43,11 @@ public class feedbackPage {
 			MobileElement searchBar = (MobileElement) driver.findElementById("com.chevron:id/station_finder_search_edit_text");
 			searchBar.sendKeys("San Francisco");
 			List<MobileElement> suggestions = driver.findElementsByClassName("android.widget.RelativeLayout");
-			homeObj.introduceWait(5000);
+			display.wait(5000);
 			MobileElement location = suggestions.get(0);
 			display.Assert(location.findElementById("com.chevron:id/suggestions_list_row_text").getText(), "San Francisco, CA");
 			location.findElementById("com.chevron:id/suggestions_list_row_text").click();
-			homeObj.introduceWait(5000);
+			display.wait(5000);
 			try {
 				Boolean stationsListVisible = driver.findElementsById("com.chevron:id/feedback_station_list_item_feedback_rl").isEmpty();
 				display.Assert(stationsListVisible, false);
@@ -87,7 +85,7 @@ public class feedbackPage {
 			feedbackStation.findElementById("com.chevron:id/feedback_station_list_item_feedback_select_button").click();
 			display.Assert(driver.findElementById("com.chevron:id/feedback_form_fragment_header_text").getText(), "Feedback");
 			display.printMessage("User redirected to Feedback Page");
-			homeObj.introduceWait(10000);	
+			display.wait(10000);	
 		}
 		catch(Exception noWebViewFound) {
 			display.FailMessage("Web View is not found");
@@ -103,12 +101,12 @@ public class feedbackPage {
 	public void navigationAroundPages(AndroidDriver driver) {
 		try {
 			driver.findElementById("to-step-2").click();
-			homeObj.introduceWait(5000);
+			display.wait(5000);
 			try {
 				display.printMessage("Naviagted to second question");
 				verifyPreviousButton(driver, "back-to-1", "to-step-2");
 				driver.findElementById("to-step-3").click();
-				homeObj.introduceWait(5000);
+				display.wait(5000);
 				try {
 					display.printMessage("Naviagted to third question");
 					verifyPreviousButton(driver, "from-3-to-2", "to-step-3");
@@ -116,7 +114,7 @@ public class feedbackPage {
 					List<MobileElement> options = listOptions.findElementsByClassName("android.view.View");
 					MobileElement option3 = options.get(2);
 					option3.findElementByClassName("android.widget.Button").click();
-					homeObj.introduceWait(6000);
+					display.wait(6000);
 					scrollToBottom(driver, 0.8, 0.1);
 				}
 				catch(Exception thirdnavigationNotFound) {
@@ -135,7 +133,7 @@ public class feedbackPage {
 	public void closeFeedBack(AndroidDriver driver) {
 		try {
 			driver.findElementById("feedback-finished").click();
-			homeObj.introduceWait(3000);
+			display.wait(3000);
 			display.Assert(driver.findElementById("com.chevron:id/home_station_finder_head").isDisplayed(), true);
 			display.printMessage("Form Filled Successfully");
 		}
@@ -157,7 +155,7 @@ public class feedbackPage {
 			List<MobileElement> subViews1 = subView.findElementsByClassName("android.view.View");
 			MobileElement viewWithMobileNumber = subViews1.get(1);
 			viewWithMobileNumber.findElementByClassName("android.view.View").click();
-			homeObj.introduceWait(2000);
+			display.wait(2000);
 			try {
 				String contactNumber = driver.findElementById("com.google.android.dialer:id/digits").getText();
 				display.Assert(contactNumber.equals("(855) 285-9595"), true);
@@ -174,21 +172,21 @@ public class feedbackPage {
 	}
 	
 	public void navigateBackToApp(AndroidDriver driver) throws InterruptedException {
-		driver.pressKeyCode(AndroidKeyCode.BACK);
-		driver.pressKeyCode(AndroidKeyCode.BACK);
-		driver.pressKeyCode(AndroidKeyCode.BACK);
-		homeObj.introduceWait(5000);
+		driver.pressKey(new KeyEvent(AndroidKey.BACK));
+		driver.pressKey(new KeyEvent(AndroidKey.BACK));
+		driver.pressKey(new KeyEvent(AndroidKey.BACK));
+		display.wait(5000);
 		closeFeedBack(driver);
 	}
 	
 	public void verifyPreviousButton(AndroidDriver driver, String previousButtonId, String nextButtonId) throws InterruptedException {
 		driver.findElementById(previousButtonId).click();
-		homeObj.introduceWait(4000);
+		display.wait(4000);
 		MobileElement nextButton = (MobileElement) driver.findElementById(nextButtonId);
 		display.Assert(nextButton.isDisplayed(), true);
 		display.printMessage("Previous Button "+ previousButtonId + " working fine" );
 		nextButton.click();
-		homeObj.introduceWait(5000);
+		display.wait(5000);
 	}
 	
 	
@@ -197,7 +195,7 @@ public class feedbackPage {
 		redirectUserToFeedbackWebPage(driver);
 		try {
 			driver.findElementById("com.chevron:id/feedback_form_fragment_done_button").click();
-			homeObj.introduceWait(2000);
+			display.wait(2000);
 			display.Assert(driver.findElementById("com.chevron:id/feedback_fragment_find_location_text").isDisplayed(), true);
 			display.printMessage("Done Button working successfully");
 		}
@@ -211,6 +209,7 @@ public class feedbackPage {
 		    int starty=(int)(size.height * valueStartY);
 		    int endy=(int)(size.height * valueEndY);
 		    int startx=size.width/2;
-		    driver.swipe(startx, starty, startx, endy, 1000);
+		    TouchAction action = new TouchAction(driver);
+		    action.press(point(startx, starty)).moveTo(point(startx, endy)).perform();
 		}
 }

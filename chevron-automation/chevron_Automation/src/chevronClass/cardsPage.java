@@ -13,7 +13,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
+import static io.appium.java_client.touch.offset.PointOption.point;
 import chevronClass.homePage;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
@@ -21,15 +21,16 @@ import io.appium.java_client.android.AndroidDriver;
 import javafx.scene.web.WebView;
 
 public class cardsPage {
-homePage homeObj = new homePage();
+
 displayMessages display = new displayMessages();
 
 	public void validateCardsScreen(AndroidDriver driver) {
 		try {
 			String textOnCardsSection = "Earn Fuel Credits every fill-up, every time at Chevron and "
-					+ "Texaco with a Chevron Techron Advantage™ Card.";
+					+ "Texaco with a Chevron Techron Advantageâ„¢ Card.";
 			List <MobileElement> textViews =  driver.findElementsByClassName("android.widget.TextView");
 			String textFromApp = textViews.get(1).getText();
+			display.printMessage(textFromApp);
 			display.Assert(textFromApp, textOnCardsSection);
 			display.printMessage("Verified - Chevron Cards Screen");
 		}
@@ -158,8 +159,8 @@ displayMessages display = new displayMessages();
 	
 	public void scrollToBottom(AndroidDriver driver) throws InterruptedException {
 		TouchAction action = new TouchAction(driver);
-		action.press(200, 1000).moveTo(0, 900).release().perform();
-		display.introduceWait(5000);
+		action.press(point(200, 1000)).moveTo(point(0, 900)).release().perform();
+		display.wait(5000);
 	}
 	
 	public void validateBackButton(AndroidDriver driver) {

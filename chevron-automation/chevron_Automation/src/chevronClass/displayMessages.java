@@ -16,7 +16,7 @@ public class displayMessages {
 		Assert.assertEquals(actual, expected);
 	}
 	
-	public void introduceWait(Integer duration) throws InterruptedException {
+	public void wait(Integer duration) throws InterruptedException {
 		Thread.sleep(duration);
 	}
 }

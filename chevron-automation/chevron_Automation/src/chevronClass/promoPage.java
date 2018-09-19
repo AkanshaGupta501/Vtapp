@@ -1,5 +1,7 @@
 package chevronClass;
 
+import static io.appium.java_client.touch.offset.PointOption.point;
+
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -13,10 +15,9 @@ import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.Connection;
+
 
 public class promoPage {
-	homePage homeObj = new homePage();
 	displayMessages display = new displayMessages();
 	
   public void verifyFeaturedPromosAreVisible(AndroidDriver driver) {
@@ -41,7 +42,7 @@ public class promoPage {
   }
   
   public void verifyExtraMilePromosAreVisible(AndroidDriver driver) throws InterruptedException {
-	  homeObj.introduceWait(3000);
+	  display.wait(3000);
 	  scrollToBottom(driver, 0.8, 0.3);
 	  try {
 		  String header = driver.findElementById("com.chevron:id/distance_bucket_row_text").getText();
@@ -69,7 +70,7 @@ public class promoPage {
   }
   
   public void verifyPromoPopUp(AndroidDriver driver) throws InterruptedException {
-	  homeObj.introduceWait(5000);
+	  display.wait(5000);
 	  scrollToBottom(driver, 0.8, 0.01);
 	  try {
 		  List<MobileElement> elements =  (List<MobileElement>) driver.findElementsById("com.chevron:id/promotions_regional_row_header");
@@ -112,6 +113,7 @@ public class promoPage {
 	    int starty=(int)(size.height * valueStartY);
 	    int endy=(int)(size.height * valueEndY);
 	    int startx=size.width/2;
-	    driver.swipe(startx, starty, startx, endy, 1000);
+	    TouchAction action = new TouchAction(driver);
+        action.press(point(startx, starty)).moveTo(point(startx, endy)).perform();
 	}
 }

@@ -17,27 +17,23 @@ public class homePage {
 	
   AndroidDriver driver;
   displayMessages display = new displayMessages();
-  stationsNearMe stationsNear = new stationsNearMe();
+  //stationsNearMe stationsNear = new stationsNearMe();
   public AndroidDriver setup() throws MalformedURLException {
 	  DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setCapability("deviceName", "emulator-5554");
+		capabilities.setCapability("deviceName", "4d00755e4e3b51c3");
 		capabilities.setCapability(CapabilityType.BROWSER_NAME, "");
-		capabilities.setCapability(CapabilityType.VERSION, "7.1.1");
+		capabilities.setCapability(CapabilityType.VERSION, "6.0.1");
 		capabilities.setCapability("platformName", "Android");
 		capabilities.setCapability("appPackage", "com.chevron");
 		capabilities.setCapability("appActivity", "com.chevron.Home");
-		capabilities.setCapability("autoGrantPermissions", "true");
-		capabilities.setCapability("autoAcceptAlerts", "true");
+		capabilities.setCapability("autoGrantPermissions", true);
+		capabilities.setCapability("autoAcceptAlerts", true);
 		capabilities.setCapability("fullReset", false);
 		capabilities.setCapability("noReset", true);
 		capabilities.setCapability("unicodeKeyboard", true);
 		capabilities.setCapability("resetKeyboard", true);
-		driver = new AndroidDriver (new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+		driver = new AndroidDriver (new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
 		return driver;
-  }
-  
-  public void introduceWait(Integer duration) throws InterruptedException {
-	  Thread.sleep(duration);
   }
   
   public void closeApp() {
@@ -75,43 +71,43 @@ public class homePage {
 		}		  
   }
   
-  public void countOnRedBanner(AndroidDriver driver) throws InterruptedException {
-	  try {
-		    //driver.setLocation(new Location(37.7749, 122.4194, 16));
-			introduceWait(10000);
-			try {
-				String countOfStations = driver.findElementById("com.chevron:id/home_nearby_stations_count").getText();
-				navigateToStationsNearMe();
-				introduceWait(5000);
-				try {
-					display.Assert(stationsNear.validateStationsNearMePage(driver), true);
-					String countFromStationsNearMe = stationsNear.verifyCountOnStationsNearMe(driver);
-					display.Assert(countOfStations, countFromStationsNearMe);
-					display.printMessage("Count on both pages match\t" + countFromStationsNearMe);
-				}
-				catch(Exception noElementFound) {
-					 display.FailMessage("Counts do not match");
-				}
-			}
-			catch(Exception noStationsNearBy) {
-				display.printMessage("No Stations Near By");
-				navigateToStationsNearMe();
-				introduceWait(5000);
-				try {
-					display.Assert(stationsNear.validateStationsNearMePage(driver), true);
-					String countFromStationsNearMe = stationsNear.verifyCountOnStationsNearMe(driver);
-					display.Assert("0", countFromStationsNearMe);
-					display.printMessage("Count on both pages match\t" + countFromStationsNearMe);
-				}
-				catch(Exception noElementFound) {
-					 display.FailMessage("Counts do not match - No Stations");
-				}
-			}
-	  }
-	  catch(AssertionError e){
-		  display.FailMessage("Unknown Error in HomePage RedBanner");
-	  }
-  }
+//  public void countOnRedBanner(AndroidDriver driver) throws InterruptedException {
+//	  try {
+//		    //driver.setLocation(new Location(37.7749, 122.4194, 16));
+//			display.wait(10000);
+//			try {
+//				String countOfStations = driver.findElementById("com.chevron:id/home_nearby_stations_count").getText();
+//				navigateToStationsNearMe();
+//				display.wait(5000);
+//				try {
+//					display.Assert(stationsNear.validateStationsNearMePage(driver), true);
+//					String countFromStationsNearMe = stationsNear.verifyCountOnStationsNearMe(driver);
+//					display.Assert(countOfStations, countFromStationsNearMe);
+//					display.printMessage("Count on both pages match\t" + countFromStationsNearMe);
+//				}
+//				catch(Exception noElementFound) {
+//					 display.FailMessage("Counts do not match");
+//				}
+//			}
+//			catch(Exception noStationsNearBy) {
+//				display.printMessage("No Stations Near By");
+//				navigateToStationsNearMe();
+//				display.wait(5000);
+//				try {
+//					display.Assert(stationsNear.validateStationsNearMePage(driver), true);
+//					String countFromStationsNearMe = stationsNear.verifyCountOnStationsNearMe(driver);
+//					display.Assert("0", countFromStationsNearMe);
+//					display.printMessage("Count on both pages match\t" + countFromStationsNearMe);
+//				}
+//				catch(Exception noElementFound) {
+//					 display.FailMessage("Counts do not match - No Stations");
+//				}
+//			}
+//	  }
+//	  catch(AssertionError e){
+//		  display.FailMessage("Unknown Error in HomePage RedBanner");
+//	  }
+//  }
   
   public void navigateToCards() {
 		try {
@@ -136,7 +132,7 @@ public class homePage {
   public void navigateToStationsNearMe() {
 	  try {
 		  driver.findElementById("com.chevron:id/home_station_finder_head").click();
-		  introduceWait(2000);
+		  display.wait(2000);
 		  display.Assert(driver.findElementById("com.chevron:id/station_finder_home_fragment_menu_parent").isDisplayed(), true);
 		  driver.findElementById("com.chevron:id/station_finder_home_fragment_near_by_btn").click();
 		  display.printMessage("Navigated to Stations Near Me");
@@ -149,7 +145,7 @@ public class homePage {
   public void navigateToFeedback() {
 	  try {
 		  driver.findElementById("com.chevron:id/home_feedback_head").click();
-		  introduceWait(2000);
+		  display.wait(2000);
 		  driver.findElementById("com.chevron:id/feedback_fragment_header_text").isDisplayed();
 		  display.printMessage("Navigated to Feedback Screen");
 	  }
@@ -183,7 +179,7 @@ public class homePage {
   public void navigateToIntermediateScreen() {
 	  try {
 		  driver.findElementById("com.chevron:id/home_station_finder_head").click();
-		  introduceWait(3000);
+		  display.wait(3000);
 		  MobileElement validationSection = (MobileElement) driver.findElementById("com.chevron:id/station_finder_home_fragment_near_by_btn");
 		  display.Assert(validationSection.findElementByClassName("android.widget.TextView").getText(), "Near by");
 		  display.printMessage("Intermediate Screen Found");
