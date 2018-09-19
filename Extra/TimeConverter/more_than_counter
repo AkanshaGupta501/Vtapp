@@ -1,0 +1,33 @@
+
+*************** Given Percentage Get The Value****************
+def min(min, cutoff, percent)
+  percent = 100 -  percent
+  range = cutoff - min
+  ((range / 90.0) * percent) + min
+end
+
+def max(max, cutoff, percent)
+  percent = percent - 10
+  range = max - cutoff
+  ((range / 90.0) * percent) + cutoff
+end
+
+**********Given Value Get The Percentage*************
+
+def min_val(min, cutoff, value)
+  value = (value - min) * 90
+  range = cutoff - min
+  100 - (value / range)
+end
+
+def max_val(max, cutoff, value)
+  value = (value - cutoff) * 90
+  range = max - cutoff
+  (value / range) + 10
+end
+
+**********Rounding Off To Multiple Of Ten**************
+def round_of(value)
+  val = value.round % 10.0 < 5.0 ? 0.0 : 1.0
+  ((value.round / 10) + val)* 10
+end
