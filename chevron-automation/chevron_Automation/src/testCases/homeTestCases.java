@@ -27,7 +27,7 @@ AndroidDriver driver;
 	
 	@Test(priority = 2)
 	public void verifyCountOnRedBanner() throws InterruptedException {
-		homeObj.countOnRedBanner(driver);
+		homeObj.verifycountOnRedBanner(driver);
 	}
 	
 	@AfterMethod

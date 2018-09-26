@@ -1,27 +1,16 @@
 package chevronClass;
 
-import java.net.MalformedURLException;
-import java.sql.Driver;
 import java.util.List;
-import java.util.Set;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.touch.TouchActions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import static io.appium.java_client.touch.offset.PointOption.point;
-import chevronClass.homePage;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
-import javafx.scene.web.WebView;
 
 public class cardsPage {
-
+ 
 displayMessages display = new displayMessages();
 
 	public void validateCardsScreen(AndroidDriver driver) {
@@ -46,6 +35,7 @@ displayMessages display = new displayMessages();
 			MobileElement password = (MobileElement) driver.findElementById("com.chevron:id/passwordField");
 			userName.sendKeys("chevdcuat1245");
 			password.sendKeys("Test14test");
+			driver.hideKeyboard();
 			driver.findElementById("com.chevron:id/loginButton").click();
 			WebDriverWait wait = new WebDriverWait(driver, 5000);
 			
@@ -144,6 +134,7 @@ displayMessages display = new displayMessages();
 		  
 		  try {
 			 MobileElement linkHeader = (MobileElement) driver.findElementById("com.chevron:id/browser_dialog_header_text");
+			 display.introduceWait(10000);
 			 display.Assert(linkHeader.getText(), "Learn more");
 			 driver.findElementById("com.chevron:id/browser_dialog_done_button").click();
 			 display.printMessage("Business Card WebView Seen");
@@ -159,8 +150,8 @@ displayMessages display = new displayMessages();
 	
 	public void scrollToBottom(AndroidDriver driver) throws InterruptedException {
 		TouchAction action = new TouchAction(driver);
-		action.press(point(200, 1000)).moveTo(point(0, 900)).release().perform();
-		display.wait(5000);
+		action.press(point(200, 1000)).waitAction().moveTo(point(0, 150)).release().perform();
+		display.introduceWait(5000);
 	}
 	
 	public void validateBackButton(AndroidDriver driver) {

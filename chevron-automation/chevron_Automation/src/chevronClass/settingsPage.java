@@ -5,6 +5,7 @@ import io.appium.java_client.android.AndroidDriver;
 
 public class settingsPage {
 	displayMessages display = new displayMessages();
+	homePage home = new homePage();
 	
 	public void clickOnPrivacyPolicy(AndroidDriver driver) {
 		try {
@@ -29,10 +30,10 @@ public class settingsPage {
 	
 	public void verifyPrivacyPolicyPage(AndroidDriver driver) throws InterruptedException {
 		clickOnPrivacyPolicy(driver);
-	    display.wait(15000);
+		display.introduceWait(3000);
 		try {
-			MobileElement browserWebView = (MobileElement) driver.findElementByClassName("android.webkit.WebView");
-			display.Assert(browserWebView.findElementById("main-content").isDisplayed(), true);
+			MobileElement browserWebView = (MobileElement) driver.findElementById("com.chevron:id/browser_dialog_webview");
+			display.Assert(browserWebView.isDisplayed(), true);
 			display.printMessage("Privacy Policy Page Seen");
 		}
 		catch(Exception noPageExist) {
@@ -71,7 +72,7 @@ public class settingsPage {
 			display.Assert(backButton.getText(), "Back");
 			backButton.click();
 			display.printMessage("Back Button Clicked");
-			display.wait(2000);
+			display.introduceWait(3000);
 			display.Assert(driver.findElementById("com.chevron:id/home_station_finder_head").isDisplayed(), true);
 		}
 		catch(Exception noBackButtonFound) {

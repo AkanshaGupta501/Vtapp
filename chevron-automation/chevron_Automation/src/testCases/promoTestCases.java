@@ -39,7 +39,7 @@ public class promoTestCases {
 	}
 	
 	@Test(priority = 4)
-	public void verifyBackButtonWorking() {
+	public void verifyBackButtonWorking() throws InterruptedException {
 		homeObj.navigateToPromos();
 		promoObj.verifyBackButton(driver);
 	}

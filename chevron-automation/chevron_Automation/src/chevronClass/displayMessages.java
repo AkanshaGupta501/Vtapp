@@ -4,7 +4,7 @@ import org.testng.Assert;
 
 public class displayMessages {
 
-	public void printMessage(String message) {
+	public void printMessage(Object message) {
 		System.out.println(message);
 	}
 	
@@ -16,7 +16,8 @@ public class displayMessages {
 		Assert.assertEquals(actual, expected);
 	}
 	
-	public void wait(Integer duration) throws InterruptedException {
-		Thread.sleep(duration);
+	public void introduceWait(Integer duration) throws InterruptedException {
+	    Thread.sleep(duration);
 	}
+
 }

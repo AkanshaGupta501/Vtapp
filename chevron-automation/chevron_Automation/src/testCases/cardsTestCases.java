@@ -3,9 +3,7 @@ package testCases;
 import java.net.MalformedURLException;
 
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import chevronClass.cardsPage;
@@ -28,7 +26,8 @@ public class cardsTestCases {
 		homeObj.navigateToCards();
 		cardsObj.validateCardsScreen(driver);
 	}
-	
+
+	//Service currently unavailable
 	@Test(priority = 2)
 	//Verify that provided credentials are working
 	public void verifySypiPlugin() {

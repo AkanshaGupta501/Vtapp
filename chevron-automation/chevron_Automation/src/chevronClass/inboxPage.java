@@ -1,12 +1,6 @@
 package chevronClass;
 
-import java.util.Hashtable;
 import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -20,7 +14,8 @@ public class inboxPage {
 		  display.Assert(backButton.getText(), "Back");
 		  display.printMessage("Back button found");
 		  backButton.click();
-		  display.wait(3000);
+		  display.introduceWait(5000);
+		  System.out.println("Back button printed");
 		  display.Assert(driver.findElementById("com.chevron:id/home_station_finder_head").isDisplayed(), true);
 		  display.printMessage("Back Navigation working fine");
 	  }
@@ -55,7 +50,7 @@ public class inboxPage {
 			  List<MobileElement> messagesRow = driver.findElementsByClassName("android.widget.RelativeLayout");
 			  MobileElement firstMessage = messagesRow.get(0);
 			  String mark1= getMessageMark(firstMessage, driver);
-			  display.wait(3000);
+			  display.introduceWait(3000);
 			  firstMessage.findElementById("com.chevron:id/uas_inbox_row_logo_image").click();
 			  driver.findElementById("com.chevron:id/header_delete_button").click();
 			  display.printMessage("First Message deleted successfully");
