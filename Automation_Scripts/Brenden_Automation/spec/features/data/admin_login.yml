@@ -1,0 +1,11 @@
+invalid_email:
+  email_id: admin@catercat
+  password: k4fecn6
+
+invalid_password:
+  email_id: admin@catercat.com
+  password: 233121245
+
+valid_details:
+  email_id: admin@catercat.com
+  password: k4fecn6

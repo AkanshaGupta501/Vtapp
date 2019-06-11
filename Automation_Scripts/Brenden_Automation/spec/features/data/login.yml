@@ -1,0 +1,16 @@
+invalid_email:
+  email: 'akansa+71vinsol.com'
+  password: '123456'
+
+valid_email_password:
+  email: akansha.india@mailinator.com
+  password: 123456
+
+valid_email:
+  firstname: 'Akansha'
+  lastname: 'Gupta'
+  mobile: '56231245'
+  email: 'akansa.india@mailinator.com'
+  new_password: '123456'
+  confirm_password: '123456'
+

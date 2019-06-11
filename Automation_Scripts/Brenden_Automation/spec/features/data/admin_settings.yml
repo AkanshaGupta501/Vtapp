@@ -1,0 +1,51 @@
+add_menu_category:
+  name: ~generate_random_name
+
+add_existing_menu_category:
+  name: ~randomize(['Breakfast', 'Dinner', 'Cold'])
+
+add_cuisine:
+  name: ~generate_random_name
+
+add_existing_cuisine:
+  name: ~randomize(['Japnese', 'Indian', 'Italian', 'Mediteranian'])
+
+add_correct_promo:
+  promo_name: ~last_name
+  promo_code: ~generate_random_name
+  percentage: ~randomize(['10', '25.5', '100', '45.90'])
+  start_date: ~tomorrow
+  end_date:  ~10.days_from_today
+
+add_incorrect_promo_date:
+  promo_name: ~last_name
+  promo_code: ~generate_random_name
+  percentage: ~randomize(['10', '25.5', '100', '45.90'])
+  start_date: ~tomorrow
+  end_date:  ~yesterday
+
+add_existing_promo_code:
+  promo_name: ~last_name
+  promo_code: ~randomize(['WELCOME101', 'CODE123', 'FIRSTORDER'])
+  percentage: ~randomize(['10', '25.5', '100', '45.90'])
+  start_date: ~tomorrow
+  end_date:  ~10.days_from_today
+
+add_invalid_promotion_value:
+  percentage: ~randomize(-100..0)
+  promo_name: ~last_name
+  promo_code: ~generate_random_name
+  start_date: ~tomorrow
+  end_date:  ~10.days_from_today
+
+edit_promocode_date:
+  promo_code: ~randomize(['WELCOME101', 'CODE123', 'FIRSTORDER'])
+  invalid_start_date: ~tomorrow
+  invalid_end_date: ~yesterday
+
+edit_promo_value:
+  promo_code: ~randomize(['WELCOME101', 'CODE123', 'FIRSTORDER'])
+  percentage: ~randomize(-100..0)
+
+edit_promo_code:
+  new_promo_code: ~randomize(['WELCOME101', 'CODE123', 'FIRSTORDER'])
